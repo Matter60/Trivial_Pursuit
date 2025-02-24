@@ -23,10 +23,8 @@ public class GamePresenter {
         view.getRollDiceButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // Handle dice roll
-                // Update player position
-                // Check for question space
-                // etc.
+                model.worp();
+                System.out.println(model.worp());
             }
         });
 

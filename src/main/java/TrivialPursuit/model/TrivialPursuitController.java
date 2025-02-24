@@ -5,10 +5,12 @@ import java.util.List;
 public class TrivialPursuitController {
     private Scoreboard scoreboard;
     private VraagManager vraagManager;
+    private Dobbelsteen dobbelsteen;
 
     public TrivialPursuitController() {
         scoreboard = new Scoreboard();
         vraagManager = new VraagManager();
+        dobbelsteen = new Dobbelsteen();
 
     }
     // implementatie logica van de
@@ -35,4 +37,11 @@ public class TrivialPursuitController {
     public void addWin(String spelernaam) {
         scoreboard.addWin(spelernaam);
     }
+
+    public int worp() {
+        return dobbelsteen.worp();
+    }
+
+
+
 }

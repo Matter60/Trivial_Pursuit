@@ -18,6 +18,7 @@ public class GameView extends BorderPane {
     private Button rollDiceButton;
     private Label currentPlayerLabel;
     private ImageView boardImageView;
+    private ImageView pawnImageView;
     private VBox playerInfoBox;
     private Pane boardPane; // To hold the board image and pions
 
@@ -44,9 +45,24 @@ public class GameView extends BorderPane {
         // Board image
         Image boardImage = new Image(getClass().getResourceAsStream("/bord.png"));
         boardImageView = new ImageView(boardImage);
-        boardImageView.setFitWidth(600);
-        boardImageView.setFitHeight(600);
+        boardImageView.setFitWidth(572);
+        boardImageView.setFitHeight(571);
         boardImageView.setPreserveRatio(true);
+
+
+        // Pawn image
+        Image pawnImage = new Image(getClass().getResourceAsStream("/pawn.png"));
+        pawnImageView = new ImageView(pawnImage);
+        pawnImageView.setFitWidth(40);  // Adjust size if needed
+        pawnImageView.setFitHeight(40);
+        pawnImageView.setPreserveRatio(true);
+
+        // Set initial pawn position (adjust as needed)
+        pawnImageView.setLayoutX(288); // X-coordinate on the board
+        pawnImageView.setLayoutY(287);
+        // Y-coordinate on the board
+
+
 
         // Player info box
         playerInfoBox = new VBox(10);
@@ -55,7 +71,7 @@ public class GameView extends BorderPane {
 
         // Board container
         boardPane = new Pane();
-        boardPane.getChildren().add(boardImageView);
+        boardPane.getChildren().addAll(boardImageView, pawnImageView);
 
     }
 
@@ -84,6 +100,11 @@ public class GameView extends BorderPane {
 
     public Button getRollDiceButton() {
         return rollDiceButton;
+    }
+
+    public void movePawn(double x, double y) {
+        pawnImageView.setLayoutX(x);
+        pawnImageView.setLayoutY(y);
     }
 
 }
