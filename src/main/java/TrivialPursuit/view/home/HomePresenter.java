@@ -73,6 +73,8 @@ public class HomePresenter {
                 });
             }
         });
+
+        // add Popup before going to Admin screen password
     }
 
     private void updateView() {

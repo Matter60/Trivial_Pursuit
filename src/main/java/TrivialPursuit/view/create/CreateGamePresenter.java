@@ -22,14 +22,7 @@ public class CreateGamePresenter {
     }
 
     private void addEventHandlers() {
-        // Regular event handlers
-    }
 
-    private void updateView() {
-        // Update view with model data
-    }
-
-    public void addWindowEventHandlers() {
         view.getBackButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -51,5 +44,13 @@ public class CreateGamePresenter {
                 gameView.getScene().getWindow().sizeToScene();
             }
         });
+    }
+
+    private void updateView() {
+        // Update view with model data
+    }
+
+    public void addWindowEventHandlers() {
+
     }
 }
