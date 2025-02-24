@@ -24,12 +24,12 @@ public class TrivialPursuitController {
         return scoreboard.getScores();
     }
 
-    public void addQuestion(Vraag vraag) {
-        vraagManager.addQuestion(vraag);
+    public void addVraag(Vraag vraag) {
+        vraagManager.addVraag(vraag);
     }
 
-    public List<Vraag> loadQuestions(Kleur category) {
-        return vraagManager.loadQuestions(category);
+    public List<Vraag> loadVraag(Kleur category) {
+        return vraagManager.loadVraag(category);
     }
 
     public void addWin(String spelernaam) {

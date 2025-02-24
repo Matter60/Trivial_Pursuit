@@ -13,7 +13,7 @@ import java.util.List;
 public class VraagManager {
     private static final String VRAAG_DIR = "data/vragen/";
 
-    public void addQuestion(Vraag vraag) {
+    public void addVraag(Vraag vraag) {
         String filename = VRAAG_DIR + vraag.getCategorie().name().toLowerCase() + ".txt";
         try {
             File dir = new File(VRAAG_DIR);
@@ -36,7 +36,7 @@ public class VraagManager {
     }
 
 
-    public List<Vraag> loadQuestions(Kleur category) {
+    public List<Vraag> loadVraag(Kleur category) {
         List<Vraag> questions = new ArrayList<>();
         String filename = VRAAG_DIR + category.name().toLowerCase() + ".txt";
         
