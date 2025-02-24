@@ -1,0 +1,4 @@
+Wat is de chemische formule voor water?|H2O|CO2|O2|NaCl|0
+Welk element heeft het symbool 'Fe'?|IJzer|Koper|Zilver|Goud|0
+Wat is de snelheid van het licht (in km/s)?|300.000|200.000|400.000|500.000|0
+Welk orgaan produceert insuline?|Alvleesklier|Lever|Nieren|Milt|0
