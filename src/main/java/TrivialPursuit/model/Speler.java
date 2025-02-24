@@ -7,13 +7,13 @@ import java.util.Set;
 
 public class Speler {
     private String naam;
-    private int position;
+    private int x;
+    private int y;
     private Set<Kleur> PartjeSet;
     private Kleur playerKleur; // Kleur van de pion
 
     public Speler(String naam, Kleur playerKleur) {
         this.naam = naam;
-        this.position = 0;
         this.PartjeSet = new HashSet<>();
         this.playerKleur = playerKleur;
     }
@@ -28,8 +28,10 @@ public class Speler {
 
     // Getters en setters
     public String getNaam() { return naam; }
-    public int getPosition() { return position; }
-    public void setPosition(int position) { this.position = position; }
     public Set<Kleur> getPartjSet() { return PartjeSet; }
     public Kleur getPlayerKleur() { return playerKleur; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
 } 

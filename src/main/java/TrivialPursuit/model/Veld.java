@@ -1,28 +1,39 @@
 package TrivialPursuit.model;
 
-
 public class Veld {
-    private Kleur kleur; // Kleur van het veld
-    private boolean isPartjeVeld; // Of het een partjesveld is
-    private boolean isOpnieuwGooienVeld; // Of je nog een keer mag gooien (witte velden)
-    private int positie; // Positie op het bord
-    private int x;  // X-coördinaat
-    private int y;  // Y-coördinaat
+    private Kleur kleur;
+    private boolean isPartjeVeld;
+    private boolean isOpnieuwGooienVeld;
+    private boolean isStartVeld;
+    private int x;
+    private int y;
+    private Veld linkerVeld;
+    private Veld rechterVeld;
+    private Veld onderVeld;
 
-    public Veld(Kleur kleur, boolean isPartjeVeld, boolean isOpnieuwGooienVeld, int positie, int x, int y) {
+    // Hoofdconstructor
+    public Veld(Kleur kleur, boolean isPartjeVeld, boolean isOpnieuwGooienVeld, boolean isStartVeld, int x, int y) {
         this.kleur = kleur;
         this.isPartjeVeld = isPartjeVeld;
         this.isOpnieuwGooienVeld = isOpnieuwGooienVeld;
-        this.positie = positie;
+        this.isStartVeld = isStartVeld;
         this.x = x;
         this.y = y;
     }
 
-    // Getters en setters
+    // Getters
     public Kleur getColor() { return kleur; }
     public boolean isPartjeVeld() { return isPartjeVeld; }
     public boolean isOpnieuwGooienVeld() { return isOpnieuwGooienVeld; }
-    public int getPositie() { return positie; }
+    public boolean isStartVeld() { return isStartVeld; }
     public int getX() { return x; }
     public int getY() { return y; }
-} 
+    public Veld getLinkerVeld() { return linkerVeld; }
+    public Veld getRechterVeld() { return rechterVeld; }
+    public Veld getOnderVeld() { return onderVeld; }
+
+    // Setters (om velden later te koppelen)
+    public void setLinkerVeld(Veld linkerVeld) { this.linkerVeld = linkerVeld; }
+    public void setRechterVeld(Veld rechterVeld) { this.rechterVeld = rechterVeld; }
+    public void setOnderVeld(Veld onderVeld) { this.onderVeld = onderVeld; }
+}
