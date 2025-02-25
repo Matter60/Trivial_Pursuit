@@ -25,21 +25,24 @@ public class MakeView extends BorderPane {
     private void initialiseNodes() {
 
         backButton = new Button("←");
-        backButton.setFont(Font.font("System", FontWeight.BOLD, 24));
+        backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
         backButton.setPadding(new Insets(10));
-
+        backButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
 
         createGameButton = new Button("Create Game");
-        createGameButton.setFont(Font.font("System", FontWeight.NORMAL, 18));
+        createGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
         createGameButton.setPadding(new Insets(10));
+        createGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
 
         loadGameButton = new Button("Load Game");
-        loadGameButton.setFont(Font.font("System", FontWeight.NORMAL, 18));
+        loadGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
         loadGameButton.setPadding(new Insets(10));
+        loadGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
 
         titleLabel = new Label("Create or load a game");
-        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 18));
+        titleLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
         titleLabel.setPadding(new Insets(10));
+        titleLabel.setStyle("-fx-text-fill: white;");
     }
 
     private void layoutNodes() {
@@ -49,14 +52,13 @@ public class MakeView extends BorderPane {
         topBox.setPadding(new Insets(10));
         this.setTop(topBox);
 
-
         VBox centerBox = new VBox(20);
-
-
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setPadding(new Insets(0,10,40,10));
-        centerBox.getChildren().addAll(titleLabel,createGameButton, loadGameButton);
+        centerBox.getChildren().addAll(titleLabel, createGameButton, loadGameButton);
         this.setCenter(centerBox);
+
+        this.setStyle("-fx-background-color: DARKCYAN;");
     }
 
     public Button getBackButton() {

@@ -2,3 +2,4 @@ Wat is de hoofdstad van Nederland?|Amsterdam|Rotterdam|Den Haag|Utrecht|0
 Welke oceaan ligt ten westen van Europa?|Atlantische Oceaan|Stille Oceaan|Indische Oceaan|Noordelijke IJszee|0
 In welk land ligt de Kilimanjaro?|Tanzania|Kenia|Ethiopië|Uganda|0
 Wat is de langste rivier ter wereld?|Nijl|Amazone|Mississippi|Yangtze|0
+Welk continent ligt er boven Zuid-Amerika|Noord-Amerika|Europa|Azië|Afrika|0

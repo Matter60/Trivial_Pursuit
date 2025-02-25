@@ -25,7 +25,7 @@ public class HomePresenter {
 
     // Define admin credentials
     private static final String ADMIN_USERNAME = "Matter";
-    private static final String ADMIN_PASSWORD = "password";
+    private static final String ADMIN_PASSWORD = "123";
 
     public HomePresenter(
             TrivialPursuitController model,

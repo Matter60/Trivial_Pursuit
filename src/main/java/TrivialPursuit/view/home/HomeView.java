@@ -25,18 +25,17 @@ public class HomeView extends BorderPane {
     public HomeView() {
         this.initialiseNodes();
         this.layoutNodes();
+        this.applyStyles(); // Apply styles
     }
 
     private void initialiseNodes() {
-
         aboutButton = new Button("About");
         adminButton = new Button("Admin");
         helpButton = new Button("Help");
         leaderboardButton = new Button();
 
-
         titleLabel = new Label("Trivial Pursuit");
-        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+        titleLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 24)); // Set font to Georgia
 
         startButton = new Button("START");
         startButton.setPrefSize(300, 50);
@@ -45,11 +44,10 @@ public class HomeView extends BorderPane {
         leaderboard.getItems().addAll("Tobi 60", "Matthias 40", "Cockx 10");
 
         leaderboardTitle = new Label("Leaderboard");
-        leaderboardTitle.setFont(Font.font("System", FontWeight.BOLD, 16));
+        leaderboardTitle.setFont(Font.font("Georgia", FontWeight.BOLD, 16)); // Set font to Georgia
     }
 
     private void layoutNodes() {
-
         HBox topBar = new HBox(10);
         topBar.setAlignment(Pos.CENTER);
         topBar.setSpacing(40);
@@ -64,8 +62,7 @@ public class HomeView extends BorderPane {
         middle.setPadding(new Insets(50, 10, 10, 10));
         this.setCenter(middle);
 
-        // Set ListView width to a smaller value
-        leaderboard.setPrefWidth(150); // Smaller width here
+        leaderboard.setPrefWidth(150);
         leaderboard.setPrefHeight(80);
 
         leaderboardBox = new VBox(10);
@@ -73,15 +70,37 @@ public class HomeView extends BorderPane {
         leaderboardBox.getChildren().addAll(leaderboardTitle, leaderboard);
         leaderboardBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        // Set width constraint on leaderboardBox if necessary
-        leaderboardBox.setMaxWidth(200); // Constrain the container width
-        leaderboardBox.setPrefWidth(200); // Set preferred width for the container
+        leaderboardBox.setMaxWidth(200);
+        leaderboardBox.setPrefWidth(200);
         BorderPane.setAlignment(leaderboardBox, Pos.CENTER);
         leaderboardButton.setAlignment(leaderboardBox.getAlignment());
         leaderboardButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
-
         this.setBottom(leaderboardBox);
+    }
+
+    private void applyStyles() {
+        // Set background color for the entire view
+        this.setBackground(new Background(new BackgroundFill(Color.DARKCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        // Set button styles with font and color
+        aboutButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
+        adminButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
+        helpButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
+        startButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
+
+        // Apply Georgia font to buttons
+        aboutButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        adminButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        helpButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        startButton.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
+
+        // Set leaderboard styles
+        leaderboardTitle.setTextFill(Color.YELLOW); // Set leaderboard title color
+        leaderboardTitle.setFont(Font.font("Georgia", FontWeight.BOLD, 18)); // Set font for leaderboard title
+
+        // Set font color for the title
+        titleLabel.setTextFill(Color.YELLOW); // Set title label text color
     }
 
     public Button getAboutButton() {

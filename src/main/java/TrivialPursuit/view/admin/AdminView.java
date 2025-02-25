@@ -1,9 +1,12 @@
 package TrivialPursuit.view.admin;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class AdminView extends VBox {
     private ComboBox<String> thema;
@@ -13,16 +16,27 @@ public class AdminView extends VBox {
     private TextField antwoord3;
     private TextField antwoord4;
     private Button submitButton;
+    private Button backButton;
 
     public AdminView() {
         this.setPadding(new Insets(20));
         this.setSpacing(10);
 
-        Label titleLabel = new Label("Maak een vraag");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        // Back Button
+        backButton = new Button("←");
+        backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
+        backButton.setPadding(new Insets(10));
+        backButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
 
+        // Title Label
+        Label titleLabel = new Label("Maak een vraag");
+        titleLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 20));
+        titleLabel.setStyle("-fx-text-fill: white;");
+
+        // ComboBox for Thema
         thema = new ComboBox<>();
         thema.setPromptText("Kies een thema");
+        thema.setStyle("-fx-font-size: 16px;");
 
         // Adding themes to the ComboBox
         thema.getItems().addAll(
@@ -34,29 +48,40 @@ public class AdminView extends VBox {
                 "Sport & Ontspanning"
         );
 
+        // TextFields for input
         vraagInput = new TextField();
         vraagInput.setPromptText("Voer je vraag hier in...");
+        vraagInput.setStyle("-fx-font-size: 16px;");
 
         antwoord1 = new TextField();
         antwoord1.setPromptText("Geef het juiste antwoord");
+        antwoord1.setStyle("-fx-font-size: 16px;");
 
         antwoord2 = new TextField();
         antwoord2.setPromptText("Geef een fout antwoord");
+        antwoord2.setStyle("-fx-font-size: 16px;");
 
         antwoord3 = new TextField();
         antwoord3.setPromptText("Geef een fout antwoord");
+        antwoord3.setStyle("-fx-font-size: 16px;");
 
         antwoord4 = new TextField();
         antwoord4.setPromptText("Geef een fout antwoord");
+        antwoord4.setStyle("-fx-font-size: 16px;");
 
+        // Submit Button
         submitButton = new Button("Indienen");
+        submitButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
 
+        // GridPane for layout
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10));
         grid.setVgap(8);
         grid.setHgap(10);
 
+        grid.add(backButton, 0, 0);
         grid.add(titleLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(titleLabel, HPos.CENTER);
         grid.add(new Label("Thema:"), 0, 1);
         grid.add(thema, 1, 1);
         grid.add(new Label("Vraag:"), 0, 2);
@@ -71,26 +96,10 @@ public class AdminView extends VBox {
         grid.add(antwoord4, 1, 6);
         grid.add(submitButton, 1, 7);
 
+        // Add GridPane to VBox
         this.getChildren().add(grid);
+        this.setStyle("-fx-background-color: DARKCYAN;");
     }
-
-//    private void handleSubmit() {
-//        String question = questionInput.getText();
-//        String answer1 = antwoord1.getText();
-//        String answer2 = antwoord2.getText();
-//        String answer3 = antwoord3.getText();
-//        String answer4 = antwoord4.getText();
-//        String selectedTheme = thema.getValue();
-
-
-//        questionInput.clear();
-//        antwoord1.clear();
-//        antwoord2.clear();
-//        antwoord3.clear();
-//        antwoord4.clear();
-//        thema.setValue(null);
-//    }
-
 
     public ComboBox<String> getThema() {
         return thema;
@@ -118,5 +127,9 @@ public class AdminView extends VBox {
 
     public Button getSubmitButton() {
         return submitButton;
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 }
