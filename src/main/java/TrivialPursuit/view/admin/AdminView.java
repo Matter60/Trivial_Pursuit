@@ -1,67 +1,122 @@
 package TrivialPursuit.view.admin;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
+import javafx.scene.layout.VBox;
 
-import java.util.Optional;
-
-public class AdminView {
-    private Dialog<Pair<String, String>> dialog;
+public class AdminView extends VBox {
+    private ComboBox<String> thema;
+    private TextField vraagInput;
+    private TextField antwoord1;
+    private TextField antwoord2;
+    private TextField antwoord3;
+    private TextField antwoord4;
+    private Button submitButton;
 
     public AdminView() {
-        // Create a login dialog
-        dialog = new Dialog<>();
-        dialog.setTitle("Admin Login");
-        dialog.setHeaderText("Please enter your username and password");
+        this.setPadding(new Insets(20));
+        this.setSpacing(10);
 
-        // Define buttons
-        ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        Label titleLabel = new Label("Maak een vraag");
+        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
-        // Create input fields for username and password
+        thema = new ComboBox<>();
+        thema.setPromptText("Kies een thema");
+
+        // Adding themes to the ComboBox
+        thema.getItems().addAll(
+                "Aardrijkskunde",
+                "Amusement",
+                "Geschiedenis",
+                "Kunst & Literatuur",
+                "Wetenschap & Natuur",
+                "Sport & Ontspanning"
+        );
+
+        vraagInput = new TextField();
+        vraagInput.setPromptText("Voer je vraag hier in...");
+
+        antwoord1 = new TextField();
+        antwoord1.setPromptText("Geef het juiste antwoord");
+
+        antwoord2 = new TextField();
+        antwoord2.setPromptText("Geef een fout antwoord");
+
+        antwoord3 = new TextField();
+        antwoord3.setPromptText("Geef een fout antwoord");
+
+        antwoord4 = new TextField();
+        antwoord4.setPromptText("Geef een fout antwoord");
+
+        submitButton = new Button("Indienen");
+
         GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10));
+        grid.setVgap(8);
         grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
-        PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Password");
+        grid.add(titleLabel, 0, 0, 2, 1);
+        grid.add(new Label("Thema:"), 0, 1);
+        grid.add(thema, 1, 1);
+        grid.add(new Label("Vraag:"), 0, 2);
+        grid.add(vraagInput, 1, 2);
+        grid.add(new Label("Juiste antwoord:"), 0, 3);
+        grid.add(antwoord1, 1, 3);
+        grid.add(new Label("Fout antwoord 1:"), 0, 4);
+        grid.add(antwoord2, 1, 4);
+        grid.add(new Label("Fout antwoord 2:"), 0, 5);
+        grid.add(antwoord3, 1, 5);
+        grid.add(new Label("Fout antwoord 3:"), 0, 6);
+        grid.add(antwoord4, 1, 6);
+        grid.add(submitButton, 1, 7);
 
-        grid.add(new Label("Username:"), 0, 0);
-        grid.add(usernameField, 1, 0);
-        grid.add(new Label("Password:"), 0, 1);
-        grid.add(passwordField, 1, 1);
-
-        dialog.getDialogPane().setContent(grid);
-
-        // Automatically focus on the username field
-        Platform.runLater(usernameField::requestFocus);
-
-        // Handle login button action
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
-        loginButton.setDisable(true);
-
-        // Enable/disable login button based on input
-        usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
-        });
-
-        // Handle the result of the login dialog
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(usernameField.getText(), passwordField.getText());
-            }
-            return null;
-        });
+        this.getChildren().add(grid);
     }
 
-    public Optional<Pair<String, String>> showAndWait() {
-        return dialog.showAndWait();
+//    private void handleSubmit() {
+//        String question = questionInput.getText();
+//        String answer1 = antwoord1.getText();
+//        String answer2 = antwoord2.getText();
+//        String answer3 = antwoord3.getText();
+//        String answer4 = antwoord4.getText();
+//        String selectedTheme = thema.getValue();
+
+
+//        questionInput.clear();
+//        antwoord1.clear();
+//        antwoord2.clear();
+//        antwoord3.clear();
+//        antwoord4.clear();
+//        thema.setValue(null);
+//    }
+
+
+    public ComboBox<String> getThema() {
+        return thema;
+    }
+
+    public TextField getVraagInput() {
+        return vraagInput;
+    }
+
+    public TextField getAntwoord1() {
+        return antwoord1;
+    }
+
+    public TextField getAntwoord2() {
+        return antwoord2;
+    }
+
+    public TextField getAntwoord3() {
+        return antwoord3;
+    }
+
+    public TextField getAntwoord4() {
+        return antwoord4;
+    }
+
+    public Button getSubmitButton() {
+        return submitButton;
     }
 }

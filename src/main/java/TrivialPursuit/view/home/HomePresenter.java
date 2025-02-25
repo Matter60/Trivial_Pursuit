@@ -3,14 +3,15 @@ package TrivialPursuit.view.home;
 import TrivialPursuit.model.TrivialPursuitController;
 import TrivialPursuit.view.about.AboutView;
 import TrivialPursuit.view.about.AboutPresenter;
+import TrivialPursuit.view.admin.AdminPresenter;
 import TrivialPursuit.view.leaderboard.LeaderboardPresenter;
 import TrivialPursuit.view.leaderboard.LeaderboardView;
 import TrivialPursuit.view.make.MakePresenter;
 import TrivialPursuit.view.make.MakeView;
 import TrivialPursuit.view.help.HelpPresenter;
 import TrivialPursuit.view.help.HelpView;
-import TrivialPursuit.view.admin.AdminView; // Import AdminView
-import TrivialPursuit.view.Question.QuestionView; // Import QuestionView
+import TrivialPursuit.view.admin.AdminPopup; // Import AdminView
+import TrivialPursuit.view.admin.AdminView; // Import QuestionView
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -78,15 +79,18 @@ public class HomePresenter {
         });
 
         view.getAdminButton().setOnAction(event -> {
-            AdminView adminView = new AdminView();
-            Optional<Pair<String, String>> result = adminView.showAndWait();
+            AdminPopup adminPopup = new AdminPopup();
+            Optional<Pair<String, String>> result = adminPopup.showAndWait();
             result.ifPresent(usernamePassword -> {
                 // Validate username and password
                 if (ADMIN_USERNAME.equals(usernamePassword.getKey()) && ADMIN_PASSWORD.equals(usernamePassword.getValue())) {
                     // On successful login, show QuestionView
-                    QuestionView questionView = new QuestionView();
-                    view.getScene().setRoot(questionView);
-                    questionView.getScene().getWindow().sizeToScene();
+
+                    AdminView adminView = new AdminView();
+                    AdminPresenter adminPresenter = new AdminPresenter(model, adminView);
+                    adminPresenter.addWindowEventHandlers();
+                    view.getScene().setRoot(adminView);
+                    adminView.getScene().getWindow().sizeToScene();
                 } else {
                     // Handle invalid login (e.g., show an alert)
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password.");
