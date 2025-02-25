@@ -6,11 +6,11 @@ public class Main {
 
 
     public static void main(String[] args) {
-        VraagManager vraagManager = new VraagManager();
-        Scoreboard scoreboard = new Scoreboard();
-        Speler speler = new Speler("Test", Kleur.BLUE);
 
-        scoreboard.addScore(speler.getNaam());
+
+        Bord bord = new Bord();
+
+        bord.printVelden();
 
 
 

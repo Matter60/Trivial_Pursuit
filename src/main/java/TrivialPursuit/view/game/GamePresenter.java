@@ -71,6 +71,7 @@ public class GamePresenter {
         // Haal de nieuwe x en y op
         int x = coordinaten[playerPositionIndex][0];
         int y = coordinaten[playerPositionIndex][1];
+        System.out.println( "x: " + x + ", y: " + y);
 
         // Update de pionpositie in de view
         view.updatePawn(x, y);
@@ -83,5 +84,7 @@ public class GamePresenter {
             playerPositionIndex = 0;
         }
     }
+
+
 
 }

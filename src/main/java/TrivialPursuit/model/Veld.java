@@ -7,11 +7,11 @@ public class Veld {
     private boolean isStartVeld;
     private int x;
     private int y;
-    private Veld linkerVeld;
-    private Veld rechterVeld;
-    private Veld onderVeld;
 
-    // Hoofdconstructor
+
+
+
+    // Standaard
     public Veld(Kleur kleur, boolean isPartjeVeld, boolean isOpnieuwGooienVeld, boolean isStartVeld, int x, int y) {
         this.kleur = kleur;
         this.isPartjeVeld = isPartjeVeld;
@@ -21,19 +21,32 @@ public class Veld {
         this.y = y;
     }
 
-    // Getters
-    public Kleur getColor() { return kleur; }
-    public boolean isPartjeVeld() { return isPartjeVeld; }
-    public boolean isOpnieuwGooienVeld() { return isOpnieuwGooienVeld; }
-    public boolean isStartVeld() { return isStartVeld; }
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public Veld getLinkerVeld() { return linkerVeld; }
-    public Veld getRechterVeld() { return rechterVeld; }
-    public Veld getOnderVeld() { return onderVeld; }
 
-    // Setters (om velden later te koppelen)
-    public void setLinkerVeld(Veld linkerVeld) { this.linkerVeld = linkerVeld; }
-    public void setRechterVeld(Veld rechterVeld) { this.rechterVeld = rechterVeld; }
-    public void setOnderVeld(Veld onderVeld) { this.onderVeld = onderVeld; }
+
+
+    public Kleur getKleur() {
+        return kleur;
+    }
+
+    public boolean isPartjeVeld() {
+        return isPartjeVeld;
+    }
+
+    public boolean isOpnieuwGooienVeld() {
+        return isOpnieuwGooienVeld;
+    }
+
+    public boolean isStartVeld() {
+        return isStartVeld;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+
 }
