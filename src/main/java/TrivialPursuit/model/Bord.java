@@ -73,10 +73,10 @@ public class Bord {
                         boolean isOpnieuwGooienVeld = (i == 5 || i == 9 || i == 13 || i == 17 || i == 21 || i == 25);
                         Kleur kleur = veldKleuren[i];
 
-                        Veld nieuwVeld = new Veld(kleur, isPartjeVeld, isOpnieuwGooienVeld, isStartVeld,
-                                        coordinaten[i][0], coordinaten[i][1]);
+                   //     Veld nieuwVeld = new Veld(kleur, isPartjeVeld, isOpnieuwGooienVeld, isStartVeld,
+                     //                   coordinaten[i][0], coordinaten[i][1]);
 
-                        velden.add(nieuwVeld);
+                     //  velden.add(nieuwVeld);
                 }
 
         }

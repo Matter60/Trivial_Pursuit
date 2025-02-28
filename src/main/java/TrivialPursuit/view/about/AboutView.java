@@ -49,8 +49,9 @@ public class AboutView extends BorderPane {
         HBox topBox = new HBox(backButton);
         topBox.setAlignment(Pos.TOP_LEFT);
         topBox.setPadding(new Insets(10,10,10,10));
-        this.setTop(topBox);
+        topBox.setStyle("-fx-background-color: DARKCYAN;"); // Set background color for top box
 
+        this.setTop(topBox);
     }
 
     Button getBackButton() {
