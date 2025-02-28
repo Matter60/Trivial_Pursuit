@@ -17,48 +17,51 @@ public class AdminPresenter {
     public AdminPresenter(TrivialPursuitController model, AdminView view) {
         this.model = model;
         this.view = view;
-        this.addEventHandlers();  // This will add the handlers for the submit and back buttons
-        this.updateView();
+        this.addEventHandlers();
     }
 
-    private void updateView() {
-        // Optional: Update the view after adding a question
-    }
+    private void addEventHandlers() {
+        view.getSubmitButton().setOnAction(event -> {
+            // Valideer en verzamel alle input
+            String vraagTekst = view.getVraagInput().getText();
+            String antwoord1 = view.getAntwoord1().getText();
+            String antwoord2 = view.getAntwoord2().getText();
+            String antwoord3 = view.getAntwoord3().getText();
+            String antwoord4 = view.getAntwoord4().getText();
+            String thema = view.getThema().getValue();
 
-    // Method to safely convert theme string to Kleur enum
-    private Kleur getCategorieFromString(String thema) {
-        String themaFormatted = thema.toUpperCase().replace(" & ", "_").replace(" ", "_");
+            if (isValidInput(vraagTekst, antwoord1, antwoord2, antwoord3, antwoord4, thema)) {
 
-        for (Kleur kleur : Kleur.values()) {
-            if (kleur.getDescription().toUpperCase().replace(" & ", "_").replace(" ", "_").equals(themaFormatted)) {
-                return kleur; // Return matching Kleur
+                Vraag nieuweVraag = new Vraag(
+                        vraagTekst,
+                        List.of(antwoord1, antwoord2, antwoord3, antwoord4),
+                        0, // eerste antwoord is altijd correct
+                        Kleur.fromThema(thema));
+
+                model.addVraag(nieuweVraag);
+                clearInputFields();
             }
-        }
+        });
 
-        // If no match, return a default color or handle the error
-        System.out.println("Invalid theme: " + thema);
-        return Kleur.BLUE; // Default to BLUE or choose another fallback color
+        view.getBackButton().setOnAction(event -> {
+            HomeView homeView = new HomeView();
+            HomePresenter homePresenter = new HomePresenter(model, homeView);
+            homePresenter.addWindowEventHandlers();
+            view.getScene().setRoot(homeView);
+            homeView.getScene().getWindow().sizeToScene();
+        });
     }
 
-    private void addVraag() {
-        String vraagTekst = view.getVraagInput().getText();
-        List<String> antwoorden = List.of(
-                view.getAntwoord1().getText(),
-                view.getAntwoord2().getText(),
-                view.getAntwoord3().getText(),
-                view.getAntwoord4().getText()
-        );
-        int juisteAntwoordIndex = 0; // Answer 1 is always correct
-        String thema = view.getThema().getValue();
+    public void addWindowEventHandlers() {
+        // Optioneel: window-gerelateerde event handlers
+    }
 
-        // Get the corresponding Kleur from the theme
-        Kleur categorie = getCategorieFromString(thema);
+    private boolean isValidInput(String vraag, String ant1, String ant2, String ant3, String ant4, String thema) {
+        return !vraag.isEmpty() && !ant1.isEmpty() && !ant2.isEmpty()
+                && !ant3.isEmpty() && !ant4.isEmpty() && thema != null;
+    }
 
-        // Add the question to the model
-        Vraag nieuweVraag = new Vraag(vraagTekst, antwoorden, juisteAntwoordIndex, categorie);
-        model.addVraag(nieuweVraag);
-
-        // Optionally: Clear the fields after submission
+    private void clearInputFields() {
         view.getVraagInput().clear();
         view.getAntwoord1().clear();
         view.getAntwoord2().clear();
@@ -67,28 +70,4 @@ public class AdminPresenter {
         view.getThema().setValue(null);
     }
 
-    // Only one addEventHandlers method to handle button actions
-    private void addEventHandlers() {
-        view.getSubmitButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                addVraag();
-            }
-        });
-
-        view.getBackButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                HomeView homeView = new HomeView();
-                HomePresenter homePresenter = new HomePresenter(model, homeView);
-                homePresenter.addWindowEventHandlers();
-                view.getScene().setRoot(homeView);
-                homeView.getScene().getWindow().sizeToScene();
-            }
-        });
-    }
-
-    public void addWindowEventHandlers() {
-        // Optional: Handlers for window events
-    }
 }
