@@ -32,15 +32,15 @@ public class AboutView extends BorderPane {
         titleLabel.setUnderline(true);
         titleLabel.setStyle("-fx-text-fill: white;");
 
-        descriptionLabel1 = new Label("We are Matthias and Tobi and created this game called Trivial Pursuit.");
-        descriptionLabel2 = new Label("This is a project we need to make for Programmeren 1.");
+        descriptionLabel1 = new Label("We zijn Matthias en Tobi en hebben deze game gemaakt genaamd Trivial Pursuit.");
+        descriptionLabel2 = new Label("Dit is een project dat we moeten maken voor Programmeren - Project.");
     }
 
     private void layoutNodes() {
 
         contentBox = new VBox(20);
         contentBox.setAlignment(Pos.CENTER);
-        contentBox.setPadding(new Insets(0,10,40,10));
+        contentBox.setPadding(new Insets(0, 10, 40, 10));
         contentBox.getChildren().addAll(titleLabel, descriptionLabel1, descriptionLabel2);
         contentBox.setStyle("-fx-background-color: DARKCYAN;");
 
@@ -48,8 +48,8 @@ public class AboutView extends BorderPane {
 
         HBox topBox = new HBox(backButton);
         topBox.setAlignment(Pos.TOP_LEFT);
-        topBox.setPadding(new Insets(10,10,10,10));
-        topBox.setStyle("-fx-background-color: DARKCYAN;"); // Set background color for top box
+        topBox.setPadding(new Insets(10, 10, 10, 10));
+        topBox.setStyle("-fx-background-color: DARKCYAN;");
 
         this.setTop(topBox);
     }

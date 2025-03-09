@@ -13,25 +13,23 @@ public class AdminPopup {
     private Dialog<Pair<String, String>> dialog;
 
     public AdminPopup() {
-        // Create a login dialog
+
         dialog = new Dialog<>();
         dialog.setTitle("Admin Login");
-        dialog.setHeaderText("Please enter your username and password");
+        dialog.setHeaderText("Voer je gebruikersnaam en wachtwoord in");
 
-        // Define buttons
         ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
-        // Create input fields for username and password
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        usernameField.setPromptText("Gebruikersnaam");
         PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Password");
+        passwordField.setPromptText("Wachtwoord");
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameField, 1, 0);
@@ -40,19 +38,13 @@ public class AdminPopup {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Automatically focus on the username field
-        Platform.runLater(usernameField::requestFocus);
-
-        // Handle login button action
         Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
         loginButton.setDisable(true);
 
-        // Enable/disable login button based on input
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
             loginButton.setDisable(newValue.trim().isEmpty());
         });
 
-        // Handle the result of the login dialog
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
                 return new Pair<>(usernameField.getText(), passwordField.getText());

@@ -7,47 +7,48 @@ public class Veld {
     private boolean isPartjeVeld;
     private boolean isOpnieuwGooienVeld;
     private boolean isStartVeld;
-    private List<Integer> mogelijkeIndexOpties;
+    private List<Veld> veldenDieErnaastLiggen;
     private int x;
     private int y;
 
-    // Standaard
-    public Veld(Kleur kleur, boolean isPartjeVeld, boolean isOpnieuwGooienVeld, boolean isStartVeld, int x, int y, List<Integer> mogelijkeIndexOpties) {
+    public Veld(Kleur kleur, boolean isPartjeVeld, boolean isOpnieuwGooienVeld, boolean isStartVeld, int x, int y, List<Veld> veldenDieErnaastLiggen) {
         this.kleur = kleur;
         this.isPartjeVeld = isPartjeVeld;
         this.isOpnieuwGooienVeld = isOpnieuwGooienVeld;
         this.isStartVeld = isStartVeld;
         this.x = x;
         this.y = y;
-        this.mogelijkeIndexOpties = mogelijkeIndexOpties;
-
+        this.veldenDieErnaastLiggen = veldenDieErnaastLiggen;
     }
 
-    // Voeg deze constructor toe voor basis veld creatie
-
-
-    public Kleur getKleur() {
-        return kleur;
+    public void setVeldenDieErnaastLiggen(List<Veld> buren) {
+        this.veldenDieErnaastLiggen = buren;
     }
 
-    public boolean isPartjeVeld() {
-        return isPartjeVeld;
+    public List<Veld> getVeldenDieErnaastLiggen() {
+        return veldenDieErnaastLiggen;
     }
 
-    public boolean isOpnieuwGooienVeld() {
-        return isOpnieuwGooienVeld;
+    public Kleur getKleur() { return kleur; }
+    public boolean isPartjeVeld() { return isPartjeVeld; }
+    public boolean isOpnieuwGooienVeld() { return isOpnieuwGooienVeld; }
+    public boolean isStartVeld() { return isStartVeld; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+
+
+    @Override
+    public String toString() {
+        return "Veld{" +
+                "x=" + x +
+                ", y=" + y +
+                ", kleur=" + kleur +
+                (isStartVeld ? ", Startveld" : "") +
+                (isPartjeVeld ? ", Partjeveld" : "") +
+                (isOpnieuwGooienVeld ? ", Opnieuw gooien veld" : "") +
+                ", naast=" + veldenDieErnaastLiggen.size() +
+                '}';
     }
 
-    public boolean isStartVeld() {
-        return isStartVeld;
-    }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 }
-

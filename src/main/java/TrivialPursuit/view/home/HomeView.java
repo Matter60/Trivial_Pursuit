@@ -17,9 +17,9 @@ public class HomeView extends BorderPane {
     private Button helpButton;
     private Button startButton;
     private Button leaderboardButton;
-    private Label titleLabel;
+    private Label titelLabel;
     private ListView<String> leaderboard;
-    private Label leaderboardTitle;
+    private Label leaderboardTitel;
     private VBox leaderboardBox;
 
     public HomeView() {
@@ -34,17 +34,16 @@ public class HomeView extends BorderPane {
         helpButton = new Button("Help");
         leaderboardButton = new Button();
 
-        titleLabel = new Label("Trivial Pursuit");
-        titleLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 24)); // Set font to Georgia
+        titelLabel = new Label("Trivial Pursuit");
+        titelLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 24)); // Set font to Georgia
 
         startButton = new Button("START");
         startButton.setPrefSize(300, 50);
 
         leaderboard = new ListView<>();
-        leaderboard.getItems().addAll("Tobi 60", "Matthias 40", "Cockx 10");
 
-        leaderboardTitle = new Label("Leaderboard");
-        leaderboardTitle.setFont(Font.font("Georgia", FontWeight.BOLD, 16)); // Set font to Georgia
+        leaderboardTitel = new Label("Leaderboard");
+        leaderboardTitel.setFont(Font.font("Georgia", FontWeight.BOLD, 16)); // Set font to Georgia
     }
 
     private void layoutNodes() {
@@ -57,7 +56,7 @@ public class HomeView extends BorderPane {
 
         VBox middle = new VBox(10);
         middle.setAlignment(Pos.TOP_CENTER);
-        middle.getChildren().addAll(titleLabel, startButton);
+        middle.getChildren().addAll(titelLabel, startButton);
         middle.setSpacing(10);
         middle.setPadding(new Insets(50, 10, 10, 10));
         this.setCenter(middle);
@@ -67,8 +66,9 @@ public class HomeView extends BorderPane {
 
         leaderboardBox = new VBox(10);
         leaderboardBox.setAlignment(Pos.CENTER);
-        leaderboardBox.getChildren().addAll(leaderboardTitle, leaderboard);
-        leaderboardBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        leaderboardBox.getChildren().addAll(leaderboardTitel, leaderboard);
+        leaderboardBox.setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         leaderboardBox.setMaxWidth(200);
         leaderboardBox.setPrefWidth(200);
@@ -96,11 +96,11 @@ public class HomeView extends BorderPane {
         startButton.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
 
         // Set leaderboard styles
-        leaderboardTitle.setTextFill(Color.YELLOW); // Set leaderboard title color
-        leaderboardTitle.setFont(Font.font("Georgia", FontWeight.BOLD, 18)); // Set font for leaderboard title
+        leaderboardTitel.setTextFill(Color.YELLOW); // Set leaderboard title color
+        leaderboardTitel.setFont(Font.font("Georgia", FontWeight.BOLD, 18)); // Set font for leaderboard title
 
         // Set font color for the title
-        titleLabel.setTextFill(Color.YELLOW); // Set title label text color
+        titelLabel.setTextFill(Color.YELLOW); // Set title label text color
     }
 
     public Button getAboutButton() {

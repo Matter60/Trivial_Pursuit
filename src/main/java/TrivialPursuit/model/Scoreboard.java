@@ -19,7 +19,7 @@ public class Scoreboard {
     public Scoreboard() {
         this.scores = new HashMap<>();
         this.wins = new HashMap<>();
-        loadScores();
+        laadScores();
     }
 
     public void addScore(String spelerNaam) {
@@ -31,8 +31,6 @@ public class Scoreboard {
         saveScores();
     }
 
-
-
     public void addWin(String spelerNaam) {
         if (wins.containsKey(spelerNaam)) {
             wins.put(spelerNaam, wins.get(spelerNaam) + 1);
@@ -42,28 +40,27 @@ public class Scoreboard {
         saveScores();
     }
 
-
     public List<String> getScores() {
         if (scores.isEmpty()) {
             return List.of("No scores available");
         }
 
-        List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(scores.entrySet());
-        sortedScores.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+        List<Map.Entry<String, Integer>> gesorteerdeScores = new ArrayList<>(scores.entrySet());
+        gesorteerdeScores.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        List<String> formattedScores = new ArrayList<>();
+        List<String> formateerdeScores = new ArrayList<>();
         int rank = 1;
-        for (Map.Entry<String, Integer> entry : sortedScores) {
+        for (Map.Entry<String, Integer> entry : gesorteerdeScores) {
             int playerWins = wins.getOrDefault(entry.getKey(), 0);
-            String formattedEntry = String.format("%d) %s : %d points (Wins: %d)", 
-                rank, entry.getKey(), entry.getValue(), playerWins);
-            formattedScores.add(formattedEntry);
+            String formattedEntry = String.format("%d) %s : %d juiste antwoorden (Wins: %d)",
+                    rank, entry.getKey(), entry.getValue(), playerWins);
+            formateerdeScores.add(formattedEntry);
             rank++;
         }
-        return formattedScores;
+        return formateerdeScores;
     }
 
-    private void loadScores() {
+    private void laadScores() {
         File file = new File(SCORES_FILE);
         if (!file.exists()) {
             System.out.println("No scores file found, skipping load.");
@@ -112,8 +109,8 @@ public class Scoreboard {
         int num = 1;
         for (Map.Entry<String, Integer> entry : sortedScores) {
             int playerWins = wins.getOrDefault(entry.getKey(), 0);
-            System.out.printf("%d. %s: %d punten (Wins: %d)%n", 
-                num++, entry.getKey(), entry.getValue(), playerWins);
+            System.out.printf("%d. %s: %d punten (Wins: %d)%n",
+                    num++, entry.getKey(), entry.getValue(), playerWins);
         }
     } // console
-} 
+}

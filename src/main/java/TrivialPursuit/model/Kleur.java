@@ -1,40 +1,42 @@
 package TrivialPursuit.model;
 
 public enum Kleur {
-    BLUE("Aardrijkskunde"),
-    PINK("Amusement"),
-    YELLOW("Geschiedenis"),
-    BROWN("Kunst & Literatuur"),
-    GREEN("Wetenschap & Natuur"),
-    ORANGE("Sport & Ontspanning"),
-    WHITE("Roll Again");
+    BLAUW("Aardrijkskunde", "blauw"),
+    ROZE("Amusement","roze"),
+    GEEL("Geschiedenis", "geel"),
+    BRUIN("Kunst & Literatuur", "bruin"),
+    GROEN("Wetenschap & Natuur", "groen"),
+    ORANJE("Sport & Ontspanning", "oranje"),
+    WIT("Roll Again", "wit");
 
-    private final String description;
+    private final String beschrijving;
+    private final String kleurNaam;
 
-    Kleur(String description) {
-        this.description = description;
+    Kleur(String beschrijving, String kleurNaam) {
+        this.beschrijving = beschrijving;
+        this.kleurNaam = kleurNaam;
     }
 
-    public String getDescription() {
-        return description;
+    public String getBeschrijving() {
+            return beschrijving;
     }
 
-    public static Kleur fromThema(String thema) {
-        if (thema == null)
-            return BLUE; // fallback kleur
+    public static Kleur fromThema(String categorie) {
+        if (categorie == null)
+            return null; 
 
-        String themaFormatted = thema.toUpperCase().replace(" & ", "_").replace(" ", "_");
+        String themaFormatted = categorie.toUpperCase().replace(" & ", "_").replace(" ", "_");
         for (Kleur kleur : Kleur.values()) {
-            if (kleur.getDescription().toUpperCase().replace(" & ", "_").replace(" ", "_")
+            if (kleur.getBeschrijving().toUpperCase().replace(" & ", "_").replace(" ", "_")
                     .equals(themaFormatted)) {
                 return kleur;
             }
         }
-        return BLUE; // fallback kleur
+        return null; 
     }
 
     @Override
     public String toString() {
-        return description;
+        return kleurNaam;
     }
 }

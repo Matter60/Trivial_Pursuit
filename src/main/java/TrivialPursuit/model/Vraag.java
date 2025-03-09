@@ -8,6 +8,7 @@ public class Vraag {
     private List<String> mogelijkeAntwoorden;
     private int juisteAntwoordIndex;
     private Kleur categorie;
+    private String antwoord;
 
     public Vraag(String vraag, List<String> answers, int juisteIndex, Kleur categorie) {
         if (juisteIndex < 0 || juisteIndex >= answers.size()) {
@@ -24,10 +25,23 @@ public class Vraag {
     }
 
     // Getters
-    public String getVraag() { return vraag; }
-    public List<String> getMogelijkeAntwoorden() { return new ArrayList<>(mogelijkeAntwoorden); }
-    public Kleur getCategorie() { return categorie; }
-    
+    public String getVraag() {
+        return vraag;
+    }
 
-    public String getJuisteAntwoord() { return mogelijkeAntwoorden.get(juisteAntwoordIndex); }
-} 
+    public List<String> getMogelijkeAntwoorden() {
+        return new ArrayList<>(mogelijkeAntwoorden);
+    }
+
+    public Kleur getCategorie() {
+        return categorie;
+    }
+
+    public String getJuisteAntwoord() {
+        return mogelijkeAntwoorden.get(juisteAntwoordIndex);
+    }
+
+    public String getAntwoord() {
+        return antwoord;
+    }
+}

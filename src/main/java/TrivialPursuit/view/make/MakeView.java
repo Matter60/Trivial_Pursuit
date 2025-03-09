@@ -14,8 +14,8 @@ public class MakeView extends BorderPane {
 
     private Button backButton;
     private Button createGameButton;
-    private Button loadGameButton;
-    private Label titleLabel;
+    private Button laadGameButton;
+    private Label titelLabel;
 
     public MakeView() {
         this.initialiseNodes();
@@ -29,20 +29,20 @@ public class MakeView extends BorderPane {
         backButton.setPadding(new Insets(10));
         backButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
 
-        createGameButton = new Button("Create Game");
+        createGameButton = new Button("Maak Spel");
         createGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
         createGameButton.setPadding(new Insets(10));
         createGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
 
-        loadGameButton = new Button("Load Game");
-        loadGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
-        loadGameButton.setPadding(new Insets(10));
-        loadGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
+        laadGameButton = new Button("Laad Spel");
+        laadGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
+        laadGameButton.setPadding(new Insets(10));
+        laadGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
 
-        titleLabel = new Label("Create or load a game");
-        titleLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
-        titleLabel.setPadding(new Insets(10));
-        titleLabel.setStyle("-fx-text-fill: white;");
+        titelLabel = new Label("Maak of laad een spel");
+        titelLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
+        titelLabel.setPadding(new Insets(10));
+        titelLabel.setStyle("-fx-text-fill: white;");
     }
 
     private void layoutNodes() {
@@ -54,8 +54,8 @@ public class MakeView extends BorderPane {
 
         VBox centerBox = new VBox(20);
         centerBox.setAlignment(Pos.CENTER);
-        centerBox.setPadding(new Insets(0,10,40,10));
-        centerBox.getChildren().addAll(titleLabel, createGameButton, loadGameButton);
+        centerBox.setPadding(new Insets(0, 10, 40, 10));
+        centerBox.getChildren().addAll(titelLabel, createGameButton, laadGameButton);
         this.setCenter(centerBox);
 
         this.setStyle("-fx-background-color: DARKCYAN;");
@@ -69,7 +69,7 @@ public class MakeView extends BorderPane {
         return createGameButton;
     }
 
-    public Button getLoadGameButton() {
-        return loadGameButton;
+    public Button getLaadGameButton() {
+        return laadGameButton;
     }
 }

@@ -35,11 +35,10 @@ public class VraagManager {
         }
     }
 
-
-    public List<Vraag> loadVraag(Kleur category) {
-        List<Vraag> questions = new ArrayList<>();
+    public List<Vraag> laadVraag(Kleur category) {
+        List<Vraag> vragen = new ArrayList<>();
         String filename = VRAAG_DIR + category.name().toLowerCase() + ".txt";
-        
+
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -51,7 +50,7 @@ public class VraagManager {
                         answers.add(parts[i]);
                     }
                     int correctIndex = Integer.parseInt(parts[parts.length - 1]);
-                    questions.add(new Vraag(question, answers, correctIndex, category));
+                    vragen.add(new Vraag(question, answers, correctIndex, category));
                 }
             }
         } catch (IOException e) {
@@ -60,7 +59,14 @@ public class VraagManager {
                 e.printStackTrace();
             }
         }
-        
-        return questions;
+
+        // Als er vragen zijn, return een random vraag
+        if (!vragen.isEmpty()) {
+            int randomIndex = (int) (Math.random() * vragen.size());
+            Vraag randomVraag = vragen.get(randomIndex);
+            return List.of(randomVraag);
+        }
+
+        return vragen;
     }
 }

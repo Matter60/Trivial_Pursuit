@@ -20,7 +20,7 @@ import javafx.scene.text.FontWeight;
 public class LeaderboardView extends BorderPane {
 
     private ListView<String> leaderboard;
-    private Label leaderboardTitle;
+    private Label leaderboardTitel;
     private Button backButton;
 
     public LeaderboardView() {
@@ -30,11 +30,12 @@ public class LeaderboardView extends BorderPane {
 
     private void initialiseNodes() {
         leaderboard = new ListView<>();
-        leaderboard.getItems().addAll("1) Tobi 50", "2) Matter 40", "3) Cockx 10", "4)", "5)", "6)", "7)", "8)", "9)", "10)", "11)");
+        leaderboard.getItems().addAll("1) Tobi 50", "2) Matter 40", "3) Cockx 10", "4)", "5)", "6)", "7)", "8)", "9)",
+                "10)", "11)");
 
-        leaderboardTitle = new Label("Leaderboard");
-        leaderboardTitle.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        leaderboardTitle.setStyle("-fx-text-fill: white;");
+        leaderboardTitel = new Label("Leaderboard");
+        leaderboardTitel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        leaderboardTitel.setStyle("-fx-text-fill: white;");
 
         backButton = new Button("←");
         backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
@@ -45,8 +46,9 @@ public class LeaderboardView extends BorderPane {
     private void layoutNodes() {
         VBox leaderboardBox = new VBox(10);
         leaderboardBox.setAlignment(Pos.CENTER);
-        leaderboardBox.getChildren().addAll(leaderboardTitle, leaderboard);
-        leaderboardBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        leaderboardBox.getChildren().addAll(leaderboardTitel, leaderboard);
+        leaderboardBox.setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         BorderPane.setMargin(leaderboardBox, new Insets(0, 0, 40, 0));
 
         leaderboardBox.setMaxWidth(500);
@@ -56,12 +58,12 @@ public class LeaderboardView extends BorderPane {
         HBox topBox = new HBox(backButton);
         topBox.setAlignment(Pos.TOP_LEFT);
         topBox.setPadding(new Insets(10, 10, 10, 10));
-        topBox.setStyle("-fx-background-color: DARKCYAN;");  // Set background color to DARKCYAN
+        topBox.setStyle("-fx-background-color: DARKCYAN;"); // Set background color to DARKCYAN
         this.setTop(topBox);
 
         // Add the VBox to the BorderPane
         this.setCenter(leaderboardBox);
-        this.setStyle("-fx-background-color: DARKCYAN;");  // Set background color of the whole pane to DARKCYAN
+        this.setStyle("-fx-background-color: DARKCYAN;"); // Set background color of the whole pane to DARKCYAN
     }
 
     public Button getBackButton() {
