@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VraagManager {
@@ -60,12 +61,8 @@ public class VraagManager {
             }
         }
 
-        // Als er vragen zijn, return een random vraag
-        if (!vragen.isEmpty()) {
-            int randomIndex = (int) (Math.random() * vragen.size());
-            Vraag randomVraag = vragen.get(randomIndex);
-            return List.of(randomVraag);
-        }
+        //random vraag
+        Collections.shuffle(vragen);
 
         return vragen;
     }

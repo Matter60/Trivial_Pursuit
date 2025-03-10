@@ -13,12 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+
 import java.util.*;
-import TrivialPursuit.model.Speler;
-import TrivialPursuit.model.Kleur;
-import javafx.scene.control.Alert;
 
 public class GameView extends BorderPane {
     private Button backButton;
@@ -27,7 +23,7 @@ public class GameView extends BorderPane {
     private Label currentPlayerLabel;
     private Label diceResultLabel;
     private Label questionLabel;
-    private VBox questionBox;
+    private VBox vraagBox;
     private ToggleGroup answerGroup;
     private List<RadioButton> answerButtons;
     private ImageView boardImageView;
@@ -68,7 +64,7 @@ public class GameView extends BorderPane {
         }
 
         // Initialize containers
-        questionBox = new VBox(10);
+        vraagBox = new VBox(20);
         playerInfoBox = new VBox(10);
         boardPane = new Pane();
 
@@ -80,6 +76,8 @@ public class GameView extends BorderPane {
         boardImageView.setPreserveRatio(true);
 
         boardPane.getChildren().add(boardImageView);
+
+
     }
 
     private void layoutNodes() {
@@ -90,27 +88,41 @@ public class GameView extends BorderPane {
         topBox.setPadding(new Insets(10));
         this.setTop(topBox);
 
-        // Set up center section
         this.setCenter(boardPane);
 
-        // Set up right section
+        // Maak een VBox voor de rechter sectie en geef het een vaste breedte en hoogte
         VBox rightBox = new VBox(20);
-        rightBox.getChildren().addAll(
-            playerInfoBox,
-            rollDiceButton,
-            diceResultLabel,
-            questionBox
-        );
         rightBox.setAlignment(Pos.TOP_CENTER);
         rightBox.setPadding(new Insets(20));
+
+        // Stel de gewenste afmetingen in voor de rightBox
+        rightBox.setPrefWidth(300);  // Vaste breedte
+        rightBox.setPrefHeight(600); // Vaste hoogte
+
+        // Voeg de inhoud toe aan de VBox
+        rightBox.getChildren().addAll(
+                playerInfoBox,
+                rollDiceButton,
+                diceResultLabel,
+                vraagBox
+        );
+
+        // Zet de rechter sectie als de inhoud van de BorderPane
         this.setRight(rightBox);
 
-        // Set up question box
-        questionBox.getChildren().addAll(questionLabel);
-        questionBox.getChildren().addAll(answerButtons);
-        questionBox.getChildren().add(answerButton);
-        questionBox.setVisible(false);
+        vraagBox.setSpacing(10);
+        vraagBox.getChildren().addAll(questionLabel);
+        vraagBox.getChildren().addAll(answerButtons);
+        vraagBox.getChildren().add(answerButton);
+        vraagBox.setVisible(false);
+
+        rollDiceButton.setMaxWidth(Double.MAX_VALUE);
+        answerButton.setMaxWidth(Double.MAX_VALUE);
+
+        questionLabel.setWrapText(true);
+        questionLabel.setMaxWidth(250);
     }
+
 
     private void applyStyles() {
         // Apply basic styles
@@ -154,7 +166,7 @@ public class GameView extends BorderPane {
     public Label getDiceResultLabel() { return diceResultLabel; }
     public Label getCurrentPlayerLabel() { return currentPlayerLabel; }
     public Label getQuestionLabel() { return questionLabel; }
-    public VBox getQuestionBox() { return questionBox; }
+    public VBox getVraagBox() { return vraagBox; }
     public Map<String, ImageView> getPlayerPawns() { return playerPawns; }
     public Map<String, HBox> getPlayerPartjesBoxes() { return playerPartjesBoxes; }
     public VBox getPlayerInfoBox() { return playerInfoBox; }

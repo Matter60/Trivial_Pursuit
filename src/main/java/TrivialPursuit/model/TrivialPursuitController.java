@@ -34,8 +34,8 @@ public class TrivialPursuitController {
         vraagManager.addVraag(vraag);
     }
 
-    public List<Vraag> laadVraag(Kleur category) {
-        return vraagManager.laadVraag(category);
+    public List<Vraag> laadVraag(Kleur categorie) {
+        return vraagManager.laadVraag(categorie);
     }
 
     public void addWin(String spelernaam) {

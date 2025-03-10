@@ -8,6 +8,7 @@ import TrivialPursuit.view.home.HomeView;
 import TrivialPursuit.view.home.HomePresenter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -49,7 +50,9 @@ public class CreateGamePresenter {
                 GamePresenter gamePresenter = new GamePresenter(model, gameView);
                 gamePresenter.addWindowEventHandlers();
                 view.getScene().setRoot(gameView);
-                gameView.getScene().getWindow().sizeToScene();
+                gameView.prefWidthProperty().set(1200);
+                gameView.prefHeightProperty().set(900);
+
             }
         });
 

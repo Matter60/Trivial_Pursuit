@@ -50,7 +50,6 @@ public class GamePresenter {
         view.getPlayerPawns().put(speler.getNaam(), pawn);
         view.getBoardPane().getChildren().add(pawn);
 
-        // Maak partjes overzicht voor deze speler
         HBox partjesBox = new HBox(5);
         Label playerLabel = new Label(speler.getNaam() + " partjes: ");
         playerLabel.setTextFill(Color.WHITE);
@@ -103,44 +102,37 @@ public class GamePresenter {
     }
 
     private void handleMove(int positie) {
-        // Verplaats de speler
+
         Speler huidigeSpeler = model.getHuidigeSpeler();
         model.verplaatsHuidigeSpeler(positie);
         updatePlayerPosition(huidigeSpeler);
 
-        // Verwijder de mogelijke zetten
         clearPossibleMoves();
 
-        // Check het type veld en handel het af
         Kleur veldKleur = model.getVeldKleur(positie);
 
-        // Check eerst voor roll again, want dit moet altijd gebeuren ongeacht vragen
         if (model.isRollAgainVeld(positie)) {
             showAlert("Opnieuw Gooien!", "Je mag nog een keer gooien!");
             view.getRollDiceButton().setDisable(false);
             return; // Niet naar volgende speler gaan
         }
 
-        // Dan check voor vragen als het geen roll again veld is
+
         if (veldKleur != null) {
-            // Haal een vraag op voor deze kleur
+
             List<Vraag> vragen = model.laadVraag(veldKleur);
             if (!vragen.isEmpty()) {
-                huidigeVraag = vragen.get(0); // Neem de eerste vraag
+                huidigeVraag = vragen.get(0);
                 showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
-                return; // Wacht op antwoord via handleAnswer
             }
         }
 
-        // Als er geen vraag is, ga direct door naar de volgende speler
-        volgendeSpeler();
     }
 
     private void handleAnswer() {
         if (huidigeVraag == null)
             return;
 
-        // Bepaal welk antwoord is geselecteerd
         RadioButton selectedButton = (RadioButton) view.getAnswerGroup().getSelectedToggle();
         if (selectedButton == null)
             return;
@@ -253,7 +245,6 @@ public class GamePresenter {
     public void showQuestion(String question, List<String> answers) {
         view.getQuestionLabel().setText(question);
 
-        // Update radio buttons with answers
         for (int i = 0; i < answers.size() && i < view.getAnswerButtons().size(); i++) {
             view.getAnswerButtons().get(i).setText(answers.get(i));
             view.getAnswerButtons().get(i).setVisible(true);
@@ -265,11 +256,11 @@ public class GamePresenter {
         }
 
         view.getAnswerButton().setVisible(true);
-        view.getQuestionBox().setVisible(true);
+        view.getVraagBox().setVisible(true);
     }
 
     public void hideQuestion() {
-        view.getQuestionBox().setVisible(false);
+        view.getVraagBox().setVisible(false);
         view.getAnswerButton().setVisible(false);
         view.getAnswerGroup().selectToggle(null);
     }
