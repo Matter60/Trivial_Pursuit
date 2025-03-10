@@ -27,6 +27,7 @@ public class CreateGameView extends BorderPane {
         this.initialiseNodes();
         this.layoutNodes();
         this.applyStyles();
+
     }
 
     private void initialiseNodes() {
@@ -107,6 +108,7 @@ public class CreateGameView extends BorderPane {
         for (ComboBox<Kleur> selector : colorSelectors) {
             selector.setStyle(comboBoxStyle);
         }
+        this.setPrefSize(800, 600);
     }
 
     public Button getBackButton() {

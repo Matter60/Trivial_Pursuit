@@ -12,13 +12,6 @@ public class Game {
     private int huidigeSpelerIndex;
     private Map<Speler, Integer> spelerPosities;
     private Speler winnaar;
-    private GameStatus status;
-
-    public enum GameStatus {
-        NIET_GESTART,
-        BEZIG,
-        AFGELOPEN
-    }
 
     public Game() {
         this.spelers = new ArrayList<>();
@@ -26,7 +19,6 @@ public class Game {
         this.dobbelsteen = new Dobbelsteen();
         this.huidigeSpelerIndex = 0;
         this.spelerPosities = new HashMap<>();
-        this.status = GameStatus.NIET_GESTART;
         this.winnaar = null;
     }
 
@@ -42,7 +34,6 @@ public class Game {
             for (Speler speler : spelers) {
                 System.out.println("Speler: " + speler.getNaam() + " - Kleur: " + speler.getSpelerKleur());
             }
-            status = GameStatus.BEZIG;
             huidigeSpelerIndex = 0;
         } else {
             throw new IllegalStateException("Er zijn minimaal 2 spelers nodig om het spel te starten!");
@@ -50,9 +41,6 @@ public class Game {
     }
 
     public int gooiDobbelsteen() {
-        if (status != GameStatus.BEZIG) {
-            throw new IllegalStateException("Het spel is nog niet begonnen of is al afgelopen!");
-        }
         return dobbelsteen.worp();
     }
 
@@ -71,10 +59,6 @@ public class Game {
     }
 
     public void verplaatsHuidigeSpeler(int nieuwePositie) {
-        if (status != GameStatus.BEZIG) {
-            throw new IllegalStateException("Het spel is nog niet begonnen of is al afgelopen!");
-        }
-
         Speler huidigeSpeler = getHuidigeSpeler();
         spelerPosities.put(huidigeSpeler, nieuwePositie);
 
@@ -89,14 +73,10 @@ public class Game {
         // Check voor winnaar (alle partjes verzameld en op middenvak)
         if (huidigeSpeler.heeftAllePartjes() && nieuwePositie == bord.getMiddenVakIndex()) {
             winnaar = huidigeSpeler;
-            status = GameStatus.AFGELOPEN;
         }
     }
 
     public void volgendeSpeler() {
-        if (status != GameStatus.BEZIG) {
-            throw new IllegalStateException("Het spel is nog niet begonnen of is al afgelopen!");
-        }
         huidigeSpelerIndex = (huidigeSpelerIndex + 1) % spelers.size();
     }
 
@@ -122,18 +102,10 @@ public class Game {
 
     public void geefPartje(Speler speler, Kleur kleur) {
         speler.voegPartjeToe(kleur);
-        // Check voor winnaar
-        if (speler.heeftAllePartjes()) {
-            status = GameStatus.AFGELOPEN;
-        }
     }
 
     public List<Kleur> getSpelerPartjes(Speler speler) {
         return speler.getPartjes();
-    }
-
-    public GameStatus getStatus() {
-        return status;
     }
 
     public Speler getWinnaar() {
@@ -145,7 +117,7 @@ public class Game {
     }
 
     public boolean isSpelAfgelopen() {
-        return status == GameStatus.AFGELOPEN;
+        return winnaar != null;
     }
 
     public Bord getBord() {

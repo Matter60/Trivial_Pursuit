@@ -1,9 +1,15 @@
+kk|1|0
 josssssss|1|0
 test|9|0
 Tobi|2000|0
+<<<<<<< HEAD
 nigga1|4|0
+=======
+ljhlh|1|0
+>>>>>>> 51952dd4b37d1d4c7563013371ea4b5ce3fb2540
 testjeeeeeeeeee2|11|0
 Ray|5|0
+k|2|0
 jos|2|0
 Matter|20|0
 test3|1|0
@@ -12,5 +18,9 @@ jos2|3|0
 joske1|2|0
 mjkmj|1|0
 jklmkjm|3|0
+<<<<<<< HEAD
 Nigga2|2|0
+=======
+testttttttt|2|0
+>>>>>>> 51952dd4b37d1d4c7563013371ea4b5ce3fb2540
 test<2|2|0

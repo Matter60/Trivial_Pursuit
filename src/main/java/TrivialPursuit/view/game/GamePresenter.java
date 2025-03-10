@@ -6,10 +6,16 @@ import TrivialPursuit.model.Vraag;
 import TrivialPursuit.model.Kleur;
 import TrivialPursuit.view.create.CreateGameView;
 import TrivialPursuit.view.create.CreateGamePresenter;
-import javafx.event.ActionEvent;
+
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+import javafx.scene.control.Alert;
 import java.util.List;
 
 public class GamePresenter {
@@ -27,32 +33,53 @@ public class GamePresenter {
     }
 
     private void initializePlayers() {
-        view.clearPlayers();
+        clearPlayers();
         for (Speler speler : model.getSpelers()) {
-            view.addPlayer(speler);
+            addPlayer(speler);
             updatePlayerPosition(speler);
             updatePlayerPartjes(speler);
         }
     }
 
-    private void addEventHandlers() {
-        // Dobbelsteen knop
-        view.getRollDiceButton().setOnAction(event -> {
-            // Verberg eventuele openstaande vraag
-            view.hideQuestion();
+    private void addPlayer(Speler speler) {
+        // Voeg pion toe
+        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream("/pawn.png")));
+        pawn.setFitHeight(40);
+        pawn.setFitWidth(40);
+        view.getPlayerPawns().put(speler.getNaam(), pawn);
+        view.getBoardPane().getChildren().add(pawn);
 
-            // Gooi de dobbelsteen
+        // Maak partjes overzicht voor deze speler
+        HBox partjesBox = new HBox(5);
+        Label playerLabel = new Label(speler.getNaam() + " partjes: ");
+        playerLabel.setTextFill(Color.WHITE);
+        partjesBox.getChildren().add(playerLabel);
+        view.getPlayerPartjesBoxes().put(speler.getNaam(), partjesBox);
+        view.getPlayerInfoBox().getChildren().add(partjesBox);
+    }
+
+    private void clearPlayers() {
+        for (ImageView pawn : view.getPlayerPawns().values()) {
+            view.getBoardPane().getChildren().remove(pawn);
+        }
+        view.getPlayerPawns().clear();
+        view.getPlayerInfoBox().getChildren().clear();
+        view.getPlayerPartjesBoxes().clear();
+    }
+
+    private void addEventHandlers() {
+
+        view.getRollDiceButton().setOnAction(event -> {
+
             int worp = model.gooiDobbelsteen();
             view.getDiceResultLabel().setText("Worp: " + worp);
 
-
-            // Toon mogelijke bestemmingen
             mogelijkeBestemmingen = model.getMogelijkeBestemmingen(worp);
-            view.clearPossibleMoves();
+            clearPossibleMoves();
 
             for (Integer pos : mogelijkeBestemmingen) {
                 int[] coords = model.getCoordinaten(pos);
-                view.addPossibleMove(pos, coords[0], coords[1]);
+                addPossibleMove(pos, coords[0], coords[1]);
                 Circle moveCircle = view.getPossibleMoves().get(pos);
                 moveCircle.setOnMouseClicked(e -> handleMove(pos));
             }
@@ -81,14 +108,14 @@ public class GamePresenter {
         updatePlayerPosition(huidigeSpeler);
 
         // Verwijder de mogelijke zetten
-        view.clearPossibleMoves();
+        clearPossibleMoves();
 
         // Check het type veld en handel het af
         Kleur veldKleur = model.getVeldKleur(positie);
 
         // Check eerst voor roll again, want dit moet altijd gebeuren ongeacht vragen
         if (model.isRollAgainVeld(positie)) {
-            view.showAlert("Opnieuw Gooien!", "Je mag nog een keer gooien!");
+            showAlert("Opnieuw Gooien!", "Je mag nog een keer gooien!");
             view.getRollDiceButton().setDisable(false);
             return; // Niet naar volgende speler gaan
         }
@@ -99,7 +126,7 @@ public class GamePresenter {
             List<Vraag> vragen = model.laadVraag(veldKleur);
             if (!vragen.isEmpty()) {
                 huidigeVraag = vragen.get(0); // Neem de eerste vraag
-                view.showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
+                showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
                 return; // Wacht op antwoord via handleAnswer
             }
         }
@@ -128,14 +155,14 @@ public class GamePresenter {
         Speler huidigeSpeler = model.getHuidigeSpeler();
         int positie = model.getSpelerPositie(huidigeSpeler);
 
-        view.hideQuestion();
+        hideQuestion();
 
         boolean correct = huidigeVraag.checkAntwoord(selectedIndex);
         boolean partjeVerdiend = model.checkAntwoord(huidigeVraag, selectedIndex, huidigeSpeler, positie);
 
         if (correct) {
             // Toon alert voor juist antwoord
-            view.showAlert("Correct!", "Je hebt het juiste antwoord gegeven!");
+           showAlert("Correct!", "Je hebt het juiste antwoord gegeven!");
 
             if (partjeVerdiend) {
                 // Update UI voor nieuw partje
@@ -143,13 +170,13 @@ public class GamePresenter {
 
                 // Toon alert voor verdiend partje
                 Kleur veldKleur = model.getVeldKleur(positie);
-                view.showAlert("Partje Verdiend!",
+                showAlert("Partje Verdiend!",
                         huidigeSpeler.getNaam() + " heeft een " + veldKleur.toString().toLowerCase()
                                 + " partje verdiend!");
             }
         } else {
             // Toon alert voor fout antwoord
-            view.showAlert("Helaas!",
+            showAlert("Helaas!",
                     "Dat was niet het juiste antwoord.\nHet juiste antwoord was: " + huidigeVraag.getJuisteAntwoord());
         }
 
@@ -164,7 +191,7 @@ public class GamePresenter {
 
     private void updateView() {
         Speler huidigeSpeler = model.getHuidigeSpeler();
-        view.updateCurrentPlayer(
+        updateCurrentPlayer(
                 huidigeSpeler.getNaam(),
                 huidigeSpeler.getSpelerKleur());
     }
@@ -172,15 +199,102 @@ public class GamePresenter {
     private void updatePlayerPosition(Speler speler) {
         int positie = model.getSpelerPositie(speler);
         int[] coords = model.getCoordinaten(positie);
-        view.updatePawnPosition(speler, coords[0], coords[1]);
+        ImageView pawn = view.getPlayerPawns().get(speler.getNaam());
+        if (pawn != null) {
+            pawn.setLayoutX(coords[0]);
+            pawn.setLayoutY(coords[1]);
+        }
     }
 
     private void updatePlayerPartjes(Speler speler) {
-        List<Kleur> partjes = model.getSpelerPartjes(speler);
-        view.updatePlayerPartjes(speler, partjes);
+        HBox partjesBox = view.getPlayerPartjesBoxes().get(speler.getNaam());
+        if (partjesBox != null) {
+            partjesBox.getChildren().clear();
+
+            Label playerLabel = new Label(speler.getNaam() + " partjes: ");
+            playerLabel.setTextFill(Color.WHITE);
+            partjesBox.getChildren().add(playerLabel);
+
+            for (Kleur kleur : model.getSpelerPartjes(speler)) {
+                Circle partje = new Circle(8);
+                partje.setFill(convertKleurToColor(kleur));
+                partje.setStroke(Color.WHITE);
+                partjesBox.getChildren().add(partje);
+            }
+        }
+    }
+
+    private Color convertKleurToColor(Kleur kleur) {
+        switch (kleur) {
+            case BLAUW: return Color.BLUE;
+            case GROEN: return Color.GREEN;
+            case GEEL: return Color.YELLOW;
+            case ROZE: return Color.PINK;
+            case ORANJE: return Color.ORANGE;
+            case BRUIN: return Color.BROWN;
+            case WIT: return Color.WHITE;
+            default: return Color.BLACK;
+        }
     }
 
     public void addWindowEventHandlers() {
         // Voeg hier eventuele window event handlers toe
     }
+
+    public void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public void showQuestion(String question, List<String> answers) {
+        view.getQuestionLabel().setText(question);
+
+        // Update radio buttons with answers
+        for (int i = 0; i < answers.size() && i < view.getAnswerButtons().size(); i++) {
+            view.getAnswerButtons().get(i).setText(answers.get(i));
+            view.getAnswerButtons().get(i).setVisible(true);
+        }
+
+        // Hide unused radio buttons
+        for (int i = answers.size(); i < view.getAnswerButtons().size(); i++) {
+            view.getAnswerButtons().get(i).setVisible(false);
+        }
+
+        view.getAnswerButton().setVisible(true);
+        view.getQuestionBox().setVisible(true);
+    }
+
+    public void hideQuestion() {
+        view.getQuestionBox().setVisible(false);
+        view.getAnswerButton().setVisible(false);
+        view.getAnswerGroup().selectToggle(null);
+    }
+
+    private void addPossibleMove(int position, int x, int y) {
+        Circle moveCircle = new Circle(15);
+        moveCircle.setFill(Color.YELLOW);
+        moveCircle.setOpacity(0.5);
+        moveCircle.setStroke(Color.BLACK);
+        moveCircle.setCenterX(x + 20);
+        moveCircle.setCenterY(y + 20);
+        moveCircle.setUserData(position);
+        view.getPossibleMoves().put(position, moveCircle);
+        view.getBoardPane().getChildren().add(moveCircle);
+    }
+
+    private void clearPossibleMoves() {
+        for (Circle circle : view.getPossibleMoves().values()) {
+            view.getBoardPane().getChildren().remove(circle);
+        }
+        view.getPossibleMoves().clear();
+    }
+
+    private void updateCurrentPlayer(String playerName, Kleur playerKleur) {
+        view.getCurrentPlayerLabel().setText("Huidige Speler: " + playerName);
+        view.getCurrentPlayerLabel().setTextFill(convertKleurToColor(playerKleur));
+    }
+
 }
