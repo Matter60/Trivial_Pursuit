@@ -16,6 +16,7 @@ public class MakeView extends BorderPane {
     private Button createGameButton;
     private Button laadGameButton;
     private Label titelLabel;
+    private Button oefenGameButton; // Correcte naamgeving
 
     public MakeView() {
         this.initialiseNodes();
@@ -43,6 +44,11 @@ public class MakeView extends BorderPane {
         titelLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
         titelLabel.setPadding(new Insets(10));
         titelLabel.setStyle("-fx-text-fill: white;");
+
+        oefenGameButton = new Button("Oefen de vragen"); // Correcte naamgeving
+        oefenGameButton.setFont(Font.font("Georgia", FontWeight.NORMAL, 18));
+        oefenGameButton.setPadding(new Insets(10));
+        oefenGameButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white;");
     }
 
     private void layoutNodes() {
@@ -55,7 +61,7 @@ public class MakeView extends BorderPane {
         VBox centerBox = new VBox(20);
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setPadding(new Insets(0, 10, 40, 10));
-        centerBox.getChildren().addAll(titelLabel, createGameButton, laadGameButton);
+        centerBox.getChildren().addAll(titelLabel, createGameButton, laadGameButton, oefenGameButton); // OefenGameButton toegevoegd
         this.setCenter(centerBox);
 
         this.setStyle("-fx-background-color: DARKCYAN;");
@@ -67,6 +73,10 @@ public class MakeView extends BorderPane {
 
     public Button getCreateGameButton() {
         return createGameButton;
+    }
+
+    public Button getOefenGameButton() { // Correcte getter
+        return oefenGameButton;
     }
 
     public Button getLaadGameButton() {

@@ -1,4 +1,5 @@
 kk|1|0
+gg|1|0
 josssssss|1|0
 test|9|0
 Tobi|2000|0

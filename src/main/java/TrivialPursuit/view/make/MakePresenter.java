@@ -5,6 +5,8 @@ import TrivialPursuit.view.create.CreateGameView;
 import TrivialPursuit.view.create.CreateGamePresenter;
 import TrivialPursuit.view.home.HomeView;
 import TrivialPursuit.view.home.HomePresenter;
+import TrivialPursuit.view.oefenen.OefenenView;
+import TrivialPursuit.view.oefenen.OefenenPresenter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -13,8 +15,7 @@ public class MakePresenter {
     private TrivialPursuitController model;
     private MakeView view;
 
-    public MakePresenter(
-            TrivialPursuitController model, MakeView view) {
+    public MakePresenter(TrivialPursuitController model, MakeView view) {
         this.model = model;
         this.view = view;
         this.addEventHandlers();
@@ -33,17 +34,6 @@ public class MakePresenter {
             }
         });
 
-//        view.getLoadGameButton().setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                SavedView savedView = new SavedView();
-//                SavedPresenter savedPresenter = new SavedPresenter(model, savedView);
-//                savedPresenter.addWindowEventHandlers();
-//                view.getScene().setRoot(savedView);
-//                view.getScene().getWindow().sizeToScene();
-//            }
-//        });
-
         view.getCreateGameButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -52,6 +42,17 @@ public class MakePresenter {
                 createGamePresenter.addWindowEventHandlers();
                 view.getScene().setRoot(createGameView);
                 createGameView.getScene().getWindow().sizeToScene();
+            }
+        });
+
+        view.getOefenGameButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                OefenenView oefenenView = new OefenenView();
+                OefenenPresenter oefenenPresenter = new OefenenPresenter(oefenenView); // Corrected this line
+                oefenenPresenter.addWindowEventHandlers();
+                view.getScene().setRoot(oefenenView);
+                oefenenView.getScene().getWindow().sizeToScene();
             }
         });
     }
