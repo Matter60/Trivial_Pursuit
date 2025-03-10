@@ -75,10 +75,6 @@ public class TrivialPursuitController {
         return game.getSpelerPositie(speler);
     }
 
-    public Game.GameStatus getStatus() {
-        return game.getStatus();
-    }
-
     public Speler getWinnaar() {
         return game.getWinnaar();
     }

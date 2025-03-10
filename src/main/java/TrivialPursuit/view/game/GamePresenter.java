@@ -43,7 +43,8 @@ public class GamePresenter {
 
     private void addPlayer(Speler speler) {
         // Voeg pion toe
-        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream("/pawn.png")));
+
+        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream( "/"+ speler.getSpelerKleur().toString().toLowerCase() + ".png")));
         pawn.setFitHeight(40);
         pawn.setFitWidth(40);
         view.getPlayerPawns().put(speler.getNaam(), pawn);

@@ -7,8 +7,6 @@ import java.util.Set;
 
 public class Speler {
     private String naam;
-    private int x;
-    private int y;
     private Set<Kleur> partjes;
     private Kleur spelerKleur;
 
@@ -16,8 +14,6 @@ public class Speler {
         this.naam = naam;
         this.spelerKleur = kleur;
         this.partjes = new HashSet<>();
-        this.x = 270; // Start positie x
-        this.y = 271; // Start positie y
     }
 
     public String getNaam() {
@@ -45,20 +41,4 @@ public class Speler {
         return new ArrayList<>(partjes);
     }
 
-    // Getters en setters
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }
