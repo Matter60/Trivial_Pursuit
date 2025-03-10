@@ -13,7 +13,7 @@ public class Main extends Application {
         TrivialPursuitController model = new TrivialPursuitController();
         HomeView view = new HomeView();
         HomePresenter presenter = new HomePresenter(model, view);
-        primaryStage.setScene(new Scene(view, 1000, 600));
+        primaryStage.setScene(new Scene(view, 600, 400));
         primaryStage.setTitle("Trivial-Pursuit");
         presenter.addWindowEventHandlers();
         primaryStage.show();

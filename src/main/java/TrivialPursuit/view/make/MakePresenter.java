@@ -49,7 +49,7 @@ public class MakePresenter {
             @Override
             public void handle(ActionEvent event) {
                 OefenenView oefenenView = new OefenenView();
-                OefenenPresenter oefenenPresenter = new OefenenPresenter(oefenenView); // Corrected this line
+                OefenenPresenter oefenenPresenter = new OefenenPresenter(model,oefenenView); // Corrected this line
                 oefenenPresenter.addWindowEventHandlers();
                 view.getScene().setRoot(oefenenView);
                 oefenenView.getScene().getWindow().sizeToScene();
