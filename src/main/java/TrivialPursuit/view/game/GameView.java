@@ -217,7 +217,7 @@ public class GameView extends BorderPane {
 
     public void addPlayer(Speler speler) {
         // Voeg pion toe
-        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream("/pawn.png")));
+        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream("/green.png")));
         pawn.setFitHeight(40);
         pawn.setFitWidth(40);
         playerPawns.put(speler, pawn);

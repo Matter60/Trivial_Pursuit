@@ -1,6 +1,7 @@
 josssssss|1|0
 test|9|0
 Tobi|2000|0
+nigga1|4|0
 testjeeeeeeeeee2|11|0
 Ray|5|0
 jos|2|0
@@ -11,4 +12,5 @@ jos2|3|0
 joske1|2|0
 mjkmj|1|0
 jklmkjm|3|0
+Nigga2|2|0
 test<2|2|0
