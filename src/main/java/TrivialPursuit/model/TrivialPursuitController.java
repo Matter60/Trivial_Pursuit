@@ -9,7 +9,7 @@ public class TrivialPursuitController {
     private Dobbelsteen dobbelsteen;
     private Game game;
     private Bord bord;
-    private TrivialPursuitFileManager fileManager;
+    private FileManager fileManager;
 
     public TrivialPursuitController() {
         scoreboard = new Scoreboard();
@@ -17,7 +17,7 @@ public class TrivialPursuitController {
         dobbelsteen = new Dobbelsteen();
         game = new Game();
         bord = new Bord();
-        fileManager = new TrivialPursuitFileManager();
+        fileManager = new FileManager();
     }
     // implementatie logica van de
     // applicatie ahv methods
@@ -148,20 +148,22 @@ public class TrivialPursuitController {
 
     /**
      * Slaat het huidige spel op
-     * 
+     *
+     * @param filePath het pad waar het spel moet worden opgeslagen
      * @return true als het opslaan is gelukt, anders false
      */
-    public boolean saveGame() {
-        return fileManager.saveGame(game);
+    public boolean saveGame(String filePath) {
+        return fileManager.saveGame(filePath, game);
     }
 
     /**
      * Laadt een opgeslagen spel
-     * 
+     *
+     * @param filePath het pad van het spel dat moet worden geladen
      * @return true als het laden is gelukt, anders false
      */
-    public boolean loadGame() {
-        Game loadedGame = fileManager.loadGame();
+    public boolean loadGame(String filePath) {
+        Game loadedGame = fileManager.loadGame(filePath);
         if (loadedGame != null) {
             this.game = loadedGame;
             return true;
@@ -169,5 +171,8 @@ public class TrivialPursuitController {
         return false;
     }
 
+    public void resetSpel() {
+        this.game = new Game();
+    }
 
 }

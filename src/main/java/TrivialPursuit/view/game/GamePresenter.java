@@ -1,5 +1,6 @@
 package TrivialPursuit.view.game;
 
+import java.io.File;
 import java.util.List;
 
 import TrivialPursuit.model.Kleur;
@@ -8,6 +9,8 @@ import TrivialPursuit.model.TrivialPursuitController;
 import TrivialPursuit.model.Vraag;
 import TrivialPursuit.view.create.CreateGamePresenter;
 import TrivialPursuit.view.create.CreateGameView;
+import TrivialPursuit.view.home.HomePresenter;
+import TrivialPursuit.view.home.HomeView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -16,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 
 public class GamePresenter {
 
@@ -69,9 +73,7 @@ public class GamePresenter {
     }
 
     private void addEventHandlers() {
-
         view.getRollDiceButton().setOnAction(event -> {
-
             int worp = model.gooiDobbelsteen();
             view.getDiceResultLabel().setText("Worp: " + worp);
 
@@ -93,19 +95,41 @@ public class GamePresenter {
         view.getAnswerButton().setOnAction(event -> handleAnswer());
 
         // Terug knop
-        view.getBackButton().setOnAction(event -> {
-            CreateGameView createGameView = new CreateGameView();
-            CreateGamePresenter createGamePresenter = new CreateGamePresenter(model, createGameView);
-            createGamePresenter.addWindowEventHandlers();
-            view.getScene().setRoot(createGameView);
-            createGameView.getScene().getWindow().sizeToScene();
-        });
+//        view.getBackButton().setOnAction(event -> {
+//            CreateGameView createGameView = new CreateGameView();
+//            CreateGamePresenter createGamePresenter = new CreateGamePresenter(model, createGameView);
+//            createGamePresenter.addWindowEventHandlers();
+//            view.getScene().setRoot(createGameView);
+//            createGameView.getScene().getWindow().sizeToScene();
+//        });
 
         view.getSaveGameButton().setOnAction(event -> {
-            if (model.saveGame()) {
-                showAlert("Spel opgeslagen", "Het spel is succesvol opgeslagen.");
-            } else {
-                showAlert("Fout bij opslaan", "Er is een fout opgetreden bij het opslaan van het spel.");
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Spel opslaan");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt")
+            );
+            fileChooser.setInitialDirectory(new File("data/saves"));
+
+            File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+            if (selectedFile != null) {
+
+                String filePath = selectedFile.getAbsolutePath();
+                if (!filePath.endsWith(".txt")) {
+                    filePath += ".txt";
+                }
+
+                if (model.saveGame(filePath)) {
+                    showAlert("Spel opgeslagen", "Het spel is succesvol opgeslagen.");
+                    HomeView homeView = new HomeView();
+                    HomePresenter homePresenter = new HomePresenter(model, homeView);
+                    homePresenter.addWindowEventHandlers();
+                    view.getScene().setRoot(homeView);
+                    homeView.getScene().getWindow().sizeToScene();
+                } else {
+                    showAlert("Fout bij opslaan", "Er is een fout opgetreden bij het opslaan van het spel.");
+
+                }
             }
         });
     }
@@ -178,7 +202,7 @@ public class GamePresenter {
                 Kleur veldKleur = model.getVeldKleur(positie);
                 showAlert("Partje Verdiend!",
                         huidigeSpeler.getNaam() + " heeft een "
-                                + veldKleur.toString().toLowerCase() + " partje verdiend!");
+                        + veldKleur.toString().toLowerCase() + " partje verdiend!");
 
                 // Als alle partjes verzameld zijn, toon aparte melding
                 if (model.heeftSpelerAllePartjes(huidigeSpeler)) {
@@ -189,7 +213,7 @@ public class GamePresenter {
         } else {
             showAlert("Helaas!",
                     "Dat was niet het juiste antwoord.\nHet juiste antwoord was: "
-                            + huidigeVraag.getJuisteAntwoord());
+                    + huidigeVraag.getJuisteAntwoord());
         }
 
         volgendeSpeler();

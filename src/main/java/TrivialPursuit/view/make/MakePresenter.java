@@ -7,8 +7,11 @@ import TrivialPursuit.view.home.HomeView;
 import TrivialPursuit.view.home.HomePresenter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import TrivialPursuit.view.game.GameView;
 import TrivialPursuit.view.game.GamePresenter;
+import java.io.File;
 
 public class MakePresenter {
 
@@ -38,13 +41,29 @@ public class MakePresenter {
         view.getLaadGameButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                model.loadGame();
-                GameView gameView = new GameView();
-                GamePresenter gamePresenter = new GamePresenter(model, gameView);
-                gamePresenter.addWindowEventHandlers();
-                view.getScene().setRoot(gameView);
-                gameView.getScene().getWindow().sizeToScene();
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Spel laden");
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt")
+                );
+                fileChooser.setInitialDirectory(new File("data/saves"));
 
+                File selectedFile = fileChooser.showOpenDialog(view.getScene().getWindow());
+                if (selectedFile != null) {
+                    if (model.loadGame(selectedFile.getAbsolutePath())) {
+                        GameView gameView = new GameView();
+                        GamePresenter gamePresenter = new GamePresenter(model, gameView);
+                        gamePresenter.addWindowEventHandlers();
+                        view.getScene().setRoot(gameView);
+                        gameView.getScene().getWindow().sizeToScene();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Fout bij laden");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Er is een fout opgetreden bij het laden van het spel.");
+                        alert.showAndWait();
+                    }
+                }
             }
         });
 

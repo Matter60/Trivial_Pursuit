@@ -17,7 +17,7 @@ import javafx.scene.text.FontWeight;
 import java.util.*;
 
 public class GameView extends BorderPane {
-    private Button backButton;
+//    private Button backButton;
     private Button rollDiceButton;
     private Button saveGameButton;
     private Button answerButton;
@@ -42,7 +42,7 @@ public class GameView extends BorderPane {
 
     private void initialiseNodes() {
         // Initialize basic UI components
-        backButton = new Button("←");
+//        backButton = new Button("←");
         rollDiceButton = new Button("Gooi Dobbelsteen");
         answerButton = new Button("Beantwoord");
         currentPlayerLabel = new Label("Huidige Speler: ");
@@ -84,7 +84,7 @@ public class GameView extends BorderPane {
     private void layoutNodes() {
         // Set up top section
         HBox topBox = new HBox(20);
-        topBox.getChildren().addAll(backButton, saveGameButton, currentPlayerLabel);
+        topBox.getChildren().addAll(saveGameButton, currentPlayerLabel);
         topBox.setAlignment(Pos.CENTER_LEFT);
         topBox.setPadding(new Insets(10));
         this.setTop(topBox);
@@ -128,12 +128,12 @@ public class GameView extends BorderPane {
         this.setBackground(new Background(new BackgroundFill(Color.DARKCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
 
         String buttonStyle = "-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;";
-        backButton.setStyle(buttonStyle);
+        saveGameButton.setStyle(buttonStyle);
         rollDiceButton.setStyle(buttonStyle);
         answerButton.setStyle(buttonStyle);
 
         // Set fonts
-        backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
+        saveGameButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
         rollDiceButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
         answerButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
         currentPlayerLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
@@ -152,9 +152,6 @@ public class GameView extends BorderPane {
     }
 
     // Getters
-    public Button getBackButton() {
-        return backButton;
-    }
 
     public Button getRollDiceButton() {
         return rollDiceButton;

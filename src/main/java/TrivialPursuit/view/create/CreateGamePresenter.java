@@ -34,6 +34,8 @@ public class CreateGamePresenter {
                 if (!valideerSpelers()) {
                     return;
                 }
+                // nodig om nieuw spel te maken als er al eentje bezig is
+                model.resetSpel();
 
                 for (int i = 0; i < view.getPlayerFields().size(); i++) {
                     TextField playerField = view.getPlayerFields().get(i);

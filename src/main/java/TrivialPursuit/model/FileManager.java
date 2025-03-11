@@ -4,36 +4,30 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TrivialPursuitFileManager {
+public class FileManager {
 
     private static final String FILE_PATH = "data/";
-    private static final String SAVE_FILE_NAME = "savedgame.txt";
 
-    /**
-     * Saves the current game state to a file
-     * 
-     * @param game The game to save
-     * @return true if save was successful, false otherwise
-     */
-    public boolean saveGame(Game game) {
+    public FileManager() {
+        // Create data directory if it doesn't exist
+        File directory = new File(FILE_PATH);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+    }
+
+    public boolean saveGame(String filePath, Game game) {
         try {
-            // Creëer de map als deze niet bestaat
-            File directory = new File(FILE_PATH);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            FileWriter writer = new FileWriter(FILE_PATH + SAVE_FILE_NAME);
+            FileWriter writer = new FileWriter(filePath);
 
             // Sla het aantal spelers op
             List<Speler> spelers = game.getSpelers();
-            writer.write(spelers.size() + "\n"); // Dit is de numPlayers
+            writer.write(spelers.size() + "\n");
 
             // Sla de spelerinformatie op
             for (Speler speler : spelers) {
@@ -63,24 +57,23 @@ public class TrivialPursuitFileManager {
 
     /**
      * Loads a saved game from file
-     * 
+     *
      * @return A new Game object with the saved state, or null if loading failed
      */
-    public Game loadGame() {
+    public Game loadGame(String filePath) {
         try {
-            File saveFile = new File(FILE_PATH + SAVE_FILE_NAME);
-            if (!saveFile.exists()) {
+            File file = new File(filePath);
+            if (!file.exists()) {
                 return null;
             }
 
-            Scanner scanner = new Scanner(saveFile);
+            Scanner scanner = new Scanner(file);
 
             // Create a new game
             Game game = new Game();
 
             // Read number of players
             int numPlayers = Integer.parseInt(scanner.nextLine());
-            System.out.println(game.getSpelers().size());
 
             // Map to store player positions
             Map<Speler, Integer> playerPositions = new HashMap<>();
@@ -113,22 +106,9 @@ public class TrivialPursuitFileManager {
 
             // Set player positions
             for (Map.Entry<Speler, Integer> entry : playerPositions.entrySet()) {
-                // We need to temporarily set positions directly since we don't have a setter
-                // This is a workaround - ideally Game class would have a setSpelerPositie
-                // method
                 Speler speler = entry.getKey();
                 int positie = entry.getValue();
-
-                // Find the player's index
-                int playerIndex = game.getSpelers().indexOf(speler);
-
-                // Set current player to this player
-                while (game.getSpelers().indexOf(game.getHuidigeSpeler()) != playerIndex) {
-                    game.volgendeSpeler();
-                }
-
-                // Move player to position
-                game.verplaatsHuidigeSpeler(positie);
+                game.setSpelerPositie(speler, positie);
             }
 
             // Set current player
@@ -142,10 +122,6 @@ public class TrivialPursuitFileManager {
                 game.volgendeSpeler();
             }
 
-            if (scanner.hasNextLine()) {
-                scanner.nextLine(); // Just read the line to advance
-            }
-
             scanner.close();
             return game;
         } catch (FileNotFoundException e) {
@@ -155,19 +131,6 @@ public class TrivialPursuitFileManager {
             System.err.println("Error loading game: " + e.getMessage());
             return null;
         }
-    }
-
-    public boolean savedGameExists() {
-        File saveFile = new File(FILE_PATH + SAVE_FILE_NAME);
-        return saveFile.exists();
-    }
-
-    public boolean deleteSavedGame() {
-        File saveFile = new File(FILE_PATH + SAVE_FILE_NAME);
-        if (saveFile.exists()) {
-            return saveFile.delete();
-        }
-        return true; // File didn't exist, so deletion "succeeded"
     }
 
     private Kleur getKleurFromString(String kleurNaam) {

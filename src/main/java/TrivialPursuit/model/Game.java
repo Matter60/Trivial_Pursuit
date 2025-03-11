@@ -88,12 +88,14 @@ public class Game {
     }
 
     // Getters
-    public Speler getHuidigeSpeler() {
-        if (spelers.isEmpty()) {
-            return null;
-        }
-        return spelers.get(huidigeSpelerIndex);
-    }
+
+       public Speler getHuidigeSpeler() {
+           if (spelers.isEmpty()) {
+               throw new IllegalStateException("Er zijn geen spelers in het spel!");
+           }
+           return spelers.get(huidigeSpelerIndex);
+       }
+
 
     public int getSpelerPositie(Speler speler) {
         return spelerPosities.getOrDefault(speler, 0);
