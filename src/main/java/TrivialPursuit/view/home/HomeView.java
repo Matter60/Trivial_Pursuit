@@ -54,15 +54,17 @@ public class HomeView extends BorderPane {
         this.setTop(topBar);
         this.setPadding(new Insets(20));
 
+        // Middle section (titel + start button)
         VBox middle = new VBox(10);
         middle.setAlignment(Pos.TOP_CENTER);
         middle.getChildren().addAll(titelLabel, startButton);
         middle.setSpacing(10);
-        middle.setPadding(new Insets(50, 10, 10, 10));
+        middle.setPadding(new Insets(50, 10, 0, 10)); // Verklein de padding aan de onderkant
         this.setCenter(middle);
 
-        leaderboard.setPrefWidth(150);
-        leaderboard.setPrefHeight(80);
+        // Leaderboard
+        leaderboard.setPrefWidth(400);
+        leaderboard.setPrefHeight(400);
 
         leaderboardBox = new VBox(10);
         leaderboardBox.setAlignment(Pos.CENTER);
@@ -70,14 +72,18 @@ public class HomeView extends BorderPane {
         leaderboardBox.setBorder(new Border(
                 new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        leaderboardBox.setMaxWidth(200);
-        leaderboardBox.setPrefWidth(200);
+        leaderboardBox.setMaxWidth(400);
+        leaderboardBox.setPrefWidth(400);
+
+        leaderboardBox.setSpacing(10); // Zorg ervoor dat er niet te veel ruimte is tussen de leaderboard-onderdelen
         BorderPane.setAlignment(leaderboardBox, Pos.CENTER);
+
         leaderboardButton.setAlignment(leaderboardBox.getAlignment());
         leaderboardButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
         this.setBottom(leaderboardBox);
     }
+
 
     private void applyStyles() {
         // Set background color for the entire view

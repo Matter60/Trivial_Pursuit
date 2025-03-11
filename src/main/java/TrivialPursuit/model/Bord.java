@@ -23,7 +23,8 @@ public class Bord {
         };
 
         private Kleur[] veldKleurenArray = {
-                        null, Kleur.GROEN, Kleur.BRUIN, Kleur.ROZE, Kleur.GEEL, Kleur.WIT, Kleur.ROZE, Kleur.ORANJE,
+                        Kleur.WIT, Kleur.GROEN, Kleur.BRUIN, Kleur.ROZE, Kleur.GEEL, Kleur.WIT, Kleur.ROZE,
+                        Kleur.ORANJE,
                         Kleur.BRUIN, Kleur.WIT, Kleur.GROEN, Kleur.BLAUW, Kleur.ORANJE, Kleur.WIT, Kleur.GEEL,
                         Kleur.GROEN, Kleur.BLAUW, Kleur.WIT, Kleur.ORANJE, Kleur.BLAUW, Kleur.GROEN, Kleur.WIT,
                         Kleur.GEEL, Kleur.BRUIN, Kleur.ROZE, Kleur.WIT, Kleur.ROZE, Kleur.BRUIN, Kleur.ORANJE,
@@ -49,7 +50,8 @@ public class Bord {
                 for (int i = 0; i < coordinaten.length; i++) {
                         boolean isStartVeld = (i == 0);
                         boolean isPartjeVeld = (i == 4 || i == 8 || i == 12 || i == 16 || i == 20 || i == 24);
-                        boolean isOpnieuwGooienVeld = (i == 5 || i == 9 || i == 13 || i == 17 || i == 21 || i == 25);
+                        boolean isOpnieuwGooienVeld = (i == 0 || i == 5 || i == 9 || i == 13 || i == 17 || i == 21
+                                        || i == 25);
                         Kleur kleur = veldKleurenArray[i];
 
                         Veld nieuwVeld = new Veld(kleur, isPartjeVeld, isOpnieuwGooienVeld, isStartVeld,
@@ -141,25 +143,31 @@ public class Bord {
                                 positie == 17 || positie == 21 || positie == 25;
         }
 
-        public boolean isGeldigeZet(int vanPositie, int naarPositie, int aantalStappen) {
-                // Controleer of de posities binnen het bord vallen
-                if (vanPositie < 0 || vanPositie >= AANTAL_VELDEN ||
-                                naarPositie < 0 || naarPositie >= AANTAL_VELDEN) {
-                        return false;
-                }
-
-                // Check of de zet mogelijk is via de buren
-                Veld startVeld = velden.get(vanPositie);
-                List<Veld> mogelijkeBestemmingen = getMogelijkeBestemmingen(
-                                startVeld.getX(), startVeld.getY(), aantalStappen);
-
-                return mogelijkeBestemmingen.contains(velden.get(naarPositie));
-        }
-
         public int[] getCoordinaten(int positie) {
                 if (positie >= 0 && positie < coordinaten.length) {
                         return coordinaten[positie];
                 }
                 return null;
+        }
+
+        public List<Integer> getMogelijkeBestemmingsPosities(int startPositie, int aantalZetten) {
+                if (startPositie < 0 || startPositie >= velden.size()) {
+                        return new ArrayList<>();
+                }
+
+                Veld startVeld = velden.get(startPositie);
+                List<Veld> mogelijkeVelden = getMogelijkeBestemmingen(startVeld.getX(), startVeld.getY(), aantalZetten);
+
+                List<Integer> posities = new ArrayList<>();
+                for (Veld veld : mogelijkeVelden) {
+                        for (int i = 0; i < velden.size(); i++) {
+                                if (velden.get(i) == veld) {
+                                        posities.add(i);
+                                        break;
+                                }
+                        }
+                }
+
+                return posities;
         }
 }

@@ -1,14 +1,15 @@
 package TrivialPursuit.model;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class TrivialPursuitController {
+
     private Scoreboard scoreboard;
     private VraagManager vraagManager;
     private Dobbelsteen dobbelsteen;
     private Game game;
     private Bord bord;
+    private TrivialPursuitFileManager fileManager;
 
     public TrivialPursuitController() {
         scoreboard = new Scoreboard();
@@ -16,6 +17,7 @@ public class TrivialPursuitController {
         dobbelsteen = new Dobbelsteen();
         game = new Game();
         bord = new Bord();
+        fileManager = new TrivialPursuitFileManager();
     }
     // implementatie logica van de
     // applicatie ahv methods
@@ -135,4 +137,45 @@ public class TrivialPursuitController {
     public int[] getCoordinaten(int positie) {
         return bord.getCoordinaten(positie);
     }
+
+    public boolean heeftSpelerAllePartjes(Speler speler) {
+        return game.heeftSpelerAllePartjes(speler);
+    }
+
+    public boolean isMiddenVak(int positie) {
+        return game.isMiddenVak(positie);
+    }
+
+    /**
+     * Slaat het huidige spel op
+     * 
+     * @return true als het opslaan is gelukt, anders false
+     */
+    public boolean saveGame() {
+        return fileManager.saveGame(game);
+    }
+
+    /**
+     * Laadt een opgeslagen spel
+     * 
+     * @return true als het laden is gelukt, anders false
+     */
+    public boolean loadGame() {
+        Game loadedGame = fileManager.loadGame();
+        if (loadedGame != null) {
+            this.game = loadedGame;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Controleert of er een opgeslagen spel bestaat
+     * 
+     * @return true als er een opgeslagen spel bestaat, anders false
+     */
+    public boolean savedGameExists() {
+        return fileManager.savedGameExists();
+    }
+
 }

@@ -47,8 +47,7 @@ public class LeaderboardView extends BorderPane {
         VBox leaderboardBox = new VBox(10);
         leaderboardBox.setAlignment(Pos.CENTER);
         leaderboardBox.getChildren().addAll(leaderboardTitel, leaderboard);
-        leaderboardBox.setBorder(new Border(
-                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
         BorderPane.setMargin(leaderboardBox, new Insets(0, 0, 40, 0));
 
         leaderboardBox.setMaxWidth(500);

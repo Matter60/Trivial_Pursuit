@@ -66,27 +66,63 @@ public class CreateGamePresenter {
                 homeView.getScene().getWindow().sizeToScene();
             }
         });
+
     }
 
     private boolean valideerSpelers() {
         int aantalSpelers = 0;
         Set<Kleur> gekozenKleuren = new HashSet<>();
+        Set<String> gekozenNamen = new HashSet<>();
+        boolean heeftFouten = false;
+        StringBuilder foutBericht = new StringBuilder("De volgende fouten zijn gevonden:\n");
 
+        // Controleer eerst of er spelers zijn met zowel naam als kleur
         for (int i = 0; i < view.getPlayerFields().size(); i++) {
             TextField playerField = view.getPlayerFields().get(i);
             ComboBox<Kleur> colorSelector = view.getColorSelectors().get(i);
+            String naam = playerField.getText().trim();
+            Kleur kleur = colorSelector.getValue();
 
-            if (!playerField.getText().trim().isEmpty() && colorSelector.getValue() != null) {
+            // Als er een naam is maar geen kleur, of een kleur maar geen naam
+            if (!naam.isEmpty() && kleur == null) {
+                foutBericht.append("- Speler ").append(i + 1).append(" (").append(naam)
+                        .append(") heeft geen kleur geselecteerd\n");
+                heeftFouten = true;
+            } else if (naam.isEmpty() && kleur != null) {
+                foutBericht.append("- Kleur ").append(kleur).append(" heeft geen spelernaam\n");
+                heeftFouten = true;
+            } else if (!naam.isEmpty() && kleur != null) {
+                // Beide zijn ingevuld, controleer op duplicaten
                 aantalSpelers++;
-                if (!gekozenKleuren.add(colorSelector.getValue())) {
-                    toonFoutmelding("Dubbele kleur", "Elke speler moet een unieke kleur hebben!");
-                    return false;
+
+                // Controleer op dubbele namen
+                if (!gekozenNamen.add(naam)) {
+                    foutBericht.append("- Spelernaam '").append(naam).append("' komt meerdere keren voor\n");
+                    heeftFouten = true;
+                }
+
+                // Controleer op dubbele kleuren
+                if (!gekozenKleuren.add(kleur)) {
+                    foutBericht.append("- Kleur ").append(kleur).append(" is meerdere keren gekozen\n");
+                    heeftFouten = true;
                 }
             }
         }
 
+        // Controleer minimaal aantal spelers
         if (aantalSpelers < 2) {
-            toonFoutmelding("Niet genoeg spelers", "Er moeten minstens 2 spelers zijn om het spel te starten!");
+            foutBericht.append("- Er moeten minstens 2 spelers zijn om het spel te starten\n");
+            heeftFouten = true;
+        }
+
+        // Controleer maximaal aantal spelers (optioneel)
+        if (aantalSpelers > 6) {
+            foutBericht.append("- Er kunnen maximaal 6 spelers deelnemen\n");
+            heeftFouten = true;
+        }
+
+        if (heeftFouten) {
+            toonFoutmelding("Validatiefout", foutBericht.toString());
             return false;
         }
 

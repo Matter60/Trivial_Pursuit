@@ -1,24 +1,24 @@
 package TrivialPursuit.view.game;
 
+import java.util.List;
+
+import TrivialPursuit.model.Kleur;
 import TrivialPursuit.model.Speler;
 import TrivialPursuit.model.TrivialPursuitController;
 import TrivialPursuit.model.Vraag;
-import TrivialPursuit.model.Kleur;
-import TrivialPursuit.view.create.CreateGameView;
 import TrivialPursuit.view.create.CreateGamePresenter;
-
+import TrivialPursuit.view.create.CreateGameView;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import javafx.scene.control.Alert;
-import java.util.List;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class GamePresenter {
+
     private TrivialPursuitController model;
     private GameView view;
     private List<Integer> mogelijkeBestemmingen;
@@ -44,7 +44,8 @@ public class GamePresenter {
     private void addPlayer(Speler speler) {
         // Voeg pion toe
 
-        ImageView pawn = new ImageView(new Image(getClass().getResourceAsStream( "/"+ speler.getSpelerKleur().toString().toLowerCase() + ".png")));
+        ImageView pawn = new ImageView(new Image(
+                getClass().getResourceAsStream("/" + speler.getSpelerKleur().toString().toLowerCase() + ".png")));
         pawn.setFitHeight(40);
         pawn.setFitWidth(40);
         view.getPlayerPawns().put(speler.getNaam(), pawn);
@@ -99,43 +100,56 @@ public class GamePresenter {
             view.getScene().setRoot(createGameView);
             createGameView.getScene().getWindow().sizeToScene();
         });
+
+        view.getSaveGameButton().setOnAction(event -> {
+            if (model.saveGame()) {
+                showAlert("Spel opgeslagen", "Het spel is succesvol opgeslagen.");
+            } else {
+                showAlert("Fout bij opslaan", "Er is een fout opgetreden bij het opslaan van het spel.");
+            }
+        });
     }
 
     private void handleMove(int positie) {
-
         Speler huidigeSpeler = model.getHuidigeSpeler();
         model.verplaatsHuidigeSpeler(positie);
         updatePlayerPosition(huidigeSpeler);
 
         clearPossibleMoves();
 
-        Kleur veldKleur = model.getVeldKleur(positie);
+        if (model.isSpelAfgelopen()) {
+            showAlert(" Gefeliciteerd!",
+                    model.getWinnaar().getNaam() + " Heeft gewonnen");
+            return;
+        }
 
+        // Check voor opnieuw gooien veld
         if (model.isRollAgainVeld(positie)) {
             showAlert("Opnieuw Gooien!", "Je mag nog een keer gooien!");
             view.getRollDiceButton().setDisable(false);
-            return; // Niet naar volgende speler gaan
+            return;
         }
 
-
+        // Check voor vraagveld
+        Kleur veldKleur = model.getVeldKleur(positie);
         if (veldKleur != null) {
-
             List<Vraag> vragen = model.laadVraag(veldKleur);
             if (!vragen.isEmpty()) {
                 huidigeVraag = vragen.get(0);
                 showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
             }
         }
-
     }
 
     private void handleAnswer() {
-        if (huidigeVraag == null)
+        if (huidigeVraag == null) {
             return;
+        }
 
         RadioButton selectedButton = (RadioButton) view.getAnswerGroup().getSelectedToggle();
-        if (selectedButton == null)
+        if (selectedButton == null) {
             return;
+        }
 
         int selectedIndex = -1;
         for (int i = 0; i < huidigeVraag.getMogelijkeAntwoorden().size(); i++) {
@@ -154,8 +168,7 @@ public class GamePresenter {
         boolean partjeVerdiend = model.checkAntwoord(huidigeVraag, selectedIndex, huidigeSpeler, positie);
 
         if (correct) {
-            // Toon alert voor juist antwoord
-           showAlert("Correct!", "Je hebt het juiste antwoord gegeven!");
+            showAlert(" Correct!", "Je hebt het juiste antwoord gegeven!");
 
             if (partjeVerdiend) {
                 // Update UI voor nieuw partje
@@ -164,13 +177,19 @@ public class GamePresenter {
                 // Toon alert voor verdiend partje
                 Kleur veldKleur = model.getVeldKleur(positie);
                 showAlert("Partje Verdiend!",
-                        huidigeSpeler.getNaam() + " heeft een " + veldKleur.toString().toLowerCase()
-                                + " partje verdiend!");
+                        huidigeSpeler.getNaam() + " heeft een "
+                                + veldKleur.toString().toLowerCase() + " partje verdiend!");
+
+                // Als alle partjes verzameld zijn, toon aparte melding
+                if (model.heeftSpelerAllePartjes(huidigeSpeler)) {
+                    showAlert(" Alle Partjes!",
+                            "Je hebt nu alle partjes verzameld!\nGa naar het middenvak om te winnen!");
+                }
             }
         } else {
-            // Toon alert voor fout antwoord
             showAlert("Helaas!",
-                    "Dat was niet het juiste antwoord.\nHet juiste antwoord was: " + huidigeVraag.getJuisteAntwoord());
+                    "Dat was niet het juiste antwoord.\nHet juiste antwoord was: "
+                            + huidigeVraag.getJuisteAntwoord());
         }
 
         volgendeSpeler();
@@ -184,9 +203,11 @@ public class GamePresenter {
 
     private void updateView() {
         Speler huidigeSpeler = model.getHuidigeSpeler();
-        updateCurrentPlayer(
-                huidigeSpeler.getNaam(),
-                huidigeSpeler.getSpelerKleur());
+        if (huidigeSpeler != null) {
+            updateCurrentPlayer(
+                    huidigeSpeler.getNaam(),
+                    huidigeSpeler.getSpelerKleur());
+        }
     }
 
     private void updatePlayerPosition(Speler speler) {
@@ -219,14 +240,22 @@ public class GamePresenter {
 
     private Color convertKleurToColor(Kleur kleur) {
         switch (kleur) {
-            case BLAUW: return Color.BLUE;
-            case GROEN: return Color.GREEN;
-            case GEEL: return Color.YELLOW;
-            case ROZE: return Color.PINK;
-            case ORANJE: return Color.ORANGE;
-            case BRUIN: return Color.BROWN;
-            case WIT: return Color.WHITE;
-            default: return Color.BLACK;
+            case BLAUW:
+                return Color.BLUE;
+            case GROEN:
+                return Color.GREEN;
+            case GEEL:
+                return Color.YELLOW;
+            case ROZE:
+                return Color.PINK;
+            case ORANJE:
+                return Color.ORANGE;
+            case BRUIN:
+                return Color.BROWN;
+            case WIT:
+                return Color.WHITE;
+            default:
+                return Color.BLACK;
         }
     }
 

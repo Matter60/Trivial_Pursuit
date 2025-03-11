@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Speler {
+
     private String naam;
     private Set<Kleur> partjes;
     private Kleur spelerKleur;
