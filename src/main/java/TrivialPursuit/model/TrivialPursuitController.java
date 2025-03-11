@@ -169,13 +169,5 @@ public class TrivialPursuitController {
         return false;
     }
 
-    /**
-     * Controleert of er een opgeslagen spel bestaat
-     * 
-     * @return true als er een opgeslagen spel bestaat, anders false
-     */
-    public boolean savedGameExists() {
-        return fileManager.savedGameExists();
-    }
 
 }
