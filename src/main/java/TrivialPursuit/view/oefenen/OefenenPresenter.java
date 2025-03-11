@@ -3,81 +3,106 @@ package TrivialPursuit.view.oefenen;
 import TrivialPursuit.model.Kleur;
 import TrivialPursuit.model.TrivialPursuitController;
 import TrivialPursuit.model.Vraag;
+import TrivialPursuit.view.home.HomePresenter;
+import TrivialPursuit.view.home.HomeView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Alert.AlertType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class OefenenPresenter {
 
     private OefenenView view;
-    private TrivialPursuitController controller;
     private Vraag huidigeVraag;
+    private TrivialPursuitController model;
 
     // Constructor
-    public OefenenPresenter(TrivialPursuitController controller, OefenenView view) {
+    public OefenenPresenter(TrivialPursuitController model, OefenenView view) {
         this.view = view;
-        this.controller = controller;
+        this.view.getAnswerButton().setOnAction(event -> handleAnswer());
+        this.model = model;
 
-        // Load and show the first question when the presenter is initialized
-        startOefenen();  // No category passed, will randomize it
+        view.getBackButton().setOnAction(event -> {
+            HomeView homeView = new HomeView();
+            HomePresenter homePresenter = new HomePresenter(model, homeView);
+            homePresenter.addWindowEventHandlers();
+            view.getScene().setRoot(homeView);
+            homeView.getScene().getWindow().sizeToScene();
+        });
+
+        startOefenen();
     }
 
-    // Starts the oefenmodus with a random category and question
     public void startOefenen() {
-        // Get a random category from the Kleur enum
-        Kleur randomCategory = getRandomCategory();
+        System.out.println("Beschikbare categorieën:");
+        for (Kleur kleur : Kleur.values()) {
+            System.out.println("- " + kleur);
+        }
 
-        // Load the questions for the random category
-        List<Vraag> vragen = controller.laadVraag(randomCategory);
+        Kleur randomCategory = getRandomCategory(); // Kies een willekeurige categorie
+        System.out.println("Gekozen categorie: " + randomCategory);
+
+        // Laad de vragen voor de geselecteerde categorie
+        List<Vraag> vragen = model.laadVraag(randomCategory);
+        System.out.println("Aantal vragen geladen in categorie '" + randomCategory + "': " + vragen.size());
+
         if (!vragen.isEmpty()) {
-            // Get the first question from the loaded list
-            huidigeVraag = vragen.get(0);
+            // Kies een willekeurige vraag uit de geladen vragen
+            huidigeVraag = vragen.get(new Random().nextInt(vragen.size()));
+            System.out.println("Gekozen vraag: " + huidigeVraag.getVraag());
+
+            // Print de mogelijke antwoorden voor de vraag
             List<String> answers = huidigeVraag.getMogelijkeAntwoorden();
+            for (int i = 0; i < answers.size(); i++) {
+                System.out.println("Antwoord " + (i + 1) + ": " + answers.get(i));
+            }
+
+            // Toon de vraag en antwoorden in de view
             view.showQuestion(huidigeVraag.getVraag(), answers);
         } else {
-            // If no questions are available, show an error
-            showError("Geen vragen beschikbaar in deze categorie.");
+            // Als er geen vragen zijn, toon een foutmelding
+            showError("Geen vragen beschikbaar in deze categorie: " + randomCategory);
         }
     }
 
-    // Gets a random category from the Kleur enum
     private Kleur getRandomCategory() {
-        Kleur[] categories = Kleur.values();  // Get all categories from the Kleur enum
+        Kleur[] categories = Kleur.values();
+        List<Kleur> validCategories = new ArrayList<>();
+        for (Kleur category : categories) {
+            if (!category.name().equals("WIT")) {
+                validCategories.add(category);
+            }
+        }
         Random random = new Random();
-        return categories[random.nextInt(categories.length)];  // Select a random category
+        int randomIndex = random.nextInt(validCategories.size());
+        return validCategories.get(randomIndex);
     }
-
-    // Handles the selected answer when the user clicks the "Beantwoord" button
     public void handleAnswer() {
         if (huidigeVraag != null) {
-            // Get the selected radio button (answer)
             RadioButton selectedButton = (RadioButton) view.getAnswerGroup().getSelectedToggle();
             if (selectedButton != null) {
-                String selectedAnswer = selectedButton.getText();
                 int selectedIndex = view.getAnswerButtons().indexOf(selectedButton);
-
-                // Check if the selected answer is correct
                 boolean correct = huidigeVraag.checkAntwoord(selectedIndex);
-
-                // Show the result in a popup (alert box)
                 showResult(correct);
             }
         }
     }
 
-    // Show a result in a popup
+    // Toont een pop-up met het resultaat en laadt daarna een nieuwe categorie en vraag
     private void showResult(boolean correct) {
         Alert alert = new Alert(correct ? AlertType.INFORMATION : AlertType.ERROR);
         alert.setTitle("Resultaat");
         alert.setHeaderText(correct ? "Correct!" : "Fout!");
         alert.setContentText(correct ? "Goed gedaan!" : "Het juiste antwoord is: " + huidigeVraag.getJuisteAntwoord());
-        alert.showAndWait();
+
+        alert.showAndWait(); // Wacht tot de gebruiker de pop-up sluit
+        startOefenen(); // Laad een nieuwe categorie en vraag
     }
 
-    // Show an error message
+    // Toont een foutmelding
     private void showError(String message) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
@@ -86,8 +111,6 @@ public class OefenenPresenter {
         alert.showAndWait();
     }
 
-    // This method will be used to add event handlers for any window events or actions if needed
     public void addWindowEventHandlers() {
-        // You can add additional event handlers if required
     }
 }

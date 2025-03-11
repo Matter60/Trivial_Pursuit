@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import TrivialPursuit.view.home.HomeView;
+import TrivialPursuit.model.TrivialPursuitController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ public class OefenenView extends BorderPane {
     private ToggleGroup answerGroup;
     private List<RadioButton> answerButtons;
     private Button answerButton;
+    private Button backButton;
+    private TrivialPursuitController controller;
 
     public OefenenView() {
         this.initialiseNodes();
@@ -28,10 +32,23 @@ public class OefenenView extends BorderPane {
 
     private void initialiseNodes() {
         answerButton = new Button("Beantwoord");
-        questionLabel = new Label("");
+        questionLabel = new Label(" ");
 
         answerGroup = new ToggleGroup();
         answerButtons = new ArrayList<>();
+        backButton = new Button("←");
+        backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
+        backButton.setPadding(new Insets(10));
+        backButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
+
+
+        // Voeg de backButton toe aan de layout
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10));
+        grid.setVgap(8);
+        grid.setHgap(10);
+        grid.add(backButton, 0, 0);
+        this.setTop(grid);
 
         for (int i = 0; i < 4; i++) {
             RadioButton rb = new RadioButton("");
@@ -44,36 +61,38 @@ public class OefenenView extends BorderPane {
     }
 
     private void layoutNodes() {
+        // Create a top HBox for the back button
         HBox topBox = new HBox(20);
         topBox.setAlignment(Pos.CENTER_LEFT);
         topBox.setPadding(new Insets(10));
+        topBox.getChildren().add(backButton); // Add backButton to the topBox
         this.setTop(topBox);
 
-        VBox rightBox = new VBox(20);
-        rightBox.setAlignment(Pos.CENTER);
-        rightBox.setPadding(new Insets(20));
-        rightBox.setPrefWidth(300);
-        rightBox.setPrefHeight(600);
+        // Center the vraagBox in the center of the BorderPane
+        this.setCenter(vraagBox);
 
-        rightBox.getChildren().addAll(vraagBox);
-        this.setRight(rightBox);
-
+        // Set alignment and padding for vraagBox
         vraagBox.setAlignment(Pos.CENTER);
+        vraagBox.setPadding(new Insets(20));
+        vraagBox.setMaxWidth(300); // Optional: Set a maximum width for vraagBox
 
+        // Configure questionLabel
         questionLabel.setAlignment(Pos.CENTER);
         questionLabel.setWrapText(true);
-        questionLabel.setMaxWidth(300);
+        questionLabel.setMaxWidth(Double.MAX_VALUE); // Allow label to use maximum available width
 
+        // Add components to vraagBox
         vraagBox.getChildren().add(questionLabel);
         vraagBox.getChildren().addAll(answerButtons);
         vraagBox.getChildren().add(answerButton);
 
-        vraagBox.setAlignment(Pos.CENTER);
-
+        // Initially hide vraagBox
         vraagBox.setVisible(false);
 
+        // Set answerButton to fill available width
         answerButton.setMaxWidth(Double.MAX_VALUE);
     }
+
 
     private void applyStyles() {
         this.setBackground(new Background(new BackgroundFill(Color.DARKCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -91,6 +110,7 @@ public class OefenenView extends BorderPane {
             rb.setFont(Font.font("Georgia", 14));
         });
     }
+
 
     public Label getQuestionLabel() {
         return questionLabel;
@@ -126,5 +146,9 @@ public class OefenenView extends BorderPane {
 
         vraagBox.setVisible(true);
         answerButton.setVisible(true);
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 }
