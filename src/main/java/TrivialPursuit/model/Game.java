@@ -41,7 +41,7 @@ public class Game {
             }
             huidigeSpelerIndex = 0;
         } else {
-            throw new IllegalStateException("Er zijn minimaal 2 spelers nodig om het spel te starten!");
+            throw new IllegalArgumentException("Er zijn minimaal 2 spelers nodig om het spel te starten!");
         }
     }
 
@@ -89,13 +89,12 @@ public class Game {
 
     // Getters
 
-       public Speler getHuidigeSpeler() {
-           if (spelers.isEmpty()) {
-               throw new IllegalStateException("Er zijn geen spelers in het spel!");
-           }
-           return spelers.get(huidigeSpelerIndex);
-       }
-
+    public Speler getHuidigeSpeler() {
+        if (spelers.isEmpty()) {
+            throw new IllegalArgumentException("Er zijn geen spelers in het spel!");
+        }
+        return spelers.get(huidigeSpelerIndex);
+    }
 
     public int getSpelerPositie(Speler speler) {
         return spelerPosities.getOrDefault(speler, 0);

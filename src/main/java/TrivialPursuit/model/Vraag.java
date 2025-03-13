@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vraag {
+
     private String vraag;
     private List<String> mogelijkeAntwoorden;
     private int juisteAntwoordIndex;

@@ -1,14 +1,14 @@
 package TrivialPursuit.view.game;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import TrivialPursuit.model.Kleur;
 import TrivialPursuit.model.Speler;
 import TrivialPursuit.model.TrivialPursuitController;
 import TrivialPursuit.model.Vraag;
-import TrivialPursuit.view.create.CreateGamePresenter;
-import TrivialPursuit.view.create.CreateGameView;
 import TrivialPursuit.view.home.HomePresenter;
 import TrivialPursuit.view.home.HomeView;
 import javafx.scene.control.Alert;
@@ -95,20 +95,19 @@ public class GamePresenter {
         view.getAnswerButton().setOnAction(event -> handleAnswer());
 
         // Terug knop
-//        view.getBackButton().setOnAction(event -> {
-//            CreateGameView createGameView = new CreateGameView();
-//            CreateGamePresenter createGamePresenter = new CreateGamePresenter(model, createGameView);
-//            createGamePresenter.addWindowEventHandlers();
-//            view.getScene().setRoot(createGameView);
-//            createGameView.getScene().getWindow().sizeToScene();
-//        });
-
+        // view.getBackButton().setOnAction(event -> {
+        // CreateGameView createGameView = new CreateGameView();
+        // CreateGamePresenter createGamePresenter = new CreateGamePresenter(model,
+        // createGameView);
+        // createGamePresenter.addWindowEventHandlers();
+        // view.getScene().setRoot(createGameView);
+        // createGameView.getScene().getWindow().sizeToScene();
+        // });
         view.getSaveGameButton().setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Spel opslaan");
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt")
-            );
+                    new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt"));
             fileChooser.setInitialDirectory(new File("data/saves"));
 
             File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
@@ -296,15 +295,18 @@ public class GamePresenter {
     }
 
     public void showQuestion(String question, List<String> answers) {
+        List<String> shuffledAnswers = new ArrayList<>(answers);
+        Collections.shuffle(shuffledAnswers);  // Shuffle only once
+
         view.getQuestionLabel().setText(question);
 
-        for (int i = 0; i < answers.size() && i < view.getAnswerButtons().size(); i++) {
-            view.getAnswerButtons().get(i).setText(answers.get(i));
+        for (int i = 0; i < shuffledAnswers.size() && i < view.getAnswerButtons().size(); i++) {
+            view.getAnswerButtons().get(i).setText(shuffledAnswers.get(i));
             view.getAnswerButtons().get(i).setVisible(true);
         }
 
         // Hide unused radio buttons
-        for (int i = answers.size(); i < view.getAnswerButtons().size(); i++) {
+        for (int i = shuffledAnswers.size(); i < view.getAnswerButtons().size(); i++) {
             view.getAnswerButtons().get(i).setVisible(false);
         }
 
