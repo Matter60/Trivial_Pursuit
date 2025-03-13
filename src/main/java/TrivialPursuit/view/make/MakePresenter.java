@@ -5,12 +5,12 @@ import TrivialPursuit.view.create.CreateGameView;
 import TrivialPursuit.view.create.CreateGamePresenter;
 import TrivialPursuit.view.home.HomeView;
 import TrivialPursuit.view.home.HomePresenter;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import TrivialPursuit.view.game.GameView;
-import TrivialPursuit.view.game.GamePresenter;
 import TrivialPursuit.view.oefenen.OefenenView;
 import TrivialPursuit.view.oefenen.OefenenPresenter;
+import TrivialPursuit.view.game.GameView;
+import TrivialPursuit.view.game.GamePresenter;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 

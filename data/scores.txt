@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 vbjgfjhf|6|0
+=======
+>>>>>>> 3140efa785a2310b30a5903efe6075324f36ccb4
 josssssss|1|0
 Tobi|2000|0
 ljhlh|1|0
+kaassss|4|0
 testjeeeeeeeeee2|11|0
 Ray|5|0
 mlkj|3|0
 hjlh|1|0
-jos|7|0
+jos|11|0
 Matter|20|0
 Test|3|0
 jos2|3|0
