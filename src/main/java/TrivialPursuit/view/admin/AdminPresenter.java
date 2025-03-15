@@ -21,6 +21,7 @@ public class AdminPresenter {
     }
 
     private void addEventHandlers() {
+
         view.getSubmitButton().setOnAction(event -> {
             // Valideer en verzamel alle input
             String vraagTekst = view.getVraagInput().getText();
@@ -53,7 +54,6 @@ public class AdminPresenter {
     }
 
     public void addWindowEventHandlers() {
-        // Optioneel: window-gerelateerde event handlers
     }
 
     private boolean isValidInput(String vraag, String ant1, String ant2, String ant3, String ant4, String thema) {

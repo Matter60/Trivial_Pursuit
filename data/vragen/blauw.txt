@@ -3,3 +3,28 @@ Welke oceaan ligt ten westen van Europa?|Atlantische Oceaan|Stille Oceaan|Indisc
 In welk land ligt de Kilimanjaro?|Tanzania|Kenia|Ethiopië|Uganda|0
 Wat is de langste rivier ter wereld?|Nijl|Amazone|Mississippi|Yangtze|0
 Welk continent ligt er boven Zuid-Amerika|Noord-Amerika|Europa|Azië|Afrika|0
+Welke woestijn is de grootste ter wereld?|Sahara|Gobi|Antarctica|Kalahari|2
+Wat is de hoofdstad van Canada?|Ottawa|Toronto|Vancouver|Montreal|0
+Welk land heeft de meeste inwoners?|China|India|Verenigde Staten|Indonesië|1
+Welke berg is de hoogste ter wereld?|Mount Everest|K2|Kilimanjaro|Denali|0
+Wat is het grootste eiland ter wereld?|Australië|Groenland|Madagaskar|Borneo|1
+Welk land heeft de langste kustlijn ter wereld?|Canada|Verenigde Staten|Rusland|Australië|0
+Wat is de kleinste onafhankelijke staat ter wereld?|Monaco|San Marino|Vaticaanstad|Liechtenstein|2
+Welke rivier stroomt door Parijs?|Seine|Rijn|Theems|Donau|0
+Welke stad wordt de ‘Big Apple’ genoemd?|Los Angeles|Chicago|New York|San Francisco|2
+Wat is de hoofdstad van Australië?|Sydney|Melbourne|Canberra|Brisbane|2
+Welk land heeft de meeste buurlanden?|China|Rusland|Brazilië|Duitsland|0
+Welke oceaan is de grootste?|Atlantische Oceaan|Indische Oceaan|Stille Oceaan|Noordelijke IJszee|2
+Wat is de hoofdstad van Zuid-Afrika?|Kaapstad|Johannesburg|Pretoria|Durban|2
+Welke Europese stad wordt de 'Lichtstad' genoemd?|Londen|Parijs|Rome|Berlijn|1
+Welk meer is het diepste ter wereld?|Baikalmeer|Victoriameer|Kaspische Zee|Tanganjikameer|0
+Welke stad is de hoofdstad van Brazilië?|Rio de Janeiro|São Paulo|Brasília|Salvador|2
+Wat is de langste bergketen ter wereld?|Rocky Mountains|Himalaya|Andes|Alpen|2
+Welk land ligt NIET in Scandinavië?|Noorwegen|Zweden|Denemarken|Finland|3
+Wat is het kleinste continent?|Europa|Australië|Antarctica|Zuid-Amerika|1
+Welke Amerikaanse staat heeft de langste kustlijn?|Florida|Alaska|Californië|Texas|1
+Wat is de grootste stad ter wereld op basis van bevolking?|Tokyo|Shanghai|Delhi|Mexico-Stad|0
+Welke rivier is de langste van Europa?|Donau|Wolga|Rijn|Seine|1
+In welk land ligt de Grand Canyon?|Canada|Mexico|Verenigde Staten|Argentinië|2
+Welke zee ligt tussen het Verenigd Koninkrijk en Nederland?|Noordzee|Middellandse Zee|Oostzee|Zwarte Zee|0
+Welk land heeft de hoogste gemiddelde hoogte?|Zwitserland|Tibet (China)|Nepal|Bhutan|3

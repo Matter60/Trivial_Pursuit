@@ -2,4 +2,19 @@ Welk land won het WK voetbal in 2010?|Spanje|Nederland|Duitsland|Brazilië|0
 Hoeveel spelers heeft een basketbalteam op het veld?|5|6|7|4|0
 In welke stad vonden de eerste moderne Olympische Spelen plaats?|Athene|Parijs|Londen|Rome|0
 Wie is de meest succesvolle F1-coureur aller tijden?|Lewis Hamilton|Michael Schumacher|Sebastian Vettel|Max Verstappen|0
+Hoeveel ringen heeft het Olympische logo?|5|4|6|3|0
+Welke sport wordt gespeeld op Wimbledon?|Tennis|Golf|Cricket|Rugby|0
+Welke club heeft de meeste Champions League-titels?|Real Madrid|FC Barcelona|Manchester United|AC Milan|0
+Wie won de Tour de France het vaakst?|Eddy Merckx|Lance Armstrong|Miguel Indurain|Chris Froome|0
+Hoeveel punten is een try waard in rugby?|5|3|7|6|0
+Welke sport beoefende Michael Phelps?|Zwemmen|Atletiek|Tennis|Turnen|0
+Wat is de maximale score bij een beurt in bowling?|300|200|150|400|0
+Hoeveel minuten duurt een reguliere voetbalwedstrijd?|90|80|100|75|0
+Welke sport wordt gespeeld met een shuttle?|Badminton|Squash|Tennis|Tafeltennis|0
+Wie heeft de meeste Grand Slam-titels in het herentennis?|Novak Djokovic|Roger Federer|Rafael Nadal|Pete Sampras|0
+In welke autosportklasse wordt de 24 uur van Le Mans gereden?|Endurance|Formule 1|Rally|NASCAR|0
+Hoeveel spelers staan op het veld bij een honkbalteam?|9|8|10|7|0
+Welke schaatser won de Elfstedentocht in 1997?|Henk Angenent|Evert van Benthem|Piet Kleine|Reinier Paping|0
+Wat is de bijnaam van dartslegende Phil Taylor?|The Power|The Machine|The Iceman|The Rocket|0
+Welke sport wordt gespeeld met een ijshockeypuck?|IJshockey|Curling|Lacrosse|Schaatsen|0
 

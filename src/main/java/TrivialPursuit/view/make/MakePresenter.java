@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class MakePresenter {
 
@@ -44,24 +45,23 @@ public class MakePresenter {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Spel laden");
                 fileChooser.getExtensionFilters().addAll(
-                        new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt")
-                );
+                        new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt"));
                 fileChooser.setInitialDirectory(new File("data/saves"));
 
                 File selectedFile = fileChooser.showOpenDialog(view.getScene().getWindow());
                 if (selectedFile != null) {
-                    if (model.loadGame(selectedFile.getAbsolutePath())) {
-                        GameView gameView = new GameView();
-                        GamePresenter gamePresenter = new GamePresenter(model, gameView);
-                        gamePresenter.addWindowEventHandlers();
-                        view.getScene().setRoot(gameView);
-                        gameView.getScene().getWindow().sizeToScene();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Fout bij laden");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Er is een fout opgetreden bij het laden van het spel.");
-                        alert.showAndWait();
+                    try {
+                        if (model.loadGame(selectedFile.getAbsolutePath())) {
+                            GameView gameView = new GameView();
+                            GamePresenter gamePresenter = new GamePresenter(model, gameView);
+                            gamePresenter.addWindowEventHandlers();
+                            view.getScene().setRoot(gameView);
+                            gameView.getScene().getWindow().sizeToScene();
+                        } else {
+                            toonFoutmelding("Fout bij laden", "Er is een fout opgetreden bij het laden van het spel.");
+                        }
+                    } catch (FileNotFoundException e) {
+                        toonFoutmelding("Fout bij laden", "Het spel bestand is niet gevonden.");
                     }
                 }
             }
@@ -88,5 +88,16 @@ public class MakePresenter {
     }
 
     public void addWindowEventHandlers() {
+    }
+
+    // Helper methode voor het tonen van foutmeldingen
+    private void toonFoutmelding(String titel, String bericht) {
+        System.err.println("[FOUT] " + titel + ": " + bericht);
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titel);
+        alert.setHeaderText(null);
+        alert.setContentText(bericht);
+        alert.showAndWait();
     }
 }

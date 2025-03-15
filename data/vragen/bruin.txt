@@ -2,3 +2,18 @@ Wie schilderde de Mona Lisa?|Leonardo da Vinci|Michelangelo|Raphael|Vincent van 
 Wie schreef 'Romeo en Julia'?|William Shakespeare|Charles Dickens|Jane Austen|Mark Twain|0
 Welke Nederlandse schilder sneed zijn oor af?|Vincent van Gogh|Rembrandt|Johannes Vermeer|Frans Hals|0
 Wie schreef 'Het Dagboek van Anne Frank'?|Anne Frank|Otto Frank|Margot Frank|Edith Frank|0
+Wie schilderde 'De Sterrennacht'?|Vincent van Gogh|Claude Monet|Pablo Picasso|Salvador Dalí|0
+Welke beroemde Griekse dichter schreef de Ilias en de Odyssee?|Homerus|Socrates|Plato|Aristoteles|0
+Wie schilderde het plafond van de Sixtijnse Kapel?|Michelangelo|Leonardo da Vinci|Raphael|Donatello|0
+Welk boek begint met de zin: "Alle gelukkige gezinnen lijken op elkaar, maar elk ongelukkig gezin is ongelukkig op zijn eigen manier."?|Anna Karenina|Oorlog en Vrede|Madame Bovary|De Gebroeders Karamazov|0
+Wie schreef 'De Vreemdeling'?|Albert Camus|Jean-Paul Sartre|Franz Kafka|Friedrich Nietzsche|0
+Welke Nederlandse schilder staat bekend om zijn schilderijen met melkmeisjes en binnenhuizen?|Johannes Vermeer|Rembrandt|Frans Hals|Piet Mondriaan|0
+Wie is de auteur van '1984' en 'Animal Farm'?|George Orwell|Aldous Huxley|Ray Bradbury|J.R.R. Tolkien|0
+Welke kunststroming werd mede opgericht door Pablo Picasso en Georges Braque?|Kubisme|Surrealisme|Impressionisme|Expressionisme|0
+Wie schilderde 'De Schreeuw'?|Edvard Munch|Gustav Klimt|Paul Cézanne|Henri Matisse|0
+Welke Russische schrijver schreef 'Misdaad en Straf'?|Dostojevski|Tolstoj|Tsjechov|Gogol|0
+Wie schilderde 'De Nachtwacht'?|Rembrandt|Johannes Vermeer|Peter Paul Rubens|Jan Steen|0
+Welke literaire beweging is bekend om het gebruik van absurde en surrealistische elementen, zoals in het werk van Samuel Beckett?|Existentialisme|Modernisme|Dadaïsme|Surrealisme|3
+Wie schreef 'De kleine prins'?|Antoine de Saint-Exupéry|Victor Hugo|Jules Verne|Alexandre Dumas|0
+Welke Italiaanse dichter schreef 'De Goddelijke Komedie'?|Dante Alighieri|Giovanni Boccaccio|Petrarca|Machiavelli|0
+Wie is de schrijver van de Harry Potter-boeken?|J.K. Rowling|Suzanne Collins|Stephen King|J.R.R. Tolkien|0

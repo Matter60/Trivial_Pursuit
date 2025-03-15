@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CreateGamePresenter {
+
     private TrivialPursuitController model;
     private CreateGameView view;
 
@@ -37,24 +38,27 @@ public class CreateGamePresenter {
                 // nodig om nieuw spel te maken als er al eentje bezig is
                 model.resetSpel();
 
-                for (int i = 0; i < view.getPlayerFields().size(); i++) {
-                    TextField playerField = view.getPlayerFields().get(i);
-                    ComboBox<Kleur> colorSelector = view.getColorSelectors().get(i);
+                for (int i = 0; i < view.getSpelerVelden().size(); i++) {
+                    TextField spelerVeld = view.getSpelerVelden().get(i);
+                    ComboBox<Kleur> kleurSelector = view.getKleurSelectors().get(i);
 
-                    if (!playerField.getText().trim().isEmpty() && colorSelector.getValue() != null) {
-                        model.voegSpelerToe(playerField.getText().trim(), colorSelector.getValue());
+                    if (!spelerVeld.getText().trim().isEmpty() && kleurSelector.getValue() != null) {
+                        model.voegSpelerToe(spelerVeld.getText().trim(), kleurSelector.getValue());
                     }
                 }
 
-                model.startSpel();
+                try {
+                    model.startSpel();
 
-                GameView gameView = new GameView();
-                GamePresenter gamePresenter = new GamePresenter(model, gameView);
-                gamePresenter.addWindowEventHandlers();
-                view.getScene().setRoot(gameView);
-                gameView.prefWidthProperty().set(1200);
-                gameView.prefHeightProperty().set(900);
-
+                    GameView gameView = new GameView();
+                    GamePresenter gamePresenter = new GamePresenter(model, gameView);
+                    gamePresenter.addWindowEventHandlers();
+                    view.getScene().setRoot(gameView);
+                    gameView.prefWidthProperty().set(1200);
+                    gameView.prefHeightProperty().set(900);
+                } catch (IllegalArgumentException e) {
+                    toonFoutmelding("Fout bij starten spel", e.getMessage());
+                }
             }
         });
 
@@ -79,11 +83,11 @@ public class CreateGamePresenter {
         StringBuilder foutBericht = new StringBuilder("De volgende fouten zijn gevonden:\n");
 
         // Controleer eerst of er spelers zijn met zowel naam als kleur
-        for (int i = 0; i < view.getPlayerFields().size(); i++) {
-            TextField playerField = view.getPlayerFields().get(i);
-            ComboBox<Kleur> colorSelector = view.getColorSelectors().get(i);
-            String naam = playerField.getText().trim();
-            Kleur kleur = colorSelector.getValue();
+        for (int i = 0; i < view.getSpelerVelden().size(); i++) {
+            TextField spelerVeld = view.getSpelerVelden().get(i);
+            ComboBox<Kleur> kleurSelector = view.getKleurSelectors().get(i);
+            String naam = spelerVeld.getText().trim();
+            Kleur kleur = kleurSelector.getValue();
 
             // Als er een naam is maar geen kleur, of een kleur maar geen naam
             if (!naam.isEmpty() && kleur == null) {
@@ -131,7 +135,7 @@ public class CreateGamePresenter {
         return true;
     }
 
-    private void toonFoutmelding(String titel, String bericht) {
+    public void toonFoutmelding(String titel, String bericht) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titel);
         alert.setHeaderText(null);

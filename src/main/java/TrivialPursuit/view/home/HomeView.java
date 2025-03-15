@@ -43,7 +43,6 @@ public class HomeView extends BorderPane {
         leaderboard = new ListView<>();
 
         leaderboardTitel = new Label("Leaderboard");
-        leaderboardTitel.setFont(Font.font("Georgia", FontWeight.BOLD, 16)); // Set font to Georgia
     }
 
     private void layoutNodes() {
@@ -61,8 +60,6 @@ public class HomeView extends BorderPane {
         middle.setSpacing(10);
         middle.setPadding(new Insets(50, 10, 20, 10)); // Verklein de padding aan de onderkant
         this.setCenter(middle);
-
-
 
         // Leaderboard
         leaderboard.setPrefWidth(400);
@@ -85,7 +82,6 @@ public class HomeView extends BorderPane {
 
         this.setBottom(leaderboardBox);
     }
-
 
     private void applyStyles() {
         // Set background color for the entire view

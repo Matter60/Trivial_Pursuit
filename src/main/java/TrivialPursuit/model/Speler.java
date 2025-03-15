@@ -10,11 +10,13 @@ public class Speler {
     private String naam;
     private Set<Kleur> partjes;
     private Kleur spelerKleur;
+    private int positie;
 
     public Speler(String naam, Kleur kleur) {
         this.naam = naam;
         this.spelerKleur = kleur;
         this.partjes = new HashSet<>();
+        this.positie = 0; // Start op positie 0
     }
 
     public String getNaam() {
@@ -40,6 +42,14 @@ public class Speler {
 
     public List<Kleur> getPartjes() {
         return new ArrayList<>(partjes);
+    }
+
+    public int getPositie() {
+        return positie;
+    }
+
+    public void setPositie(int positie) {
+        this.positie = positie;
     }
 
 }

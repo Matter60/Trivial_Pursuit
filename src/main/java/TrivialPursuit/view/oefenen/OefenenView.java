@@ -1,28 +1,33 @@
 package TrivialPursuit.view.oefenen;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-import TrivialPursuit.view.home.HomeView;
-import TrivialPursuit.model.TrivialPursuitController;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class OefenenView extends BorderPane {
-    private Label questionLabel;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
+public class OefenenView extends GridPane {
+
+    private Label vraagLabel;
     private VBox vraagBox;
-    private ToggleGroup answerGroup;
-    private List<RadioButton> answerButtons;
-    private Button answerButton;
+    private ToggleGroup antwoorGroep;
+    private List<RadioButton> AntwoordButtons;
+    private Button AntwoordButton;
     private Button backButton;
-    private TrivialPursuitController controller;
+    private Label titelLabel;
 
     public OefenenView() {
         this.initialiseNodes();
@@ -31,124 +36,114 @@ public class OefenenView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        answerButton = new Button("Beantwoord");
-        questionLabel = new Label(" ");
+        this.setPadding(new Insets(20));
+        this.setHgap(10);
+        this.setVgap(10);
 
-        answerGroup = new ToggleGroup();
-        answerButtons = new ArrayList<>();
+        AntwoordButton = new Button("Beantwoord");
+        vraagLabel = new Label(" ");
+
+        antwoorGroep = new ToggleGroup();
+        AntwoordButtons = new ArrayList<>();
+        titelLabel = new Label("Oefenen");
         backButton = new Button("←");
         backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
         backButton.setPadding(new Insets(10));
         backButton.setStyle("-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;");
 
-
-        // Voeg de backButton toe aan de layout
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setVgap(8);
-        grid.setHgap(10);
-        grid.add(backButton, 0, 0);
-        this.setTop(grid);
-
         for (int i = 0; i < 4; i++) {
             RadioButton rb = new RadioButton("");
-            rb.setToggleGroup(answerGroup);
+            rb.setToggleGroup(antwoorGroep);
             rb.setWrapText(true);
-            answerButtons.add(rb);
+            AntwoordButtons.add(rb);
         }
 
         vraagBox = new VBox(10);
     }
 
     private void layoutNodes() {
-        // Create a top HBox for the back button
-        HBox topBox = new HBox(20);
+        // Back button
+        HBox topBox = new HBox();
         topBox.setAlignment(Pos.CENTER_LEFT);
-        topBox.setPadding(new Insets(10));
-        topBox.getChildren().add(backButton); // Add backButton to the topBox
-        this.setTop(topBox);
+        topBox.getChildren().add(backButton);
+        this.add(topBox, 0, 0);
 
-        // Center the vraagBox in the center of the BorderPane
-        this.setCenter(vraagBox);
-
-        // Set alignment and padding for vraagBox
+        // Centered vraagBox
         vraagBox.setAlignment(Pos.CENTER);
         vraagBox.setPadding(new Insets(20));
-        vraagBox.setMaxWidth(300); // Optional: Set a maximum width for vraagBox
+        vraagBox.setMaxWidth(300);
 
-        // Configure questionLabel
-        questionLabel.setAlignment(Pos.CENTER);
-        questionLabel.setWrapText(true);
-        questionLabel.setMaxWidth(Double.MAX_VALUE); // Allow label to use maximum available width
+        vraagLabel.setAlignment(Pos.CENTER);
+        vraagLabel.setWrapText(true);
+        vraagLabel.setMaxWidth(Double.MAX_VALUE);
 
-        // Add components to vraagBox
-        vraagBox.getChildren().add(questionLabel);
-        vraagBox.getChildren().addAll(answerButtons);
-        vraagBox.getChildren().add(answerButton);
+        titelLabel.setAlignment(Pos.CENTER);
 
-        // Initially hide vraagBox
+        VBox radioButtonsBox = new VBox(10);
+        radioButtonsBox.setAlignment(Pos.CENTER_LEFT);
+        radioButtonsBox.getChildren().addAll(AntwoordButtons);
+
+        vraagBox.getChildren().addAll(titelLabel, vraagLabel, radioButtonsBox, AntwoordButton);
         vraagBox.setVisible(false);
 
-        // Set answerButton to fill available width
-        answerButton.setMaxWidth(Double.MAX_VALUE);
+        this.add(vraagBox, 0, 1);
     }
-
 
     private void applyStyles() {
         this.setBackground(new Background(new BackgroundFill(Color.DARKCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
 
         String buttonStyle = "-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;";
-        answerButton.setStyle(buttonStyle);
+        AntwoordButton.setStyle(buttonStyle);
+        AntwoordButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        vraagLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        titelLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 30));
 
-        answerButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        questionLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-
-        questionLabel.setTextFill(Color.WHITE);
-
-        answerButtons.forEach(rb -> {
+        vraagLabel.setTextFill(Color.WHITE);
+        titelLabel.setTextFill(Color.WHITE);
+        AntwoordButtons.forEach(rb -> {
             rb.setTextFill(Color.WHITE);
             rb.setFont(Font.font("Georgia", 14));
         });
     }
 
-
-    public Label getQuestionLabel() {
-        return questionLabel;
+    public void setQuestionText(String text) {
+        vraagLabel.setText(text);
     }
 
-    public List<RadioButton> getAnswerButtons() {
-        return answerButtons;
-    }
-
-    public Button getAnswerButton() {
-        return answerButton;
-    }
-
-    public VBox getVraagBox() {
-        return vraagBox;
-    }
-
-    public ToggleGroup getAnswerGroup() {
-        return answerGroup;
-    }
-
-    public void showQuestion(String vraag, List<String> answers) {
-        questionLabel.setText(vraag);
-
-        for (int i = 0; i < answers.size(); i++) {
-            answerButtons.get(i).setText(answers.get(i));
-            answerButtons.get(i).setVisible(true);
+    public void setAnswerButtonText(int index, String text) {
+        if (index >= 0 && index < AntwoordButtons.size()) {
+            AntwoordButtons.get(index).setText(text);
         }
+    }
 
-        for (int i = answers.size(); i < answerButtons.size(); i++) {
-            answerButtons.get(i).setVisible(false);
+    public void setAnswerButtonVisible(int index, boolean visible) {
+        if (index >= 0 && index < AntwoordButtons.size()) {
+            AntwoordButtons.get(index).setVisible(visible);
         }
+    }
 
-        vraagBox.setVisible(true);
-        answerButton.setVisible(true);
+    public void setVraagBoxVisible(boolean visible) {
+        vraagBox.setVisible(visible);
+    }
+
+    public void setAnswerButtonVisible(boolean visible) {
+        AntwoordButton.setVisible(visible);
     }
 
     public Button getBackButton() {
         return backButton;
     }
+
+    public List<RadioButton> getAntwoordButtons() {
+        return AntwoordButtons;
+    }
+
+    public Button getAntwoordButton() {
+        return AntwoordButton;
+    }
+
+    public ToggleGroup getAntwoorGroep() {
+        return antwoorGroep;
+    }
+
 }

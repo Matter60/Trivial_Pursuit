@@ -12,8 +12,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class VraagManager {
+
     private static final String VRAAG_DIR = "data/vragen/";
 
+    // Voeg een vraag toe aan de categorie
     public void addVraag(Vraag vraag) {
         String filename = VRAAG_DIR + vraag.getCategorie().name().toLowerCase() + ".txt";
         try {
@@ -31,11 +33,12 @@ public class VraagManager {
                 bw.write(sb.toString());
             }
         } catch (IOException e) {
-            System.out.println("Fout bij het opslaan van de vraag: " + e.getMessage());
+            System.err.println("Fout bij het opslaan van de vraag: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    // Laad vragen voor een bepaalde categorie
     public List<Vraag> laadVraag(Kleur category) {
         List<Vraag> vragen = new ArrayList<>();
         String filename = VRAAG_DIR + category.name().toLowerCase() + ".txt";
@@ -52,16 +55,22 @@ public class VraagManager {
                     }
                     int correctIndex = Integer.parseInt(parts[parts.length - 1]);
                     vragen.add(new Vraag(question, answers, correctIndex, category));
+                } else {
+                    System.err.println("Ongeldig vraagformaat: " + line);
                 }
             }
+        } catch (FileNotFoundException e) {
+            // Dit is normaal als er nog geen vragen zijn voor deze categorie
+            System.err.println("Geen vragen gevonden voor categorie " + category + ": " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Ongeldig antwoordindex in vraagbestand: " + e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
-            if (!(e instanceof FileNotFoundException)) {
-                System.out.println("Fout bij het laden van vragen: " + e.getMessage());
-                e.printStackTrace();
-            }
+            System.err.println("Fout bij het laden van vragen: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        //random vraag
+        // random vraag
         Collections.shuffle(vragen);
 
         return vragen;

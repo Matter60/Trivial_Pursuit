@@ -16,7 +16,7 @@ public class MakeView extends BorderPane {
     private Button createGameButton;
     private Button laadGameButton;
     private Label titelLabel;
-    private Button oefenGameButton; // Correcte naamgeving
+    private Button oefenGameButton;
 
     public MakeView() {
         this.initialiseNodes();

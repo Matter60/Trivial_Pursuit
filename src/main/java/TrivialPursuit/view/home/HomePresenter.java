@@ -23,7 +23,7 @@ public class HomePresenter {
     private TrivialPursuitController model;
     private HomeView view;
 
-    // Define admin credentials
+    // ADMIN CREDS NIET VEILIG
     private static final String ADMIN_USERNAME = "Matter";
     private static final String ADMIN_PASSWORD = "123";
 
@@ -82,9 +82,9 @@ public class HomePresenter {
             AdminPopup adminPopup = new AdminPopup();
             Optional<Pair<String, String>> result = adminPopup.showAndWait();
             result.ifPresent(usernamePassword -> {
-                // Validate username and password
+               // Valideer Username and pass
                 if (ADMIN_USERNAME.equals(usernamePassword.getKey()) && ADMIN_PASSWORD.equals(usernamePassword.getValue())) {
-                    // On successful login, show QuestionView
+                    // On success show QuestionView
 
                     AdminView adminView = new AdminView();
                     AdminPresenter adminPresenter = new AdminPresenter(model, adminView);
@@ -92,7 +92,6 @@ public class HomePresenter {
                     view.getScene().setRoot(adminView);
                     adminView.getScene().getWindow().sizeToScene();
                 } else {
-                    // Handle invalid login (e.g., show an alert)
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password.");
                     alert.showAndWait();
                 }
@@ -117,7 +116,6 @@ public class HomePresenter {
     }
 
     private void updateView() {
-        // Vult de view met data uit model
     }
 
     public void addWindowEventHandlers() {

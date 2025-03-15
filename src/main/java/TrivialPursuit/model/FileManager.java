@@ -50,21 +50,15 @@ public class FileManager {
             writer.close();
             return true;
         } catch (IOException e) {
-            System.err.println("Error saving game: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Fout bij het opslaan van het spel", e);
         }
     }
 
-    /**
-     * Loads a saved game from file
-     *
-     * @return A new Game object with the saved state, or null if loading failed
-     */
-    public Game loadGame(String filePath) {
+    public Game loadGame(String filePath) throws FileNotFoundException {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
-                return null;
+                throw new FileNotFoundException("Bestand niet gevonden: " + filePath);
             }
 
             Scanner scanner = new Scanner(file);
@@ -113,11 +107,11 @@ public class FileManager {
 
             // Set current player
             int currentPlayerIndex = Integer.parseInt(scanner.nextLine());
-            // Reset to first player
+            // Reset naar eerste speler
             while (game.getSpelers().indexOf(game.getHuidigeSpeler()) != 0) {
                 game.volgendeSpeler();
             }
-            // Move to correct player
+            // Ga naar de correcte speler
             for (int i = 0; i < currentPlayerIndex; i++) {
                 game.volgendeSpeler();
             }
@@ -125,16 +119,18 @@ public class FileManager {
             scanner.close();
             return game;
         } catch (FileNotFoundException e) {
-            System.err.println("Save file not found: " + e.getMessage());
-            return null;
+            throw new FileNotFoundException("Bestand niet gevonden: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Ongeldig bestandsformaat: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Ongeldige gegevens in bestand: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error loading game: " + e.getMessage());
-            return null;
+            throw new RuntimeException("Fout bij het laden van het spel: " + e.getMessage(), e);
         }
     }
 
     private Kleur getKleurFromString(String kleurNaam) {
-        // Custom method to convert color string to Kleur enum
+        // Methode om kleurnaam om te zetten naar Kleur enum
         switch (kleurNaam.toLowerCase()) {
             case "blauw":
                 return Kleur.BLAUW;

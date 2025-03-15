@@ -1,6 +1,7 @@
 package TrivialPursuit.model;
 
 import java.util.List;
+import java.io.FileNotFoundException;
 
 public class TrivialPursuitController {
 
@@ -89,11 +90,6 @@ public class TrivialPursuitController {
         return game.isSpelAfgelopen();
     }
 
-    // Nieuwe methodes voor spellogica
-    public List<Integer> getMogelijkeBestemmingen(int worp) {
-        return game.getMogelijkeBestemmingen(worp);
-    }
-
     public Kleur getVeldKleur(int positie) {
         return game.getVeldKleur(positie);
     }
@@ -115,23 +111,7 @@ public class TrivialPursuitController {
     }
 
     public boolean checkAntwoord(Vraag vraag, int selectedIndex, Speler speler, int positie) {
-        boolean correct = vraag.checkAntwoord(selectedIndex);
-
-        if (correct) {
-            // Voeg score toe voor juist antwoord
-            addScore(speler.getNaam());
-
-            if (isPartjeVeld(positie)) {
-                // Check eerst of de speler het partje al heeft
-                Kleur veldKleur = getVeldKleur(positie);
-                if (!speler.heeftPartje(veldKleur)) {
-                    // Geef partje aan speler
-                    geefPartje(speler, veldKleur);
-                    return true;
-                }
-            }
-        }
-        return false;
+        return game.checkAntwoord(vraag, selectedIndex, speler, positie);
     }
 
     public int[] getCoordinaten(int positie) {
@@ -162,17 +142,28 @@ public class TrivialPursuitController {
      * @param filePath het pad van het spel dat moet worden geladen
      * @return true als het laden is gelukt, anders false
      */
-    public boolean loadGame(String filePath) {
-        Game loadedGame = fileManager.loadGame(filePath);
-        if (loadedGame != null) {
-            this.game = loadedGame;
-            return true;
+    public boolean loadGame(String filePath) throws FileNotFoundException {
+        try {
+            Game loadedGame = fileManager.loadGame(filePath);
+            if (loadedGame != null) {
+                this.game = loadedGame;
+                return true;
+            }
+            return false;
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("Bestand niet gevonden: " + e.getMessage());
         }
-        return false;
     }
 
     public void resetSpel() {
         this.game = new Game();
+    }
+
+    // Bereken bereikbare veldindices na dobbelsteenworp
+    // Bijvoorbeeld: berekenBereikbareVeldIndices(3) -> [4, 8, 12] (bereikbare
+    // velden na 3 stappen)
+    public List<Integer> berekenBereikbareVeldIndices(int worp) {
+        return game.berekenBereikbareVeldIndices(worp);
     }
 
 }

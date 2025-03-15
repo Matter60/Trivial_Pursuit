@@ -3,6 +3,7 @@ package TrivialPursuit.model;
 import java.util.List;
 
 public class Veld {
+
     private Kleur kleur;
     private boolean isPartjeVeld;
     private boolean isOpnieuwGooienVeld;
@@ -21,34 +22,55 @@ public class Veld {
         this.veldenDieErnaastLiggen = veldenDieErnaastLiggen;
     }
 
+    // Stel de buren van het veld in
     public void setVeldenDieErnaastLiggen(List<Veld> buren) {
         this.veldenDieErnaastLiggen = buren;
     }
 
+    // Haal de buren van het veld op
     public List<Veld> getVeldenDieErnaastLiggen() {
         return veldenDieErnaastLiggen;
     }
 
-    public Kleur getKleur() { return kleur; }
-    public boolean isPartjeVeld() { return isPartjeVeld; }
-    public boolean isOpnieuwGooienVeld() { return isOpnieuwGooienVeld; }
-    public boolean isStartVeld() { return isStartVeld; }
-    public int getX() { return x; }
-    public int getY() { return y; }
+    // Haal de kleur van het veld op
+    public Kleur getKleur() {
+        return kleur;
+    }
 
+    // Controleer of het veld een partjeveld is
+    public boolean isPartjeVeld() {
+        return isPartjeVeld;
+    }
+
+    // Controleer of het veld een opnieuw gooienveld is
+    public boolean isOpnieuwGooienVeld() {
+        return isOpnieuwGooienVeld;
+    }
+
+    // Controleer of het veld een startveld is
+    public boolean isStartVeld() {
+        return isStartVeld;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     @Override
     public String toString() {
-        return "Veld{" +
-                "x=" + x +
-                ", y=" + y +
-                ", kleur=" + kleur +
-                (isStartVeld ? ", Startveld" : "") +
-                (isPartjeVeld ? ", Partjeveld" : "") +
-                (isOpnieuwGooienVeld ? ", Opnieuw gooien veld" : "") +
-                ", naast=" + veldenDieErnaastLiggen.size() +
-                '}';
+        return "Veld{"
+                + "x=" + x
+                + ", y=" + y
+                + ", kleur=" + kleur
+                + (isStartVeld ? ", Startveld" : "")
+                + (isPartjeVeld ? ", Partjeveld" : "")
+                + (isOpnieuwGooienVeld ? ", Opnieuw gooien veld" : "")
+                + ", naast=" + veldenDieErnaastLiggen.size()
+                + '}';
     }
-
 
 }

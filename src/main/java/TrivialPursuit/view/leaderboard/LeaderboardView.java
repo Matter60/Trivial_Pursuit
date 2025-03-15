@@ -5,12 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,7 +30,8 @@ public class LeaderboardView extends BorderPane {
 
         leaderboardTitel = new Label("Leaderboard");
         leaderboardTitel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        leaderboardTitel.setStyle("-fx-text-fill: white;");
+        leaderboardTitel.setUnderline(true);
+        leaderboardTitel.setTextFill(Color.YELLOW);
 
         backButton = new Button("←");
         backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));

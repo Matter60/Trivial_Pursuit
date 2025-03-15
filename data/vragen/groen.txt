@@ -2,3 +2,18 @@ Wat is de chemische formule voor water?|H2O|CO2|O2|NaCl|0
 Welk element heeft het symbool 'Fe'?|IJzer|Koper|Zilver|Goud|0
 Wat is de snelheid van het licht (in km/s)?|300.000|200.000|400.000|500.000|0
 Welk orgaan produceert insuline?|Alvleesklier|Lever|Nieren|Milt|0
+Wat is het zwaarste natuurlijke element op aarde?|Uraan|Plutonium|Lood|Osmium|0
+Wat is de kleinste eenheid van materie?|Atoom|Molecuul|Elektron|Proton|0
+Welk gas is het meest aanwezig in de atmosfeer van de aarde?|Stikstof|Zuurstof|Koolstofdioxide|Waterstof|0
+Wat is de grootste planeet in ons zonnestelsel?|Jupiter|Saturnus|Mars|Aarde|0
+Welke vitamine krijg je van zonlicht?|Vitamine D|Vitamine C|Vitamine B12|Vitamine A|0
+Hoeveel chromosomen heeft een mens?|46|23|48|44|0
+Wat is de dichtstbijzijnde ster bij de aarde, behalve de zon?|Proxima Centauri|Sirius|Betelgeuze|Alpha Centauri A|0
+Welke eenheid wordt gebruikt om elektrische weerstand te meten?|Ohm|Volt|Ampère|Watt|0
+Wat is de pH-waarde van zuiver water?|7|5|9|12|0
+Wat is de grootste maan van ons zonnestelsel?|Ganymedes|Titan|Europa|Callisto|0
+Welk gas is noodzakelijk voor menselijke ademhaling?|Zuurstof|Stikstof|Argon|Helium|0
+Wat is de chemische formule van keukenzout?|NaCl|KCl|CaCO3|HCl|0
+Wat is de belangrijkste functie van rode bloedcellen?|Zuurstof transporteren|Infecties bestrijden|Bloedstolling|Voedingsstoffen opnemen|0
+Welke planeet wordt de 'rode planeet' genoemd?|Mars|Venus|Mercurius|Neptunus|0
+Wat is de meest voorkomende edelsteen in de aardkorst?|Kwarts|Diamant|Robijn|Saffier|0

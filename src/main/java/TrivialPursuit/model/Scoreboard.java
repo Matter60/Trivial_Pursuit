@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Scoreboard {
+
     private static final String SCORES_FILE = "data/scores.txt";
     private Map<String, Integer> scores;
     private Map<String, Integer> wins;
@@ -22,6 +23,7 @@ public class Scoreboard {
         laadScores();
     }
 
+    // Voeg een score toe aan een speler
     public void addScore(String spelerNaam) {
         if (scores.containsKey(spelerNaam)) {
             scores.put(spelerNaam, scores.get(spelerNaam) + 1);
@@ -31,6 +33,7 @@ public class Scoreboard {
         saveScores();
     }
 
+    // Voeg een win toe aan een speler
     public void addWin(String spelerNaam) {
         if (wins.containsKey(spelerNaam)) {
             wins.put(spelerNaam, wins.get(spelerNaam) + 1);
@@ -40,30 +43,35 @@ public class Scoreboard {
         saveScores();
     }
 
+    // Haal de scores op
     public List<String> getScores() {
         if (scores.isEmpty()) {
-            return List.of("No scores available");
+            return List.of("Geen scores beschikbaar");
         }
 
-        List<Map.Entry<String, Integer>> gesorteerdeScores = new ArrayList<>(scores.entrySet());
-        gesorteerdeScores.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+        // Maak een lijst van spelers (keys) en sorteer deze op basis van hun scores (values)
+        List<String> spelers = new ArrayList<>(scores.keySet());
+        spelers.sort((s1, s2) -> scores.get(s2).compareTo(scores.get(s1))); // Sorteer aflopend
 
         List<String> formateerdeScores = new ArrayList<>();
         int rank = 1;
-        for (Map.Entry<String, Integer> entry : gesorteerdeScores) {
-            int playerWins = wins.getOrDefault(entry.getKey(), 0);
-            String formattedEntry = String.format("%d) %s : %d juiste antwoorden (Wins: %d)",
-                    rank, entry.getKey(), entry.getValue(), playerWins);
+        for (String speler : spelers) {
+            int juisteAntwoorden = scores.get(speler);
+            int playerWins = wins.getOrDefault(speler, 0);
+            String formattedEntry = String.format("%d) %s : Wins: %d, Juiste antwoorden: %d",
+                    rank, speler, playerWins, juisteAntwoorden);
             formateerdeScores.add(formattedEntry);
             rank++;
         }
         return formateerdeScores;
     }
 
+
+    // Laad de scores
     private void laadScores() {
         File file = new File(SCORES_FILE);
         if (!file.exists()) {
-            System.out.println("No scores file found, skipping load.");
+            System.out.println("Geen scores bestand gevonden, laad niet.");
             file.getParentFile().mkdirs();
             return;
         }
@@ -81,10 +89,11 @@ public class Scoreboard {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Fout bij het laden van de scores", e);
         }
     }
 
+    // Sla de scores op
     private void saveScores() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(SCORES_FILE))) {
             for (String player : scores.keySet()) {
@@ -93,24 +102,26 @@ public class Scoreboard {
                 bw.write(String.format("%s|%d|%d\n", player, score, playerWins));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Fout bij het opslaan van de scores", e);
         }
     }
 
-    public void displayScores() {
-        if (scores.isEmpty()) {
-            System.out.println("Nog geen scores beschikbaar.");
-            return;
-        }
+    // Toon de scores
+    // public void displayScores() {
+    // if (scores.isEmpty()) {
+    // System.out.println("Nog geen scores beschikbaar.");
+    // return;
+    // }
 
-        List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(scores.entrySet());
-        sortedScores.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+    // List<Map.Entry<String, Integer>> sortedScores = new
+    // ArrayList<>(scores.entrySet());
+    // sortedScores.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        int num = 1;
-        for (Map.Entry<String, Integer> entry : sortedScores) {
-            int playerWins = wins.getOrDefault(entry.getKey(), 0);
-            System.out.printf("%d. %s: %d punten (Wins: %d)%n",
-                    num++, entry.getKey(), entry.getValue(), playerWins);
-        }
-    } // console
+    // int num = 1;
+    // for (Map.Entry<String, Integer> entry : sortedScores) {
+    // int playerWins = wins.getOrDefault(entry.getKey(), 0);
+    // System.out.printf("%d. %s: %d punten (Wins: %d)%n",
+    // num++, entry.getKey(), entry.getValue(), playerWins);
+    // }
+    // } // console output
 }

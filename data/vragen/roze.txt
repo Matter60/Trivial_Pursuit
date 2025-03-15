@@ -2,3 +2,18 @@ Wie speelde Jack in de film Titanic?|Leonardo DiCaprio|Brad Pitt|Tom Cruise|John
 Welke band zong 'Hotel California'?|Eagles|Beatles|Rolling Stones|Led Zeppelin|0
 Wie is de regisseur van de Star Wars films?|George Lucas|Steven Spielberg|James Cameron|Peter Jackson|0
 Welke acteur speelt Iron Man in de Marvel films?|Robert Downey Jr.|Chris Evans|Chris Hemsworth|Mark Ruffalo|0
+Welke film won de Oscar voor Beste Film in 1994?|Forrest Gump|Pulp Fiction|The Shawshank Redemption|Braveheart|0
+Welke zangeres bracht het album 'Thriller' uit?|Michael Jackson|Madonna|Prince|Whitney Houston|0
+Welke Netflix-serie gaat over een schaaktalent genaamd Beth Harmon?|The Queen's Gambit|Stranger Things|Breaking Bad|House of Cards|0
+Welke actrice speelde Hermione in de Harry Potter-films?|Emma Watson|Emma Stone|Natalie Portman|Keira Knightley|0
+Wie is de maker van de animatieserie 'The Simpsons'?|Matt Groening|Seth MacFarlane|Trey Parker|Mike Judge|0
+Welke James Bond-film was de eerste met Daniel Craig?|Casino Royale|Skyfall|Quantum of Solace|Spectre|0
+Wie zong het nummer 'Rolling in the Deep'?|Adele|Beyoncé|Taylor Swift|Lady Gaga|0
+Welke acteur speelde de Joker in 'The Dark Knight' (2008)?|Heath Ledger|Joaquin Phoenix|Jack Nicholson|Jared Leto|0
+Wat is de naam van de fictieve stad in 'Grand Theft Auto V'?|Los Santos|Vice City|Liberty City|San Fierro|0
+Welke filmreeks gaat over een magische ring en het land Midden-aarde?|The Lord of the Rings|Harry Potter|The Chronicles of Narnia|Percy Jackson|0
+Welke Disneyfilm gaat over een leeuwenwelp genaamd Simba?|The Lion King|Bambi|The Jungle Book|Tarzan|0
+Wie speelt de hoofdrol in de John Wick-films?|Keanu Reeves|Tom Hardy|Jason Statham|Liam Neeson|0
+Welke superheld heeft een hamer genaamd Mjölnir?|Thor|Hulk|Superman|Captain America|0
+Wat is de echte naam van rapper Eminem?|Marshall Mathers|Calvin Broadus|Andre Young|Shawn Carter|0
+Welke film uit 1999 bevat de quote "I see dead people"?|The Sixth Sense|The Matrix|Fight Club|The Blair Witch Project|0

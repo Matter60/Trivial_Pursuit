@@ -18,10 +18,7 @@ public class LeaderboardPresenter {
         this.updateView();
     }
     private void addEventHandlers() {
-// Koppelt event handlers (anon. inner klassen)
-// aan de controls uit de view.
-// Event handlers: roepen methodes aan uit het
-// model en zorgen voor een update van de view.
+
         view.getBackButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -33,6 +30,8 @@ public class LeaderboardPresenter {
                 homeView.getScene().getWindow().sizeToScene();
             }
         });
+
+        
         view.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 updateLeaderboard();

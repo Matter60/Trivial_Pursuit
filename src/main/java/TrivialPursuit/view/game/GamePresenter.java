@@ -12,6 +12,8 @@ import TrivialPursuit.model.Vraag;
 import TrivialPursuit.view.home.HomePresenter;
 import TrivialPursuit.view.home.HomeView;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
@@ -40,8 +42,8 @@ public class GamePresenter {
         clearPlayers();
         for (Speler speler : model.getSpelers()) {
             addPlayer(speler);
-            updatePlayerPosition(speler);
-            updatePlayerPartjes(speler);
+            updateplayerposView(speler);
+            updatePlayerPartjesView(speler);
         }
     }
 
@@ -63,9 +65,10 @@ public class GamePresenter {
         view.getPlayerInfoBox().getChildren().add(partjesBox);
     }
 
+    // Zeker zijn dat er geen spelers meer zijn op velden
     private void clearPlayers() {
-        for (ImageView pawn : view.getPlayerPawns().values()) {
-            view.getBoardPane().getChildren().remove(pawn);
+        for (ImageView pion : view.getPlayerPawns().values()) {
+            view.getBoardPane().getChildren().remove(pion);
         }
         view.getPlayerPawns().clear();
         view.getPlayerInfoBox().getChildren().clear();
@@ -73,11 +76,14 @@ public class GamePresenter {
     }
 
     private void addEventHandlers() {
+        // Als er op de dobbelsteen wordt geklikt
+        // Doe een worp en bereken mogelijke bestemmingen
+        // Voeg gele cirkels toe op mogelijke bestemmingen
         view.getRollDiceButton().setOnAction(event -> {
             int worp = model.gooiDobbelsteen();
             view.getDiceResultLabel().setText("Worp: " + worp);
 
-            mogelijkeBestemmingen = model.getMogelijkeBestemmingen(worp);
+            mogelijkeBestemmingen = model.berekenBereikbareVeldIndices(worp);
             clearPossibleMoves();
 
             for (Integer pos : mogelijkeBestemmingen) {
@@ -95,68 +101,70 @@ public class GamePresenter {
         view.getAnswerButton().setOnAction(event -> handleAnswer());
 
         // Terug knop
-        // view.getBackButton().setOnAction(event -> {
-        // CreateGameView createGameView = new CreateGameView();
-        // CreateGamePresenter createGamePresenter = new CreateGamePresenter(model,
-        // createGameView);
-        // createGamePresenter.addWindowEventHandlers();
-        // view.getScene().setRoot(createGameView);
-        // createGameView.getScene().getWindow().sizeToScene();
-        // });
+        view.getBackButton().setOnAction(event -> {
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Terug naar hoofdmenu");
+            confirmAlert.setHeaderText("Wil je het spel opslaan voordat je teruggaat?");
+            confirmAlert.setContentText(
+                    "Kies 'Opslaan' om je spel op te slaan, 'Nee' om terug te gaan zonder opslaan, of 'Annuleren' om door te spelen.");
+
+            ButtonType saveButton = new ButtonType("Opslaan");
+            ButtonType noSaveButton = new ButtonType("Nee");
+            ButtonType cancelButton = new ButtonType("Annuleren", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            confirmAlert.getButtonTypes().setAll(saveButton, noSaveButton, cancelButton);
+
+            confirmAlert.showAndWait().ifPresent(response -> {
+                if (response == saveButton) {
+                    if (saveGame()) {
+                        goToHomeView();
+                    }
+                } else if (response == noSaveButton) {
+                    // Go back without saving
+                    goToHomeView();
+                }
+                // If cancel is clicked, do nothing and continue the game
+            });
+        });
+
         view.getSaveGameButton().setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Spel opslaan");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt"));
-            fileChooser.setInitialDirectory(new File("data/saves"));
-
-            File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
-            if (selectedFile != null) {
-
-                String filePath = selectedFile.getAbsolutePath();
-                if (!filePath.endsWith(".txt")) {
-                    filePath += ".txt";
-                }
-
-                if (model.saveGame(filePath)) {
-                    showAlert("Spel opgeslagen", "Het spel is succesvol opgeslagen.");
-                    HomeView homeView = new HomeView();
-                    HomePresenter homePresenter = new HomePresenter(model, homeView);
-                    homePresenter.addWindowEventHandlers();
-                    view.getScene().setRoot(homeView);
-                    homeView.getScene().getWindow().sizeToScene();
-                } else {
-                    showAlert("Fout bij opslaan", "Er is een fout opgetreden bij het opslaan van het spel.");
-
-                }
+            if (saveGame()) {
+                goToHomeView();
             }
         });
     }
 
     private void handleMove(int positie) {
         Speler huidigeSpeler = model.getHuidigeSpeler();
+        // backend
         model.verplaatsHuidigeSpeler(positie);
-        updatePlayerPosition(huidigeSpeler);
-
+        // scherm
+        updateplayerposView(huidigeSpeler);
+        // Gele cirkels wegdoen
         clearPossibleMoves();
 
+        // Check voor afgelopen spel
         if (model.isSpelAfgelopen()) {
-            showAlert(" Gefeliciteerd!",
-                    model.getWinnaar().getNaam() + " Heeft gewonnen");
+            toonFoutMelding("Gefeliciteerd!",
+                    model.getWinnaar().getNaam() + " heeft gewonnen!");
+            HomeView homeView = new HomeView();
+            HomePresenter homePresenter = new HomePresenter(model, homeView);
+            homePresenter.addWindowEventHandlers();
+            view.getScene().setRoot(homeView);
+            homeView.getScene().getWindow().sizeToScene();
             return;
         }
 
         // Check voor opnieuw gooien veld
         if (model.isRollAgainVeld(positie)) {
-            showAlert("Opnieuw Gooien!", "Je mag nog een keer gooien!");
+            toonFoutMelding("Opnieuw Gooien!", "Je mag nog een keer gooien!");
             view.getRollDiceButton().setDisable(false);
             return;
         }
 
         // Check voor vraagveld
-        Kleur veldKleur = model.getVeldKleur(positie);
-        if (veldKleur != null) {
-            List<Vraag> vragen = model.laadVraag(veldKleur);
+        if (model.getVeldKleur(positie) != null) {
+            List<Vraag> vragen = model.laadVraag(model.getVeldKleur(positie));
             if (!vragen.isEmpty()) {
                 huidigeVraag = vragen.get(0);
                 showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
@@ -164,13 +172,18 @@ public class GamePresenter {
         }
     }
 
+    // Antwoord afhandelen
     private void handleAnswer() {
+        // Check of er een vraag is
         if (huidigeVraag == null) {
+            toonFoutMelding("Fout", "Er is geen vraag om te beantwoorden!");
             return;
         }
 
+        // Check of er een antwoord is geselecteerd
         RadioButton selectedButton = (RadioButton) view.getAnswerGroup().getSelectedToggle();
         if (selectedButton == null) {
+            toonFoutMelding("Fout", "Selecteer een antwoord voordat je verder gaat!");
             return;
         }
 
@@ -182,42 +195,42 @@ public class GamePresenter {
             }
         }
 
-        Speler huidigeSpeler = model.getHuidigeSpeler();
-        int positie = model.getSpelerPositie(huidigeSpeler);
+        int positie = model.getSpelerPositie(model.getHuidigeSpeler());
 
         hideQuestion();
 
-        boolean correct = huidigeVraag.checkAntwoord(selectedIndex);
-        boolean partjeVerdiend = model.checkAntwoord(huidigeVraag, selectedIndex, huidigeSpeler, positie);
+        boolean correct = huidigeVraag.checkIndex(selectedIndex);
+        boolean partjeVerdiend = model.checkAntwoord(huidigeVraag, selectedIndex, model.getHuidigeSpeler(), positie);
 
         if (correct) {
-            showAlert(" Correct!", "Je hebt het juiste antwoord gegeven!");
+            toonFoutMelding(" Correct!", "Je hebt het juiste antwoord gegeven!");
 
             if (partjeVerdiend) {
                 // Update UI voor nieuw partje
-                updatePlayerPartjes(huidigeSpeler);
+                updatePlayerPartjesView(model.getHuidigeSpeler());
 
                 // Toon alert voor verdiend partje
                 Kleur veldKleur = model.getVeldKleur(positie);
-                showAlert("Partje Verdiend!",
-                        huidigeSpeler.getNaam() + " heeft een "
-                        + veldKleur.toString().toLowerCase() + " partje verdiend!");
+                toonFoutMelding("Partje Verdiend!",
+                        model.getHuidigeSpeler().getNaam() + " heeft een "
+                                + veldKleur.toString().toLowerCase() + " partje verdiend!");
 
                 // Als alle partjes verzameld zijn, toon aparte melding
-                if (model.heeftSpelerAllePartjes(huidigeSpeler)) {
-                    showAlert(" Alle Partjes!",
+                if (model.heeftSpelerAllePartjes(model.getHuidigeSpeler())) {
+                    toonFoutMelding(" Alle Partjes!",
                             "Je hebt nu alle partjes verzameld!\nGa naar het middenvak om te winnen!");
                 }
             }
         } else {
-            showAlert("Helaas!",
+            toonFoutMelding("Helaas!",
                     "Dat was niet het juiste antwoord.\nHet juiste antwoord was: "
-                    + huidigeVraag.getJuisteAntwoord());
+                            + huidigeVraag.getJuisteAntwoord());
         }
 
         volgendeSpeler();
     }
 
+    // Ga naar de volgende speler
     private void volgendeSpeler() {
         model.volgendeSpeler();
         view.getRollDiceButton().setDisable(false);
@@ -227,13 +240,15 @@ public class GamePresenter {
     private void updateView() {
         Speler huidigeSpeler = model.getHuidigeSpeler();
         if (huidigeSpeler != null) {
+            // Update UI voor huidige speler
             updateCurrentPlayer(
                     huidigeSpeler.getNaam(),
                     huidigeSpeler.getSpelerKleur());
         }
     }
 
-    private void updatePlayerPosition(Speler speler) {
+    // Update de positie van de speler op het bord
+    private void updateplayerposView(Speler speler) {
         int positie = model.getSpelerPositie(speler);
         int[] coords = model.getCoordinaten(positie);
         ImageView pawn = view.getPlayerPawns().get(speler.getNaam());
@@ -243,7 +258,8 @@ public class GamePresenter {
         }
     }
 
-    private void updatePlayerPartjes(Speler speler) {
+    // Update de partjes van de speler
+    private void updatePlayerPartjesView(Speler speler) {
         HBox partjesBox = view.getPlayerPartjesBoxes().get(speler.getNaam());
         if (partjesBox != null) {
             partjesBox.getChildren().clear();
@@ -286,40 +302,46 @@ public class GamePresenter {
         // Voeg hier eventuele window event handlers toe
     }
 
-    public void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    // Alert methode voor multiple use
+    public void toonFoutMelding(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }
 
-    public void showQuestion(String question, List<String> answers) {
+    // Vraag tonen
+
+    private void showQuestion(String question, List<String> answers) {
         List<String> shuffledAnswers = new ArrayList<>(answers);
-        Collections.shuffle(shuffledAnswers);  // Shuffle only once
+        Collections.shuffle(shuffledAnswers); // Shuffle the answers
 
-        view.getQuestionLabel().setText(question);
+        view.setQuestionText(question);
 
+        // Set answer buttons
         for (int i = 0; i < shuffledAnswers.size() && i < view.getAnswerButtons().size(); i++) {
-            view.getAnswerButtons().get(i).setText(shuffledAnswers.get(i));
-            view.getAnswerButtons().get(i).setVisible(true);
+            view.setAnswerButtonText(i, shuffledAnswers.get(i));
+            view.setAnswerButtonVisible(i, true);
         }
 
-        // Hide unused radio buttons
+        // Hide unused buttons
         for (int i = shuffledAnswers.size(); i < view.getAnswerButtons().size(); i++) {
-            view.getAnswerButtons().get(i).setVisible(false);
+            view.setAnswerButtonVisible(i, false);
         }
 
-        view.getAnswerButton().setVisible(true);
-        view.getVraagBox().setVisible(true);
+        view.setAnswerButtonVisible(true);
+        view.setVraagBoxVisible(true);
     }
 
+    // Vraag verbergen
     public void hideQuestion() {
-        view.getVraagBox().setVisible(false);
-        view.getAnswerButton().setVisible(false);
+        view.setVraagBoxVisible(false);
+        view.setAnswerButtonVisible(false);
         view.getAnswerGroup().selectToggle(null);
     }
 
+    // Mogelijke bestemmingen tonen (cirkels)
     private void addPossibleMove(int position, int x, int y) {
         Circle moveCircle = new Circle(15);
         moveCircle.setFill(Color.YELLOW);
@@ -332,6 +354,7 @@ public class GamePresenter {
         view.getBoardPane().getChildren().add(moveCircle);
     }
 
+    // Mogelijke bestemmingen verwijderen
     private void clearPossibleMoves() {
         for (Circle circle : view.getPossibleMoves().values()) {
             view.getBoardPane().getChildren().remove(circle);
@@ -342,6 +365,40 @@ public class GamePresenter {
     private void updateCurrentPlayer(String playerName, Kleur playerKleur) {
         view.getCurrentPlayerLabel().setText("Huidige Speler: " + playerName);
         view.getCurrentPlayerLabel().setTextFill(convertKleurToColor(playerKleur));
+    }
+
+    // Ga naar home view
+    private void goToHomeView() {
+        HomeView homeView = new HomeView();
+        HomePresenter homePresenter = new HomePresenter(model, homeView);
+        homePresenter.addWindowEventHandlers();
+        view.getScene().setRoot(homeView);
+        homeView.getScene().getWindow().sizeToScene();
+    }
+
+    private boolean saveGame() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Spel opslaan");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Trivial Pursuit Save Files", "*.txt"));
+        fileChooser.setInitialDirectory(new File("data/saves"));
+
+        File selectedFile = fileChooser.showSaveDialog(view.getScene().getWindow());
+        if (selectedFile != null) {
+            String filePath = selectedFile.getAbsolutePath();
+            if (!filePath.endsWith(".txt")) {
+                filePath += ".txt";
+            }
+
+            if (model.saveGame(filePath)) {
+                toonFoutMelding("Spel opgeslagen", "Het spel is succesvol opgeslagen.");
+                return true;
+            } else {
+                toonFoutMelding("Fout bij opslaan", "Er is een fout opgetreden bij het opslaan van het spel.");
+                return false;
+            }
+        }
+        return false;
     }
 
 }
