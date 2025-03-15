@@ -20,10 +20,6 @@ public class TrivialPursuitController {
         bord = new Bord();
         fileManager = new FileManager();
     }
-    // implementatie logica van de
-    // applicatie ahv methods
-    // implementatie van de nodige Getters
-    // implementatie van de nodige Setters
 
     public void addScore(String spelernaam) {
         scoreboard.addScore(spelernaam);
@@ -126,22 +122,11 @@ public class TrivialPursuitController {
         return game.isMiddenVak(positie);
     }
 
-    /**
-     * Slaat het huidige spel op
-     *
-     * @param filePath het pad waar het spel moet worden opgeslagen
-     * @return true als het opslaan is gelukt, anders false
-     */
+
     public boolean saveGame(String filePath) {
         return fileManager.saveGame(filePath, game);
     }
 
-    /**
-     * Laadt een opgeslagen spel
-     *
-     * @param filePath het pad van het spel dat moet worden geladen
-     * @return true als het laden is gelukt, anders false
-     */
     public boolean loadGame(String filePath) throws FileNotFoundException {
         try {
             Game loadedGame = fileManager.loadGame(filePath);

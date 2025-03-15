@@ -138,16 +138,6 @@ public class Game {
         return speler.getPartjes();
     }
 
-    // Haal de coordinaten van een veld op
-    public int[] getCoordinaten(int positie) {
-        return bord.getCoordinaten(positie);
-    }
-
-    // Laad een vraag van een bepaalde categorie
-    public List<Vraag> laadVraag(Kleur category) {
-        return vraagManager.laadVraag(category);
-    }
-
     // Controleer of een speler alle partjes heeft
     public boolean heeftSpelerAllePartjes(Speler speler) {
         return speler.heeftAllePartjes();

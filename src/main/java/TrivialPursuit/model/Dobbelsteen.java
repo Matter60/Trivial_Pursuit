@@ -12,7 +12,4 @@ public class Dobbelsteen {
         return laatsteWorp;
     }
 
-    public int getLaatsteWorp() {
-        return laatsteWorp;
-    }
 }

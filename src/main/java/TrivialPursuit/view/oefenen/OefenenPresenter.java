@@ -59,10 +59,10 @@ public class OefenenPresenter {
     }
 
     public void startOefenen() {
-        System.out.println("Beschikbare categorieën:");
-        for (Kleur kleur : Kleur.values()) {
-            System.out.println("- " + kleur);
-        }
+       // System.out.println("Beschikbare categorieën:");
+      //  for (Kleur kleur : Kleur.values()) {
+        //    System.out.println("- " + kleur);
+       // }
 
         Kleur randomCategory = getRandomCategory(); // Kies een willekeurige categorie
 

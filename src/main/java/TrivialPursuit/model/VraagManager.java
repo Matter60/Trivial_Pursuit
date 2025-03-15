@@ -33,8 +33,7 @@ public class VraagManager {
                 bw.write(sb.toString());
             }
         } catch (IOException e) {
-            System.err.println("Fout bij het opslaan van de vraag: " + e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException("Fout bij het opslaan van de vraag: " + e.getMessage());
         }
     }
 
@@ -55,19 +54,14 @@ public class VraagManager {
                     }
                     int correctIndex = Integer.parseInt(parts[parts.length - 1]);
                     vragen.add(new Vraag(question, answers, correctIndex, category));
-                } else {
-                    System.err.println("Ongeldig vraagformaat: " + line);
                 }
             }
         } catch (FileNotFoundException e) {
-            // Dit is normaal als er nog geen vragen zijn voor deze categorie
-            System.err.println("Geen vragen gevonden voor categorie " + category + ": " + e.getMessage());
+            throw new RuntimeException("Geen vragen gevonden voor categorie " + category + ": " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.err.println("Ongeldig antwoordindex in vraagbestand: " + e.getMessage());
-            e.printStackTrace();
+            throw new IllegalArgumentException("Ongeldig antwoordindex in vraagbestand: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("Fout bij het laden van vragen: " + e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException("Fout bij het laden van vragen: " + e.getMessage());
         }
 
         // random vraag

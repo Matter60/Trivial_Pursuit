@@ -33,7 +33,7 @@ public class CreateGamePresenter {
             @Override
             public void handle(ActionEvent event) {
                 if (!valideerSpelers()) {
-                    return;
+                    toonFoutmelding("Spelers", "Niet alle spelers zijn juist");
                 }
                 // nodig om nieuw spel te maken als er al eentje bezig is
                 model.resetSpel();

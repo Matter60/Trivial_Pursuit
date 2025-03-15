@@ -144,10 +144,6 @@ public class Bord {
         return null;
     }
 
-    // Getters voor bordconstanten
-    public int getAantalVakjes() {
-        return AANTAL_VAKJES;
-    }
 
     public int getMiddenVakIndex() {
         return MIDDEN_VAK_INDEX;
@@ -169,9 +165,6 @@ public class Bord {
         return null;
     }
 
-    public int getAantalVelden() {
-        return AANTAL_VELDEN;
-    }
 
     // Check of veld een partjeveld is
     public boolean isPartjeVeld(int positie) {
@@ -193,27 +186,4 @@ public class Bord {
         return null;
     }
 
-    // Bereken bereikbare veldnummers binnen aantal zetten vanaf startpositie
-    public List<Integer> berekenBereikbareVeldnummers(int startPositie, int aantalZetten) {
-        if (startPositie < 0 || startPositie >= velden.size()) {
-            return new ArrayList<>();
-        }
-
-        // Converteer startpositie naar coördinaten en bereken bestemmingen
-        Veld startVeld = velden.get(startPositie);
-        List<Veld> mogelijkeVelden = berekenBereikbareVelden(startVeld.getX(), startVeld.getY(), aantalZetten);
-
-        // Converteer velden terug naar posities
-        List<Integer> posities = new ArrayList<>();
-        for (Veld veld : mogelijkeVelden) {
-            for (int i = 0; i < velden.size(); i++) {
-                if (velden.get(i) == veld) {
-                    posities.add(i);
-                    break;
-                }
-            }
-        }
-
-        return posities;
-    }
 }

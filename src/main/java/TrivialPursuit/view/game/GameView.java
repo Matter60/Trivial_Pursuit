@@ -28,22 +28,22 @@ import javafx.scene.text.FontWeight;
 public class GameView extends BorderPane {
     // private Button backButton;
 
-    private Button rollDiceButton;
+    private Button gooiDobbelsteenButton;
     private Button saveGameButton;
-    private Button answerButton;
-    private Button backButton;
+    private Button antwoordButton;
+    private Button terugButton;
     private Label currentPlayerLabel;
-    private Label diceResultLabel;
-    private Label questionLabel;
+    private Label DobbelsteenResLabel;
+    private Label vraagLabel;
     private VBox vraagBox;
-    private ToggleGroup answerGroup;
-    private List<RadioButton> answerButtons;
-    private ImageView boardImageView;
-    private Map<String, ImageView> playerPawns;
-    private Map<Integer, Circle> possibleMoves;
-    private VBox playerInfoBox;
+    private ToggleGroup antwoordGroep;
+    private List<RadioButton> AntwoordenButtons;
+    private ImageView bordAfbeelding;
+    private Map<String, ImageView> spelerPionnen;
+    private Map<Integer, Circle> mogelijkeZetten;
+    private VBox spelerInfoBox;
     private Pane boardPane;
-    private Map<String, HBox> playerPartjesBoxes;
+    private Map<String, HBox> spelerPartjesBoxes;
 
     public GameView() {
         this.initialiseNodes();
@@ -53,48 +53,48 @@ public class GameView extends BorderPane {
 
     private void initialiseNodes() {
 
-        backButton = new Button("←");
-        rollDiceButton = new Button("Gooi Dobbelsteen");
-        answerButton = new Button("Beantwoord");
+        terugButton = new Button("←");
+        gooiDobbelsteenButton = new Button("Gooi Dobbelsteen");
+        antwoordButton = new Button("Beantwoord");
         currentPlayerLabel = new Label("Huidige Speler: ");
-        diceResultLabel = new Label("");
-        questionLabel = new Label("");
+        DobbelsteenResLabel = new Label("");
+        vraagLabel = new Label("");
         saveGameButton = new Button("Opslaan");
 
 
-        answerGroup = new ToggleGroup();
-        answerButtons = new ArrayList<>();
-        playerPawns = new HashMap<>();
-        possibleMoves = new HashMap<>();
-        playerPartjesBoxes = new HashMap<>();
+        antwoordGroep = new ToggleGroup();
+        AntwoordenButtons = new ArrayList<>();
+        spelerPionnen = new HashMap<>();
+        mogelijkeZetten = new HashMap<>();
+        spelerPartjesBoxes = new HashMap<>();
 
 
         for (int i = 0; i < 4; i++) {
             RadioButton rb = new RadioButton("");
-            rb.setToggleGroup(answerGroup);
+            rb.setToggleGroup(antwoordGroep);
             rb.setWrapText(true);
-            answerButtons.add(rb);
+            AntwoordenButtons.add(rb);
         }
 
 
         vraagBox = new VBox(20);
-        playerInfoBox = new VBox(10);
+        spelerInfoBox = new VBox(10);
         boardPane = new Pane();
 
         Image boardImage = new Image(getClass().getResourceAsStream("/bord.png"));
-        boardImageView = new ImageView(boardImage);
-        boardImageView.setFitWidth(boardImage.getWidth() / 2);
-        boardImageView.setFitHeight(boardImage.getHeight() / 2);
-        boardImageView.setPreserveRatio(true);
+        bordAfbeelding = new ImageView(boardImage);
+        bordAfbeelding.setFitWidth(boardImage.getWidth() / 2);
+        bordAfbeelding.setFitHeight(boardImage.getHeight() / 2);
+        bordAfbeelding.setPreserveRatio(true);
 
-        boardPane.getChildren().add(boardImageView);
+        boardPane.getChildren().add(bordAfbeelding);
 
     }
 
     private void layoutNodes() {
 
         HBox topBox = new HBox(20);
-        topBox.getChildren().addAll(backButton, saveGameButton, currentPlayerLabel);
+        topBox.getChildren().addAll(terugButton, saveGameButton, currentPlayerLabel);
         topBox.setAlignment(Pos.CENTER_LEFT);
         topBox.setPadding(new Insets(10));
         this.setTop(topBox);
@@ -112,25 +112,25 @@ public class GameView extends BorderPane {
 
 
         rightBox.getChildren().addAll(
-                playerInfoBox,
-                rollDiceButton,
-                diceResultLabel,
+                spelerInfoBox,
+                gooiDobbelsteenButton,
+                DobbelsteenResLabel,
                 vraagBox);
 
 
         this.setRight(rightBox);
 
         vraagBox.setSpacing(10);
-        vraagBox.getChildren().addAll(questionLabel);
-        vraagBox.getChildren().addAll(answerButtons);
-        vraagBox.getChildren().add(answerButton);
+        vraagBox.getChildren().addAll(vraagLabel);
+        vraagBox.getChildren().addAll(AntwoordenButtons);
+        vraagBox.getChildren().add(antwoordButton);
         vraagBox.setVisible(false);
 
-        rollDiceButton.setMaxWidth(Double.MAX_VALUE);
-        answerButton.setMaxWidth(Double.MAX_VALUE);
+        gooiDobbelsteenButton.setMaxWidth(Double.MAX_VALUE);
+        antwoordButton.setMaxWidth(Double.MAX_VALUE);
 
-        questionLabel.setWrapText(true);
-        questionLabel.setMaxWidth(250);
+        vraagLabel.setWrapText(true);
+        vraagLabel.setMaxWidth(250);
     }
 
     private void applyStyles() {
@@ -139,72 +139,72 @@ public class GameView extends BorderPane {
 
         String buttonStyle = "-fx-background-color: #8B8000; -fx-text-fill: white; -fx-padding: 10px;";
         saveGameButton.setStyle(buttonStyle);
-        backButton.setStyle(buttonStyle);
-        rollDiceButton.setStyle(buttonStyle);
-        answerButton.setStyle(buttonStyle);
+        terugButton.setStyle(buttonStyle);
+        gooiDobbelsteenButton.setStyle(buttonStyle);
+        antwoordButton.setStyle(buttonStyle);
 
 
         saveGameButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
-        backButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
-        rollDiceButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        answerButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        terugButton.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
+        gooiDobbelsteenButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        antwoordButton.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
         currentPlayerLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        diceResultLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
-        questionLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
+        DobbelsteenResLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 24));
+        vraagLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
 
         currentPlayerLabel.setTextFill(Color.WHITE);
-        diceResultLabel.setTextFill(Color.YELLOW);
-        questionLabel.setTextFill(Color.WHITE);
+        DobbelsteenResLabel.setTextFill(Color.YELLOW);
+        vraagLabel.setTextFill(Color.WHITE);
 
-        answerButtons.forEach(rb -> {
+        AntwoordenButtons.forEach(rb -> {
             rb.setTextFill(Color.WHITE);
             rb.setFont(Font.font("Georgia", 14));
         });
     }
 
     // Getters
-    public Button getRollDiceButton() {
-        return rollDiceButton;
+    public Button getGooiDobbelsteenButton() {
+        return gooiDobbelsteenButton;
     }
 
-    public Button getAnswerButton() {
-        return answerButton;
+    public Button getAntwoordButton() {
+        return antwoordButton;
     }
 
-    public ToggleGroup getAnswerGroup() {
-        return answerGroup;
+    public ToggleGroup getAntwoordGroep() {
+        return antwoordGroep;
     }
 
-    public List<RadioButton> getAnswerButtons() {
-        return answerButtons;
+    public List<RadioButton> getAntwoordenButtons() {
+        return AntwoordenButtons;
     }
 
-    public Map<Integer, Circle> getPossibleMoves() {
-        return possibleMoves;
+    public Map<Integer, Circle> getMogelijkeZetten() {
+        return mogelijkeZetten;
     }
 
     public Pane getBoardPane() {
         return boardPane;
     }
 
-    public Label getDiceResultLabel() {
-        return diceResultLabel;
+    public Label getDobbelsteenResLabel() {
+        return DobbelsteenResLabel;
     }
 
     public Label getCurrentPlayerLabel() {
         return currentPlayerLabel;
     }
 
-    public Map<String, ImageView> getPlayerPawns() {
-        return playerPawns;
+    public Map<String, ImageView> getSpelerPionnen() {
+        return spelerPionnen;
     }
 
-    public Map<String, HBox> getPlayerPartjesBoxes() {
-        return playerPartjesBoxes;
+    public Map<String, HBox> getSpelerPartjesBoxes() {
+        return spelerPartjesBoxes;
     }
 
-    public VBox getPlayerInfoBox() {
-        return playerInfoBox;
+    public VBox getSpelerInfoBox() {
+        return spelerInfoBox;
     }
 
     public Button getSaveGameButton() {
@@ -212,18 +212,18 @@ public class GameView extends BorderPane {
     }
 
     public void setQuestionText(String text) {
-        questionLabel.setText(text);
+        vraagLabel.setText(text);
     }
 
     public void setAnswerButtonText(int index, String text) {
-        if (index >= 0 && index < answerButtons.size()) {
-            answerButtons.get(index).setText(text);
+        if (index >= 0 && index < AntwoordenButtons.size()) {
+            AntwoordenButtons.get(index).setText(text);
         }
     }
 
     public void setAnswerButtonVisible(int index, boolean visible) {
-        if (index >= 0 && index < answerButtons.size()) {
-            answerButtons.get(index).setVisible(visible);
+        if (index >= 0 && index < AntwoordenButtons.size()) {
+            AntwoordenButtons.get(index).setVisible(visible);
         }
     }
 
@@ -232,10 +232,10 @@ public class GameView extends BorderPane {
     }
 
     public void setAnswerButtonVisible(boolean visible) {
-        answerButton.setVisible(visible);
+        antwoordButton.setVisible(visible);
     }
 
-    public Button getBackButton() {
-        return backButton;
+    public Button getTerugButton() {
+        return terugButton;
     }
 }

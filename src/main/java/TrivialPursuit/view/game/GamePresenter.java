@@ -39,69 +39,69 @@ public class GamePresenter {
     }
 
     private void initializePlayers() {
-        clearPlayers();
+        clearSpelers();
         for (Speler speler : model.getSpelers()) {
-            addPlayer(speler);
+            addSpeler(speler);
             updateplayerposView(speler);
             updatePlayerPartjesView(speler);
         }
     }
 
-    private void addPlayer(Speler speler) {
+    private void addSpeler(Speler speler) {
         // Voeg pion toe
 
-        ImageView pawn = new ImageView(new Image(
+        ImageView pion = new ImageView(new Image(
                 getClass().getResourceAsStream("/" + speler.getSpelerKleur().toString().toLowerCase() + ".png")));
-        pawn.setFitHeight(40);
-        pawn.setFitWidth(40);
-        view.getPlayerPawns().put(speler.getNaam(), pawn);
-        view.getBoardPane().getChildren().add(pawn);
+        pion.setFitHeight(40);
+        pion.setFitWidth(40);
+        view.getSpelerPionnen().put(speler.getNaam(), pion);
+        view.getBoardPane().getChildren().add(pion);
 
         HBox partjesBox = new HBox(5);
-        Label playerLabel = new Label(speler.getNaam() + " partjes: ");
-        playerLabel.setTextFill(Color.WHITE);
-        partjesBox.getChildren().add(playerLabel);
-        view.getPlayerPartjesBoxes().put(speler.getNaam(), partjesBox);
-        view.getPlayerInfoBox().getChildren().add(partjesBox);
+        Label spelerLabel = new Label(speler.getNaam() + " partjes: ");
+        spelerLabel.setTextFill(Color.WHITE);
+        partjesBox.getChildren().add(spelerLabel);
+        view.getSpelerPartjesBoxes().put(speler.getNaam(), partjesBox);
+        view.getSpelerInfoBox().getChildren().add(partjesBox);
     }
 
     // Zeker zijn dat er geen spelers meer zijn op velden
-    private void clearPlayers() {
-        for (ImageView pion : view.getPlayerPawns().values()) {
+    private void clearSpelers() {
+        for (ImageView pion : view.getSpelerPionnen().values()) {
             view.getBoardPane().getChildren().remove(pion);
         }
-        view.getPlayerPawns().clear();
-        view.getPlayerInfoBox().getChildren().clear();
-        view.getPlayerPartjesBoxes().clear();
+        view.getSpelerPionnen().clear();
+        view.getSpelerInfoBox().getChildren().clear();
+        view.getSpelerPartjesBoxes().clear();
     }
 
     private void addEventHandlers() {
         // Als er op de dobbelsteen wordt geklikt
         // Doe een worp en bereken mogelijke bestemmingen
         // Voeg gele cirkels toe op mogelijke bestemmingen
-        view.getRollDiceButton().setOnAction(event -> {
+        view.getGooiDobbelsteenButton().setOnAction(event -> {
             int worp = model.gooiDobbelsteen();
-            view.getDiceResultLabel().setText("Worp: " + worp);
+            view.getDobbelsteenResLabel().setText("Worp: " + worp);
 
             mogelijkeBestemmingen = model.berekenBereikbareVeldIndices(worp);
-            clearPossibleMoves();
+            clearMogelijkeZetten();
 
             for (Integer pos : mogelijkeBestemmingen) {
                 int[] coords = model.getCoordinaten(pos);
-                addPossibleMove(pos, coords[0], coords[1]);
-                Circle moveCircle = view.getPossibleMoves().get(pos);
+                addMogelijkeZetten(pos, coords[0], coords[1]);
+                Circle moveCircle = view.getMogelijkeZetten().get(pos);
                 moveCircle.setOnMouseClicked(e -> handleMove(pos));
             }
 
             // Disable de dobbelsteen knop tot er een zet is gedaan
-            view.getRollDiceButton().setDisable(true);
+            view.getGooiDobbelsteenButton().setDisable(true);
         });
 
         // Antwoord knop
-        view.getAnswerButton().setOnAction(event -> handleAnswer());
+        view.getAntwoordButton().setOnAction(event -> handleAntwoord());
 
         // Terug knop
-        view.getBackButton().setOnAction(event -> {
+        view.getTerugButton().setOnAction(event -> {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Terug naar hoofdmenu");
             confirmAlert.setHeaderText("Wil je het spel opslaan voordat je teruggaat?");
@@ -141,7 +141,7 @@ public class GamePresenter {
         // scherm
         updateplayerposView(huidigeSpeler);
         // Gele cirkels wegdoen
-        clearPossibleMoves();
+        clearMogelijkeZetten();
 
         // Check voor afgelopen spel
         if (model.isSpelAfgelopen()) {
@@ -158,7 +158,7 @@ public class GamePresenter {
         // Check voor opnieuw gooien veld
         if (model.isRollAgainVeld(positie)) {
             toonFoutMelding("Opnieuw Gooien!", "Je mag nog een keer gooien!");
-            view.getRollDiceButton().setDisable(false);
+            view.getGooiDobbelsteenButton().setDisable(false);
             return;
         }
 
@@ -167,13 +167,13 @@ public class GamePresenter {
             List<Vraag> vragen = model.laadVraag(model.getVeldKleur(positie));
             if (!vragen.isEmpty()) {
                 huidigeVraag = vragen.get(0);
-                showQuestion(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
+                showVraag(huidigeVraag.getVraag(), huidigeVraag.getMogelijkeAntwoorden());
             }
         }
     }
 
     // Antwoord afhandelen
-    private void handleAnswer() {
+    private void handleAntwoord() {
         // Check of er een vraag is
         if (huidigeVraag == null) {
             toonFoutMelding("Fout", "Er is geen vraag om te beantwoorden!");
@@ -181,7 +181,7 @@ public class GamePresenter {
         }
 
         // Check of er een antwoord is geselecteerd
-        RadioButton selectedButton = (RadioButton) view.getAnswerGroup().getSelectedToggle();
+        RadioButton selectedButton = (RadioButton) view.getAntwoordGroep().getSelectedToggle();
         if (selectedButton == null) {
             toonFoutMelding("Fout", "Selecteer een antwoord voordat je verder gaat!");
             return;
@@ -197,7 +197,7 @@ public class GamePresenter {
 
         int positie = model.getSpelerPositie(model.getHuidigeSpeler());
 
-        hideQuestion();
+        hideVraag();
 
         boolean correct = huidigeVraag.checkIndex(selectedIndex);
         boolean partjeVerdiend = model.checkAntwoord(huidigeVraag, selectedIndex, model.getHuidigeSpeler(), positie);
@@ -233,7 +233,7 @@ public class GamePresenter {
     // Ga naar de volgende speler
     private void volgendeSpeler() {
         model.volgendeSpeler();
-        view.getRollDiceButton().setDisable(false);
+        view.getGooiDobbelsteenButton().setDisable(false);
         updateView();
     }
 
@@ -251,16 +251,16 @@ public class GamePresenter {
     private void updateplayerposView(Speler speler) {
         int positie = model.getSpelerPositie(speler);
         int[] coords = model.getCoordinaten(positie);
-        ImageView pawn = view.getPlayerPawns().get(speler.getNaam());
-        if (pawn != null) {
-            pawn.setLayoutX(coords[0]);
-            pawn.setLayoutY(coords[1]);
+        ImageView pion = view.getSpelerPionnen().get(speler.getNaam());
+        if (pion != null) {
+            pion.setLayoutX(coords[0]);
+            pion.setLayoutY(coords[1]);
         }
     }
 
     // Update de partjes van de speler
     private void updatePlayerPartjesView(Speler speler) {
-        HBox partjesBox = view.getPlayerPartjesBoxes().get(speler.getNaam());
+        HBox partjesBox = view.getSpelerPartjesBoxes().get(speler.getNaam());
         if (partjesBox != null) {
             partjesBox.getChildren().clear();
 
@@ -304,7 +304,7 @@ public class GamePresenter {
 
     // Alert methode voor multiple use
     public void toonFoutMelding(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
@@ -313,20 +313,20 @@ public class GamePresenter {
 
     // Vraag tonen
 
-    private void showQuestion(String question, List<String> answers) {
+    private void showVraag(String question, List<String> answers) {
         List<String> shuffledAnswers = new ArrayList<>(answers);
         Collections.shuffle(shuffledAnswers); // Shuffle the answers
 
         view.setQuestionText(question);
 
         // Set answer buttons
-        for (int i = 0; i < shuffledAnswers.size() && i < view.getAnswerButtons().size(); i++) {
+        for (int i = 0; i < shuffledAnswers.size() && i < view.getAntwoordenButtons().size(); i++) {
             view.setAnswerButtonText(i, shuffledAnswers.get(i));
             view.setAnswerButtonVisible(i, true);
         }
 
         // Hide unused buttons
-        for (int i = shuffledAnswers.size(); i < view.getAnswerButtons().size(); i++) {
+        for (int i = shuffledAnswers.size(); i < view.getAntwoordenButtons().size(); i++) {
             view.setAnswerButtonVisible(i, false);
         }
 
@@ -335,31 +335,31 @@ public class GamePresenter {
     }
 
     // Vraag verbergen
-    public void hideQuestion() {
+    public void hideVraag() {
         view.setVraagBoxVisible(false);
         view.setAnswerButtonVisible(false);
-        view.getAnswerGroup().selectToggle(null);
+        view.getAntwoordGroep().selectToggle(null);
     }
 
     // Mogelijke bestemmingen tonen (cirkels)
-    private void addPossibleMove(int position, int x, int y) {
-        Circle moveCircle = new Circle(15);
-        moveCircle.setFill(Color.YELLOW);
-        moveCircle.setOpacity(0.5);
-        moveCircle.setStroke(Color.BLACK);
-        moveCircle.setCenterX(x + 20);
-        moveCircle.setCenterY(y + 20);
-        moveCircle.setUserData(position);
-        view.getPossibleMoves().put(position, moveCircle);
-        view.getBoardPane().getChildren().add(moveCircle);
+    private void addMogelijkeZetten(int position, int x, int y) {
+        Circle moveCirkel = new Circle(15);
+        moveCirkel.setFill(Color.YELLOW);
+        moveCirkel.setOpacity(0.5);
+        moveCirkel.setStroke(Color.BLACK);
+        moveCirkel.setCenterX(x + 20);
+        moveCirkel.setCenterY(y + 20);
+        moveCirkel.setUserData(position);
+        view.getMogelijkeZetten().put(position, moveCirkel);
+        view.getBoardPane().getChildren().add(moveCirkel);
     }
 
     // Mogelijke bestemmingen verwijderen
-    private void clearPossibleMoves() {
-        for (Circle circle : view.getPossibleMoves().values()) {
-            view.getBoardPane().getChildren().remove(circle);
+    private void clearMogelijkeZetten() {
+        for (Circle cirkel : view.getMogelijkeZetten().values()) {
+            view.getBoardPane().getChildren().remove(cirkel);
         }
-        view.getPossibleMoves().clear();
+        view.getMogelijkeZetten().clear();
     }
 
     private void updateCurrentPlayer(String playerName, Kleur playerKleur) {
