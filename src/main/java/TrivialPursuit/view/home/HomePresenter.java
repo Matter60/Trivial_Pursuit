@@ -34,6 +34,7 @@ public class HomePresenter {
         this.view = view;
         this.addEventHandlers();
         this.updateView();
+        updateLeaderboard(); // Update de leaderboard bij creatie
     }
 
     public void addEventHandlers() {
@@ -87,20 +88,6 @@ public class HomePresenter {
             });
         });
 
-        view.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                updateLeaderboard();
-                newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
-                    if (newWindow != null) {
-                        newWindow.focusedProperty().addListener((prop, wasFocused, isFocused) -> {
-                            if (isFocused) {
-                                updateLeaderboard();
-                            }
-                        });
-                    }
-                });
-            }
-        });
     }
 
     private void updateView() {
@@ -109,7 +96,7 @@ public class HomePresenter {
     public void addWindowEventHandlers() {
     }
 
-    private void updateLeaderboard() {
+    public void updateLeaderboard() {
         view.getLeaderboard().getItems().setAll(model.getScores());
     }
 }

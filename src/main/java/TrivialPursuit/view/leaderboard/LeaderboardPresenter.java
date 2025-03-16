@@ -16,47 +16,32 @@ public class LeaderboardPresenter {
         this.view = view;
         this.addEventHandlers();
         this.updateView();
+        this.updateLeaderboard(); // Update de leaderboard bij creatie
     }
-    private void addEventHandlers() {
 
+    private void addEventHandlers() {
         view.getBackButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
                 HomeView homeView = new HomeView();
                 HomePresenter homePresenter = new HomePresenter(model, homeView);
                 homePresenter.addWindowEventHandlers();
                 view.getScene().setRoot(homeView);
                 homeView.getScene().getWindow().sizeToScene();
-            }
-        });
-
-        
-        view.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                updateLeaderboard();
-                
-                newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
-                    if (newWindow != null) {
-                        newWindow.focusedProperty().addListener((prop, wasFocused, isFocused) -> {
-                            if (isFocused) {
-                                updateLeaderboard();
-                            }
-                        });
-                    }
-                });
+                homePresenter.updateLeaderboard();
             }
         });
     }
-
 
     private void updateView() {
-// Vult de view met data uit model
+        // Vult de view met data uit model
     }
-    public void addWindowEventHandlers () {
-// Window event handlers (anon. inner klassen)
-// Koppeling via view.getScene().getWindow()
+
+    public void addWindowEventHandlers() {
+        // Window event handlers (anon. inner klassen)
+        // Koppeling via view.getScene().getWindow()
     }
+
     private void updateLeaderboard() {
         view.getLeaderboard().getItems().setAll(model.getScores());
     }
