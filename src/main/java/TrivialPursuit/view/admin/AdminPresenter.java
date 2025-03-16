@@ -7,6 +7,7 @@ import TrivialPursuit.view.home.HomePresenter;
 import TrivialPursuit.view.home.HomeView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class AdminPresenter {
                         Kleur.fromThema(thema));
 
                 model.addVraag(nieuweVraag);
+                toonMelding("Succes","De vraag is succesvol toegevoegd");
                 clearInputFields();
+
+            } else {
+                toonMelding("Fout","Alle velden moeten ingevuld zijn");
             }
+
         });
 
         view.getBackButton().setOnAction(event -> {
@@ -68,6 +74,14 @@ public class AdminPresenter {
         view.getAntwoord3().clear();
         view.getAntwoord4().clear();
         view.getThema().setValue(null);
+    }
+
+    public void toonMelding(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }
