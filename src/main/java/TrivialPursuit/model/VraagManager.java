@@ -29,6 +29,7 @@ public class VraagManager {
                 for (String answer : vraag.getMogelijkeAntwoorden()) {
                     sb.append("|").append(answer);
                 }
+                // zoek de index van het juiste antwoord in de lijst van mogelijke antwoorden
                 sb.append("|").append(vraag.getMogelijkeAntwoorden().indexOf(vraag.getJuisteAntwoord())).append("\n");
                 bw.write(sb.toString());
             }

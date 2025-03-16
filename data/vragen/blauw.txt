@@ -24,7 +24,3 @@ Welk land ligt NIET in Scandinavië?|Noorwegen|Zweden|Denemarken|Finland|3
 Wat is het kleinste continent?|Europa|Australië|Antarctica|Zuid-Amerika|1
 Welke Amerikaanse staat heeft de langste kustlijn?|Florida|Alaska|Californië|Texas|1
 Wat is de grootste stad ter wereld op basis van bevolking?|Tokyo|Shanghai|Delhi|Mexico-Stad|0
-Welke rivier is de langste van Europa?|Donau|Wolga|Rijn|Seine|1
-In welk land ligt de Grand Canyon?|Canada|Mexico|Verenigde Staten|Argentinië|2
-Welke zee ligt tussen het Verenigd Koninkrijk en Nederland?|Noordzee|Middellandse Zee|Oostzee|Zwarte Zee|0
-Welk land heeft de hoogste gemiddelde hoogte?|Zwitserland|Tibet (China)|Nepal|Bhutan|3

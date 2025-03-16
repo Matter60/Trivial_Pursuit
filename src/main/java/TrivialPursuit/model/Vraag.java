@@ -46,5 +46,4 @@ public class Vraag {
         return mogelijkeAntwoorden.get(juisteAntwoordIndex);
     }
 
-
 }

@@ -2,7 +2,7 @@ package TrivialPursuit.model;
 
 public enum Kleur {
     BLAUW("Aardrijkskunde", "blauw"),
-    ROZE("Amusement","roze"),
+    ROZE("Amusement", "roze"),
     GEEL("Geschiedenis", "geel"),
     BRUIN("Kunst & Literatuur", "bruin"),
     GROEN("Wetenschap & Natuur", "groen"),
@@ -18,21 +18,19 @@ public enum Kleur {
     }
 
     public String getBeschrijving() {
-            return beschrijving;
+        return beschrijving;
     }
 
     public static Kleur fromThema(String categorie) {
-        if (categorie == null)
-            return null; 
-
-        String themaFormatted = categorie.toUpperCase().replace(" & ", "_").replace(" ", "_");
+        if (categorie == null) {
+            throw new IllegalArgumentException("Categorie is null");
+        }
         for (Kleur kleur : Kleur.values()) {
-            if (kleur.getBeschrijving().toUpperCase().replace(" & ", "_").replace(" ", "_")
-                    .equals(themaFormatted)) {
+            if (kleur.getBeschrijving().equals(categorie)) {
                 return kleur;
             }
         }
-        return null; 
+        throw new IllegalArgumentException("Categorie is niet gevonden");
     }
 
     @Override
