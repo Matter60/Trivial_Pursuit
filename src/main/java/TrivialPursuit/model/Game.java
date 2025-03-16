@@ -38,11 +38,8 @@ public class Game {
 
     public int gooiDobbelsteen() {
         return dobbelsteen.worp();
-
         // op 1 zetten testmode
     }
-    // Bijvoorbeeld: berekenBereikbareVeldIndices(3) -> [4, 8, 12] (bereikbare velden na 3 stappen)
-
 
     // Verplaats de huidige speler naar de nieuwe positie
     public void verplaatsHuidigeSpeler(int nieuwePositie) {
@@ -79,8 +76,10 @@ public class Game {
         return false;
     }
 
-    // Ga naar de volgende speler modulo gebruiken we omdat we terug naar de eerste speler willen als we aan het einde van de lijst zijn
-    // Bv: als we 3 spelers hebben en we zijn aan het einde van de lijst, dan gaan we naar de eerste speler 3 % 3 = 0
+    // Ga naar de volgende speler modulo gebruiken we omdat we terug naar de eerste
+    // speler willen als we aan het einde van de lijst zijn
+    // Bv: als we 3 spelers hebben en we zijn aan het einde van de lijst, dan gaan
+    // we naar de eerste speler 3 % 3 = 0
     public void volgendeSpeler() {
         huidigeSpelerIndex = (huidigeSpelerIndex + 1) % spelers.size();
     }

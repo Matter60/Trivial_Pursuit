@@ -37,7 +37,7 @@ public class Speler {
     }
 
     public boolean heeftAllePartjes() {
-        return partjes.size() ==  AANTAL_PARTJES;
+        return partjes.size() == AANTAL_PARTJES;
     }
 
     public List<Kleur> getPartjes() {
