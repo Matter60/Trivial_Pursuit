@@ -1,26 +1,19 @@
 package TrivialPursuit.model;
 
-import java.util.*;
+
+import java.util.List;
 
 public class Main {
 
-
     public static void main(String[] args) {
-
 
         Bord bord = new Bord();
 
-        //bord.printVelden();
+        List<Integer> resultaat = bord.berekenBereikbareVeldIndexen(0, 2);
 
-
-        //List<Veld> bestemmingen = bord.getMogelijkeBestemmingen(270,271,1);
-
-//        System.out.println("Mogelijke bestemmingen:");
-//        for (Veld veld : bestemmingen) {
-//            System.out.println(veld);
-//        }
+        System.out.println(resultaat);
 
 
 
     }
-} 
+}

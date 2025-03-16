@@ -1,11 +1,12 @@
 2
 jlkh,roze
-12
-2
+36
+3
+bruin
 groen
 oranje
 ùlkùlkù,blauw
-22
+34
 1
 blauw
 1

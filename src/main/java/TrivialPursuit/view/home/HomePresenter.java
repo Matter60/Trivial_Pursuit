@@ -37,37 +37,28 @@ public class HomePresenter {
     }
 
     public void addEventHandlers() {
-        view.getAboutButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                AboutView aboutView = new AboutView();
-                AboutPresenter aboutPresenter = new AboutPresenter(model, aboutView);
-                aboutPresenter.addWindowEventHandlers();
-                view.getScene().setRoot(aboutView);
-                aboutView.getScene().getWindow().sizeToScene();
-            }
+        view.getAboutButton().setOnAction(event -> {
+            AboutView aboutView = new AboutView();
+            AboutPresenter aboutPresenter = new AboutPresenter(model, aboutView);
+            aboutPresenter.addWindowEventHandlers();
+            view.getScene().setRoot(aboutView);
+            aboutView.getScene().getWindow().sizeToScene();
         });
 
-        view.getHelpButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                HelpView helpView = new HelpView();
-                HelpPresenter helpPresenter = new HelpPresenter(model, helpView);
-                helpPresenter.addWindowEventHandlers();
-                view.getScene().setRoot(helpView);
-                helpView.getScene().getWindow().sizeToScene();
-            }
+        view.getHelpButton().setOnAction(event -> {
+            HelpView helpView = new HelpView();
+            HelpPresenter helpPresenter = new HelpPresenter(model, helpView);
+            helpPresenter.addWindowEventHandlers();
+            view.getScene().setRoot(helpView);
+            helpView.getScene().getWindow().sizeToScene();
         });
 
-        view.getStartButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                MakeView makeView = new MakeView();
-                MakePresenter makePresenter = new MakePresenter(model, makeView);
-                makePresenter.addWindowEventHandlers();
-                view.getScene().setRoot(makeView);
-                makeView.getScene().getWindow().sizeToScene();
-            }
+        view.getStartButton().setOnAction(event -> {
+            MakeView makeView = new MakeView();
+            MakePresenter makePresenter = new MakePresenter(model, makeView);
+            makePresenter.addWindowEventHandlers();
+            view.getScene().setRoot(makeView);
+            makeView.getScene().getWindow().sizeToScene();
         });
 
         view.getLeaderboardBox().setOnMouseClicked(event -> {
@@ -78,14 +69,12 @@ public class HomePresenter {
             leaderboardView.getScene().getWindow().sizeToScene();
         });
 
-        view.getAdminButton().setOnAction(event -> {
+        view.getAdminMenuItem().setOnAction(event -> {
             AdminPopup adminPopup = new AdminPopup();
             Optional<Pair<String, String>> result = adminPopup.showAndWait();
             result.ifPresent(usernamePassword -> {
-               // Valideer Username and pass
-                if (ADMIN_USERNAME.equals(usernamePassword.getKey()) && ADMIN_PASSWORD.equals(usernamePassword.getValue())) {
-                    // On success show QuestionView
-
+                if (ADMIN_USERNAME.equals(usernamePassword.getKey())
+                        && ADMIN_PASSWORD.equals(usernamePassword.getValue())) {
                     AdminView adminView = new AdminView();
                     AdminPresenter adminPresenter = new AdminPresenter(model, adminView);
                     adminPresenter.addWindowEventHandlers();
@@ -101,7 +90,6 @@ public class HomePresenter {
         view.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 updateLeaderboard();
-
                 newScene.windowProperty().addListener((obs, oldWindow, newWindow) -> {
                     if (newWindow != null) {
                         newWindow.focusedProperty().addListener((prop, wasFocused, isFocused) -> {

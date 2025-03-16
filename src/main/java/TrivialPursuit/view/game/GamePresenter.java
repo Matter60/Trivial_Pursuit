@@ -83,7 +83,8 @@ public class GamePresenter {
             int worp = model.gooiDobbelsteen();
             view.getDobbelsteenResLabel().setText("Worp: " + worp);
 
-            mogelijkeBestemmingen = model.berekenBereikbareVeldIndices(worp);
+            mogelijkeBestemmingen = model.berekenBereikbareVeldIndexen(model.getHuidigeSpeler().getPositie(),worp);
+
             clearMogelijkeZetten();
 
             for (Integer pos : mogelijkeBestemmingen) {

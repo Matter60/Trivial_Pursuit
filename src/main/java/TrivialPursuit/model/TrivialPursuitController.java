@@ -147,8 +147,8 @@ public class TrivialPursuitController {
     // Bereken bereikbare veldindices na dobbelsteenworp
     // Bijvoorbeeld: berekenBereikbareVeldIndices(3) -> [4, 8, 12] (bereikbare
     // velden na 3 stappen)
-    public List<Integer> berekenBereikbareVeldIndices(int worp) {
-        return game.berekenBereikbareVeldIndices(worp);
+    public List<Integer> berekenBereikbareVeldIndexen(int huidigePositie, int worp) {
+        return bord.berekenBereikbareVeldIndexen( huidigePositie,worp);
     }
 
 }

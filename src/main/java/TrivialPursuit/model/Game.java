@@ -43,10 +43,6 @@ public class Game {
     }
     // Bijvoorbeeld: berekenBereikbareVeldIndices(3) -> [4, 8, 12] (bereikbare velden na 3 stappen)
 
-    public List<Integer> berekenBereikbareVeldIndices(int worp) {
-        int huidigePositie = getHuidigeSpeler().getPositie();
-        return bord.berekenBereikbareVeldIndices(huidigePositie, worp);
-    }
 
     // Verplaats de huidige speler naar de nieuwe positie
     public void verplaatsHuidigeSpeler(int nieuwePositie) {

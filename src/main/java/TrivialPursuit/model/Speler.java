@@ -11,6 +11,7 @@ public class Speler {
     private Set<Kleur> partjes;
     private Kleur spelerKleur;
     private int positie;
+    private static final int AANTAL_PARTJES = 6;
 
     public Speler(String naam, Kleur kleur) {
         this.naam = naam;
@@ -36,8 +37,7 @@ public class Speler {
     }
 
     public boolean heeftAllePartjes() {
-        // Een speler heeft gewonnen als hij alle 6 kleuren heeft
-        return partjes.size() == 6;
+        return partjes.size() ==  AANTAL_PARTJES;
     }
 
     public List<Kleur> getPartjes() {
